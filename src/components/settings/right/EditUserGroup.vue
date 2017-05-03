@@ -32,10 +32,10 @@
             </el-table-column>
             <el-table-column label="操作">
               <template scope="scope">
-                <el-button
+                <router-link :to="`/settings/editusergroup/${scope.row.groupId}`">
+                  <el-button
                   icon="edit"
-                  size="small"
-                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                  size="small">编辑</el-button></router-link>
                 <el-button
                   icon="delete"
                   size="small"
@@ -61,9 +61,6 @@
       }
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
       handleDelete(index, row) {
         this.$confirm('此操作将永久删除该权限组, 是否继续?', '警告', {
           confirmButtonText: '确定',
