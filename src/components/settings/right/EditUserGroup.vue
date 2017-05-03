@@ -93,7 +93,6 @@
                 message: '出现未知错误，请重试',
                 type: 'error'
               });
-              console.log(e);
               NProgress.done();
             });
         }).catch(() => {
