@@ -1,0 +1,586 @@
+[
+  {
+    "name": "首页",
+    "path": "/index",
+    "id": "6a992d5529f459a44fee58c733255e86",
+    "subs": [
+      {
+        "name": "管理中心首页",
+        "path": "/index/welcome",
+        "id": "b7da23e66d9ebb5737340005de050cf0"
+      },
+      {
+        "name": "常用操作管理",
+        "path": "/index/frequent",
+        "id": "7d7ce3af87d09965b32e03837061d1d9"
+      }
+    ]
+  },
+  {
+    "name": "设置",
+    "path": "/settings",
+    "id": "9c70933aff6b2a6d08c687a6cbb6b765",
+    "subs": [
+      {
+        "name": "系统配置管理",
+        "id": "a0040b50fcb95e485e97450a5ca1c9d6"
+      },
+      {
+        "name": "SEO优化设置",
+        "id": "3f907a756b221ab49502af16fad7c62b"
+      },
+      {
+        "name": "会员注册设置",
+        "id": "77900ad797850fb8a53207fede8adc84"
+      },
+      {
+        "name": "注册验证问题",
+        "id": "f91420b2667b88b43794063a53dd8f7a"
+      },
+      {
+        "name": "独立页面",
+        "id": "fa039239be477c745bd46655cefcf57f"
+      },
+      {
+        "name": "帮助中心",
+        "id": "46b398daa7c44ff50dd738cfacf60c76"
+      },
+      {
+        "name": "导航设置",
+        "id": "f4b856b481a37eeab61de9e2f74238dc"
+      },
+      {
+        "name": "上传设置",
+        "id": "ce8479a4257f7ce70627f85ac08b4796"
+      },
+      {
+        "name": "微信公众平台",
+        "id": "07bcda5d9bcfdf94ee7387ee68cb5183"
+      },
+      {
+        "name": "增加城市分站",
+        "id": "90a2664bcd7b1ff6bc828b7fb2d8274c"
+      },
+      {
+        "name": "管理城市分站",
+        "id": "64b111d06314317e0d65524cb41476ce"
+      },
+      {
+        "name": "系统整合配置",
+        "id": "5d68c8ffbf9a6c3d3ac606fe44fc4181"
+      },
+      {
+        "name": "首页内容设置",
+        "id": "69df506c87cb8bc6b93f8fe8e090b68c"
+      },
+      {
+        "name": "登录互联配置",
+        "id": "2a8dda3a9b159f46b595f4c81619a97d"
+      },
+      {
+        "name": "信誉积分设置",
+        "id": "b8d406a8d1fc3fdde11c8ce52e3ea6b9"
+      },
+      {
+        "name": "物流查询平台",
+        "id": "d5111ad66a372750679920f29f2c3f5d"
+      },
+      {
+        "name": "预置物流公司",
+        "id": "af618006f9bc5377e61ea2e49025210c"
+      },
+      {
+        "name": "热门关键词",
+        "id": "58982afbd60ca68e3aabd6d244b88a09"
+      },
+      {
+        "name": "城市设置",
+        "id": "91803f45d443b98634a5943f4160d3e9"
+      },
+      {
+        "name": "登录会员后台",
+        "id": "4265a1e11f9c2a74e9fcabdfd7cc81d7"
+      },
+      {
+        "groupName": "管理员",
+        "groupId": "1",
+        "itemIds": [
+          {
+            "name": "增加权限组",
+            "path": "/settings/addusergroup",
+            "id": "c14fa7060160a20fdab310c998202af0"
+          },
+          {
+            "name": "编辑组权限",
+            "path": "/settings/editusergroup",
+            "id": "c8bc2faacd8fd61ad74274c15f93c534"
+          },
+          {
+            "name": "增加管理员",
+            "id": "2b8954084b1393ef69a2e6594224e799"
+          },
+          {
+            "name": "管理员列表",
+            "id": "e5ebad24d4218cba59aa66a19fbdd02a"
+          },
+          {
+            "name": "修改登录密码",
+            "id": "fe40a51cbf1f02665a4ee3e4c516b3b2"
+          },
+          {
+            "name": "后台操作日志",
+            "id": "fd23c29a0bf3c41d0eb6848a21cc58a1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "产品",
+    "path": "/product",
+    "id": "f5bf48aa40cad7891eb709fcf1fde128",
+    "subs": [
+      {
+        "groupName": "产品管理",
+        "groupId": "1",
+        "itemIds": [
+          {
+            "name": "产品列表",
+            "path": "/product/list",
+            "id": "525417bac7e611ba3391b5b0afd2a84d"
+          },
+          {
+            "name": "编辑产品信息",
+            "path": "/product/edit",
+            "id": "822e21ddc725fd0f531a53267c7f56a3"
+          },
+          {
+            "name": "删除产品信息",
+            "path": "/product/delete",
+            "id": "5b3326eb4b674ddbb5e7c3e2c16b5718"
+          },
+          {
+            "name": "产品咨询",
+            "path": "/product/consultation",
+            "id": "d66e885a6f5e2c0d9150fbb6d5ca8d3e"
+          },
+          {
+            "name": "产品评价",
+            "path": "/product/comment",
+            "id": "e3e8c2dfce7753b9caf46eb357f0ea1a"
+          }
+        ]
+      },
+      {
+        "groupName": "产品配置",
+        "groupId": "2",
+        "itemIds": [
+          {
+            "name": "分类管理",
+            "path": "/product/editCategory",
+            "id": "2a6b0f310ec2d9c879a6fb1c7391842d"
+          },
+          {
+            "name": "删除分类",
+            "path": "/product/deleteCategory",
+            "id": "ee690b968dbdde58b3abe7ed406c830b"
+          },
+          {
+            "name": "品牌管理",
+            "path": "/product/editBrand",
+            "id": "5a598c864ab8aafb529990b6d4ad17d3"
+          },
+          {
+            "name": "品牌分类管理",
+            "path": "/product/brandCategory",
+            "id": "3861d0b8085908689eaae929321beac6"
+          },
+          {
+            "name": "删除品牌分类和品牌",
+            "path": "/product/deleteBrand",
+            "id": "bf75c8bb9d582920c0f7c844030dd049"
+          },
+          {
+            "name": "类型管理",
+            "path": "/product/editType",
+            "id": "4f7b79ebd7daaf5df47a9b9b3fcb17a3"
+          },
+          {
+            "name": "规格管理",
+            "path": "/product/spec",
+            "id": "21935c54010ddf7bbcd60fd164c45b61"
+          }
+        ]
+      },
+      {
+        "groupName": "产品排序",
+        "groupId": "3",
+        "itemIds": [
+          {
+            "name": "热卖产品排序",
+            "path": "/product/sortHot",
+            "id": "ad665303ff4c2e735ec2598642347a3a"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "会员",
+    "path": "/member",
+    "id": "aa08769cdcb26674c6706093503ff0a3",
+    "subs": [
+      {
+        "name": "会员管理",
+        "id": "c6480c1a3fe8c1a339ac23fcdc05d97d"
+      },
+      {
+        "name": "会员等级",
+        "id": "714c2566c2ade418b3cb8a25c7b15378"
+      },
+      {
+        "name": "编辑会员信息",
+        "id": "1bf22dfcf67b671d71d9d94b54462903"
+      },
+      {
+        "name": "删除会员",
+        "id": "c34fd80db904745194cb15a527594d0f"
+      },
+      {
+        "name": "会员反馈问题",
+        "id": "f001b84202158cf5424d3f5d09b239c8"
+      },
+      {
+        "name": "会员浏览记录",
+        "id": "df365a547fb06512779a55d2f004338d"
+      },
+      {
+        "name": "收货地址",
+        "id": "35c6502bf32b69ee8d8590dc2a80ff1a"
+      },
+      {
+        "name": "站内消息",
+        "id": "77a37d5ff70a77332c81add1c5710dc5"
+      }
+    ]
+  },
+  {
+    "name": "店铺",
+    "path": "/shop",
+    "id": "fb54f3c5992b96d001bb16e8e92d968d",
+    "subs": [
+      {
+        "name": "店铺管理",
+        "id": "a2edbf6ac0fc24f76cf67669ff7477a1"
+      },
+      {
+        "name": "分销店铺",
+        "id": "839897f123de0fffab760aa8f6fafe89"
+      },
+      {
+        "name": "商家店铺",
+        "id": "d7c229fd7ff46e2e37dc9ddb9759a4e5"
+      },
+      {
+        "name": "已关店铺",
+        "id": "4ce2d8df977e2f465bd3dee2e4314f6f"
+      },
+      {
+        "name": "开店申请",
+        "id": "f0e70573dee79e0f217e47dd394993f3"
+      },
+      {
+        "name": "店铺等级",
+        "id": "401d198ab7ffc0097c64dff27f3ee5b6"
+      },
+      {
+        "name": "店铺分类",
+        "id": "883b6502314ae3201e05972bede37ccd"
+      },
+      {
+        "name": "店铺新闻",
+        "id": "4a2368a4153653cd03c40b55b21fbd9c"
+      },
+      {
+        "name": "店铺新闻推荐位",
+        "id": "2ba4c418aa716c8a7f24054f1fc510ae"
+      },
+      {
+        "name": "编辑新闻",
+        "id": "24674c1f294c030c736d5a958a43c795"
+      },
+      {
+        "name": "店铺模版",
+        "id": "f994e4b7219a93575e6e8dbe70b328ad"
+      },
+      {
+        "name": "店铺手机端模版",
+        "id": "2a555be1b05f83f1b7e8cfca1dab74f5"
+      },
+      {
+        "name": "店铺认证",
+        "id": "a343e04ccda07777e68f1c1963451773"
+      },
+      {
+        "name": "保证金",
+        "id": "07bcf77bcf0bb61efb616a39c085adbf"
+      },
+      {
+        "name": "POS押金",
+        "id": "9206c55a58a1770deb809c2ff1ef58aa"
+      },
+      {
+        "name": "发货地址",
+        "id": "6df94b14b4abb38b4154504e8186ba48"
+      },
+      {
+        "name": "友情链接",
+        "id": "9f91dd338b591c206604781e012ae642"
+      },
+      {
+        "groupName": "最新活动",
+        "groupId": "1",
+        "itemIds": [
+          {
+            "name": "最新活动",
+            "id": "cf94e2fc550336161fdcb17e3b5bd4ac"
+          },
+          {
+            "name": "最新活动用户预约",
+            "id": "a9b7d430ba669ea4c061ef3273138d85"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "交易",
+    "path": "/transaction",
+    "id": "f5d7e2532cc9ad16bc2a41222d76f269",
+    "subs": [
+      {
+        "name": "订单管理",
+        "id": "aa7c5817f29b31daa7ddf0fa0ae5a32b"
+      },
+      {
+        "name": "通联对接启用",
+        "id": "1c11e6137743146681913a133e67156f"
+      },
+      {
+        "name": "通联商户绑定",
+        "id": "3f6ac1ec2d0eebe8dc7116959d3fb6ba"
+      },
+      {
+        "name": "新增个人用户(暂停)",
+        "id": "e2844a76f7e99b72cf2c701f050cdfc1"
+      },
+      {
+        "name": "客户绑卡操作(暂停)",
+        "id": "f907525f02e466f2463e90047b2a4abd"
+      }
+    ]
+  },
+  {
+    "name": "运营",
+    "path": "/manage",
+    "id": "75101dcdfc88455bcafc9e53e0b06689",
+    "subs": [
+      {
+        "groupName": "活动管理",
+        "groupId": "1",
+        "itemIds": [
+          {
+            "name": "活动管理",
+            "id": "6db79162861861b3c183e44ea543bdb4"
+          },
+          {
+            "name": "活动产品",
+            "id": "647d7fdc964a4ef5cc86a38ff5f6411a"
+          }
+        ]
+      },
+      {
+        "groupName": "SNS",
+        "groupId": "2",
+        "itemIds": [
+          {
+            "name": "SNS管理",
+            "id": "e6bcc51caf1e591829e52af2808e24f7"
+          }
+        ]
+      },
+      {
+        "groupName": "积分商城",
+        "groupId": "3",
+        "itemIds": [
+          {
+            "name": "礼品分类",
+            "id": "61229cb9cae7188257d78110befc3c0a"
+          },
+          {
+            "name": "礼品管理",
+            "id": "b8d406a8d1fc3fdde11c8ce52e3ea6b9"
+          },
+          {
+            "name": "订单管理",
+            "id": "5e2d4f67c4ba8791112213b103cfaf7e"
+          }
+        ]
+      },
+      {
+        "groupName": "投票系统",
+        "groupId": "4",
+        "itemIds": [
+          {
+            "name": "添加投票",
+            "id": "bd4597d19e977a614f37cc8749b33b33"
+          },
+          {
+            "name": "投票管理",
+            "id": "d4798a3e717c02d4a6f53dce0a9b9bb7"
+          }
+        ]
+      },
+      {
+        "groupName": "代金券管理",
+        "groupId": "5",
+        "itemIds": [
+          {
+            "name": "代金券",
+            "id": "8c5c3adc1c0e7cbc3b576edf4985109c"
+          }
+        ]
+      },
+      {
+        "groupName": "新闻系统",
+        "groupId": "6",
+        "itemIds": [
+          {
+            "name": "发布新闻",
+            "id": "c071a9a1b9947e8106f60b348222fc33"
+          },
+          {
+            "name": "发布新闻",
+            "id": "b3ac2855566329761c42cecca27f786d"
+          },
+          {
+            "name": "新闻类别",
+            "id": "86e2ac1761e337493f935dbfb4f4af6a"
+          },
+          {
+            "name": "新闻管理",
+            "id": "0f50a89e711de444d85ce224f204ad29"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "网站",
+    "path": "/web",
+    "id": "d1befa03c79ca0b84ecc488dea96bc68",
+    "subs": [
+      {
+        "groupName": "友情链接",
+        "groupId": "1",
+        "itemIds": [
+          {
+            "name": "增加友情链接",
+            "id": "f8b8cb6a7b4cd6458c3cb1aa806fbc55"
+          },
+          {
+            "name": "友情链接管理",
+            "id": "5ed3c521369292d6b58d181999fa8495"
+          }
+        ]
+      },
+      {
+        "name": "广告管理",
+        "id": "9193aa528f586f313d688ded5a2c006a"
+      },
+      {
+        "groupName": "通知管理",
+        "groupId": "2",
+        "itemIds": [
+          {
+            "name": "通知模版",
+            "id": "fe79373fc3bf1be4abd3d3b95324dda3"
+          },
+          {
+            "name": "站点通知",
+            "id": "4276d4f4e83c7763cbfaf97d506f2aa4"
+          },
+          {
+            "name": "短信设置",
+            "id": "df2f27302d16ae7af468610ac0c9a3ae"
+          },
+          {
+            "name": "邮件设置",
+            "id": "b4172ca8d134ae7a54eda31ba5035f4f"
+          },
+          {
+            "name": "微信设置",
+            "id": "2bc0a5a74bb572d7069b52d04085ca3c"
+          }
+        ]
+      },
+      {
+        "name": "公告管理",
+        "id": "1b06b31d58c898a54f2378a13276787d"
+      }
+    ]
+  },
+  {
+    "name": "工具",
+    "path": "/tool",
+    "id": "4a931512ce65bdc9ca6808adf92d8783",
+    "subs": [
+      {
+        "name": "更新缓存",
+        "id": "dc3ce19728ae0b9ae8d0908bdc4256dc"
+      },
+      {
+        "name": "计划任务",
+        "id": "e173e55ce20faea36444225d46590d50"
+      },
+      {
+        "name": "IP锁定设置",
+        "id": "432f8e20c29593768daa9774a62807dc"
+      },
+      {
+        "name": "增加过滤词",
+        "id": "ed780dad0ac6940eec0d8bfd4b66e203"
+      },
+      {
+        "name": "过滤词管理",
+        "id": "877648461b144b841c15879aefd5bf1e"
+      },
+      {
+        "name": "数据库升级",
+        "id": "cc5acbb88b64860b86fb10477f4626dd"
+      },
+      {
+        "name": "数据库备份",
+        "id": "b855aee5c356e2280e3da2e9d0945e31"
+      },
+      {
+        "name": "数据库维护",
+        "id": "0aeacdf36c016c95821d8e7983ad0054"
+      },
+      {
+        "groupName": "系统统计",
+        "groupId": "1",
+        "itemIds": [
+          {
+            "name": "今日统计",
+            "id": "b21dec6c6821d6053ae2f069de1a4d6c"
+          },
+          {
+            "name": "历史统计",
+            "id": "de505f8633f0f8acd7d5115dcfac3f8c"
+          }
+        ]
+      }
+    ]
+  }
+]
