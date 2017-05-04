@@ -6,11 +6,11 @@
           <h3>增加管理员</h3>
           <el-form :model="userInfo" :rules="rules" ref="userInfo" label-width="100px">
 
-            <el-form-item label="账号" prop="name" :span="8">
+            <el-form-item label="账号" prop="name">
               <el-col :span="8"><el-input v-model="userInfo.name"></el-input></el-col>
             </el-form-item>
 
-            <el-form-item label="密码" prop="password" >
+            <el-form-item label="密码" prop="password">
               <el-col :span="8"><el-input v-model="userInfo.password"></el-input></el-col>
             </el-form-item>
 
@@ -23,15 +23,15 @@
 
             <el-form-item label="店铺分类" prop="shop">
               <el-select v-model="userInfo.shop" placeholder="建材">
-                <el-option label="家装" value="shanghai"></el-option>
-                <el-option label="生活" value="beijing"></el-option>
+                <el-option label="家装" value=""></el-option>
+                <el-option label="生活" value=""></el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="语言" prop="language">
               <el-select v-model="userInfo.language" placeholder="汉语">
-                <el-option label="汉语" value="shanghai"></el-option>
-                <el-option label="English" value="beijing"></el-option>
+                <el-option label="汉语" value=""></el-option>
+                <el-option label="English" value=""></el-option>
               </el-select>
             </el-form-item>
 
