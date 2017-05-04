@@ -17,6 +17,13 @@ h1, h2, h3, h4, h5, h6
 textarea
   resize: none !important
 
+.clearfix
+  zoom: 1  // 兼容 IE
+  &:after
+    content: ''
+    display: block
+    clear: both
+
 .index, .product, .settings
   height: 100%
   padding-top: 60px
