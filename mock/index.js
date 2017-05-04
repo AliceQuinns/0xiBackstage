@@ -83,5 +83,24 @@ module.exports = function (apiRouter) {
       data: info
     });
   });
+  apiRouter.post('/api/shscAdminGroupModify', (req, res) => {
+    let groupId = req.body.groupId;
+    let groupName = req.body.groupName;
+    let groupDesc = req.body.groupDesc;
+    let groupPerms = req.body.groupPerms;
+    if (groupId && groupName && groupDesc && groupPerms) {
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '删除成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '删除失败',
+      });
+    }
+  });
 };
 

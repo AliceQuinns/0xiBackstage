@@ -32,3 +32,9 @@ export let deleteGroup = (axios, data) => axios.post('/api/shscAdminGroupDelete'
  * @param groupid
  */
 export let getGroupInfo = (axios, groupid) => axios.get(`/api/shscAdminGroupId?groupid=${groupid}`);
+/**
+ * 编辑权限组
+ * @param axios
+ * @param data
+ */
+export let editGroup = (axios, data) => axios.post('/api/shscAdminGroupModify', data);

@@ -14,7 +14,6 @@
                   type="group"
                   v-model="powerGroup.group"
                   auto-complete="off"
-                  @focus="queryGroups"
                   placeholder="请输入权限组名称"></el-input>
               </el-col>
             </el-form-item>
@@ -59,7 +58,7 @@
 <script>
   // TODO 优化，重构组件
   import NProgress from 'nprogress'
-  import { getGroupInfo } from '../../../api/index'
+  import { getGroupInfo, editGroup } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   let allPowers = require('../../../common/js/powerMap.json');
   let cateMap = ['index', 'settings', 'product', 'member', 'shop', 'transaction', 'manage', 'web', 'tool'];
@@ -73,12 +72,13 @@
         total: [],
         loading: false,
         existedGroup: null,
+        groupId: this.$route.params['id']
       };
     },
     created() {
       // 获取权限组的信息
       NProgress.start();
-      getGroupInfo(this.axios, Number(this.$route.params['id']))
+      getGroupInfo(this.axios, Number(this.groupId))
         .then(response => {
           let info = response.data;
           if (info.statusCode === STATUS_SUCCESS) {
@@ -146,14 +146,6 @@
       submitForm(form) {
         this.$refs[form].validate((valid) => {
           if (valid) {
-            // 如果存在权限组就返回
-            if (this.existedGroup.indexOf(this.powerGroup.group) !== -1) {
-              this.$message({
-                message: '已存在此权限组',
-                type: 'error',
-              });
-              return;
-            }
             NProgress.start();
             this.loading = true;
             let powerArr = [];
@@ -167,8 +159,8 @@
               });
             });
             let groupPerms = powerArr.join(',');
-            // TODO 增加编辑权限组的接口，修改下面的接口
-            addUserGroup(this.axios, {
+            editGroup(this.axios, {
+              groupId: this.groupId,
               groupName: this.powerGroup.group,
               groupDesc: this.powerGroup.desc,
               groupPerms,
@@ -176,12 +168,13 @@
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
                 this.$message({
-                  message: '添加成功',
+                  message: '修改成功',
                   type: 'success'
                 });
+                this.$router.go(-1);
               } else {
                 this.$message({
-                  message: '添加失败',
+                  message: '修改失败',
                   type: 'error'
                 });
               }
@@ -198,29 +191,12 @@
             });
           } else {
             this.$message({
-              message: '添加失败，请按照错误提示改正',
+              message: '修改失败，请参考错误提示',
               type: 'error'
             });
             return false;
           }
         });
-      },
-      // TODO 删除此功能
-      queryGroups() {
-        if (!this.existedGroup) {
-          getGroupList(this.axios).then(response => {
-            let groups = response.data;
-            if (groups.statusCode === STATUS_SUCCESS) {
-              let arr = [];
-              groups.data.forEach(group => {
-                arr.push(group.groupName)
-              });
-              this.existedGroup = arr;
-            }
-          }).catch(e => {
-            console.log('出错', e);
-          });
-        }
       },
     },
   }
