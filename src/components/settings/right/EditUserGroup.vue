@@ -120,6 +120,5 @@
 </script>
 
 <style lang="sass" scoped>
-  .table
-    margin-top: 20px
+
 </style>
