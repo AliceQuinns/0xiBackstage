@@ -38,3 +38,14 @@ export let getGroupInfo = (axios, groupid) => axios.get(`/api/shscAdminGroupId?g
  * @param data
  */
 export let editGroup = (axios, data) => axios.post('/api/shscAdminGroupModify', data);
+/**
+ * 获取管理员列表
+ * @param axios
+ */
+export let getUserList = (axios, page) => axios.get(`/api/shscAdminList?page=${page}`);
+/**
+ * 删除管理员
+ * @param axios
+ * @param data  管理员 id
+ */
+export let deleteUser = (axios, data) => axios.post('/api/shscAdminDelete', data);
