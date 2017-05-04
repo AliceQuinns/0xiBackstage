@@ -69,5 +69,19 @@ module.exports = function (apiRouter) {
       });
     }
   });
+  apiRouter.get('/api/shscAdminGroupId', (req, res) => {
+    let groupId = req.query.groupid;
+    let info = '';
+    for (let i = 0; i < groupList.length; i++) {
+      if (groupList[i].groupId === groupId) {
+        info = groupList[i];
+        break;
+      }
+    }
+    res.json({
+      statusCode: 1,
+      data: info
+    });
+  });
 };
 

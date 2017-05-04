@@ -26,3 +26,9 @@ export let getGroupList = axios => axios.get('/api/shscAdminGroupList');
  * @param data 权限组的 groupId
  */
 export let deleteGroup = (axios, data) => axios.post('/api/shscAdminGroupDelete', data);
+/**
+ * 获取权限组的信息
+ * @param axios
+ * @param groupid
+ */
+export let getGroupInfo = (axios, groupid) => axios.get(`/api/shscAdminGroupId?groupid=${groupid}`);
