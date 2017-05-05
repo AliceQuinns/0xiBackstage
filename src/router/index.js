@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import * as childrenPath from '../components/pathMap/index'
+import * as childrenPath from './pathMap/index'
 import Index from '@/components/index/Index'
 import Settings from '@/components/settings/Settings'
 import Product from '@/components/product/Product'
+import Shop from '@/components/shop/Shop'
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/product',
     component: Product,
   },
+  {
+    path: '/shop',
+    component: Shop,
+    children: childrenPath.shopChildRouter,
+  }
 ];
 
 const router = new VueRouter({
