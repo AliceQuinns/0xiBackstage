@@ -3,6 +3,7 @@ let power = data.power;
 let userInfo = data.userInfo;
 let groupList = data.groupList;
 let userList = data.userList;
+let options = data.optionsData;
 
 module.exports = function (apiRouter) {
   apiRouter.get('/api/power1', (req, res) => {
@@ -134,6 +135,27 @@ module.exports = function (apiRouter) {
           break;
         }
       }
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '删除成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '删除失败',
+      });
+    }
+  });
+  apiRouter.get('/api/shscAdminInsert', (req, res) => {
+    res.json({
+      statusCode: 1,
+      data: options
+    });
+  });
+  apiRouter.post('/api/shscAdminAdd', (req, res) => {
+    if (req.body.user) {
       res.json({
         success: true,
         statusCode: 1,

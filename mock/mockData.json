@@ -42,5 +42,31 @@
       "groupDesc": "这是测试组4"
     }
   ],
-  "userList": []
+  "userList": [],
+  "optionsData": {
+    "data": [
+      {
+        "groupId": "0",
+        "groupName": "财务总监"
+      },
+      {
+        "groupId": "1",
+        "groupName": "财务总监1"
+      },
+      {
+        "groupId": "2",
+        "groupName": "财务总监2"
+      }
+    ],
+    "data1": [
+      {
+        "id": "0",
+        "name": "建材"
+      },
+      {
+        "id": "1",
+        "name": "生活"
+      }
+    ]
+  }
 }

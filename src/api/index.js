@@ -49,3 +49,14 @@ export let getUserList = (axios, page) => axios.get(`/api/shscAdminList?page=${p
  * @param data  管理员 id
  */
 export let deleteUser = (axios, data) => axios.post('/api/shscAdminDelete', data);
+/**
+ * 获取增加管理员页面下拉框的数据
+ * @param axios
+ */
+export let getOptionsData = axios => axios.get('/api/shscAdminInsert');
+/**
+ * 增加管理员
+ * @param axios
+ * @param data
+ */
+export let addUser = (axios, data) => axios.post('/api/shscAdminAdd', data);
