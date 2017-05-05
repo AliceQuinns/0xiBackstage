@@ -44,7 +44,7 @@
           <el-pagination
             class="pagination"
             @current-change="handleCurrentChange"
-            :current-page.sync="currentPage3"
+            :current-page.sync="currentPage"
             :page-size="10"
             layout="prev, pager, next, jumper"
             :total="total">
@@ -63,7 +63,7 @@
     data() {
       return {
         tableData: [],
-        currentPage3: 1,
+        currentPage: 1,
         total: 10,
       }
     },
