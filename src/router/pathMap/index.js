@@ -3,6 +3,7 @@
  */
 import { indexChildRouter } from './indexPath'
 import { settingsChildRouter } from './settingsPath'
+import { shopChildRouter } from './shopPath'
 
-export { indexChildRouter, settingsChildRouter }
+export { indexChildRouter, settingsChildRouter, shopChildRouter }
 

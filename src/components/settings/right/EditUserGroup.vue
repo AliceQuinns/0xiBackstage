@@ -1,8 +1,4 @@
 <template>
-  <!--<div>
-    <router-link to="/settings/editusergroup/1">这是1啊</router-link>
-    <router-view></router-view>
-  </div>-->
   <div class="right el-col-20">
     <el-row :gutter="20">
       <el-col>
@@ -124,6 +120,5 @@
 </script>
 
 <style lang="sass" scoped>
-  .table
-    margin-top: 20px
+
 </style>

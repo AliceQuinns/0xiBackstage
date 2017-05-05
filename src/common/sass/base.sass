@@ -17,7 +17,14 @@ h1, h2, h3, h4, h5, h6
 textarea
   resize: none !important
 
-.index, .product, .settings
+.clearfix
+  zoom: 1  // 兼容 IE
+  &:after
+    content: ''
+    display: block
+    clear: both
+
+.index, .product, .settings, .shop
   height: 100%
   padding-top: 60px
 
@@ -39,6 +46,8 @@ textarea
     background-color: #d3dce6
     border-radius: 4px
     padding: 10px
+    & > h3
+      margin-bottom: 20px
 
 // nprogress 样式
 @keyframes nprogress-spinner

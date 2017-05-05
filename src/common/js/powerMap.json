@@ -294,6 +294,7 @@
       },
       {
         "name": "店铺等级",
+        "path": "/shop/level",
         "id": "401d198ab7ffc0097c64dff27f3ee5b6"
       },
       {

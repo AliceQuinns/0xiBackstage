@@ -32,3 +32,31 @@ export let deleteGroup = (axios, data) => axios.post('/api/shscAdminGroupDelete'
  * @param groupid
  */
 export let getGroupInfo = (axios, groupid) => axios.get(`/api/shscAdminGroupId?groupid=${groupid}`);
+/**
+ * 编辑权限组
+ * @param axios
+ * @param data
+ */
+export let editGroup = (axios, data) => axios.post('/api/shscAdminGroupModify', data);
+/**
+ * 获取管理员列表
+ * @param axios
+ */
+export let getUserList = (axios, page) => axios.get(`/api/shscAdminList?page=${page}`);
+/**
+ * 删除管理员
+ * @param axios
+ * @param data  管理员 id
+ */
+export let deleteUser = (axios, data) => axios.post('/api/shscAdminDelete', data);
+/**
+ * 获取增加管理员页面下拉框的数据
+ * @param axios
+ */
+export let getOptionsData = axios => axios.get('/api/shscAdminInsert');
+/**
+ * 增加管理员
+ * @param axios
+ * @param data
+ */
+export let addUser = (axios, data) => axios.post('/api/shscAdminAdd', data);

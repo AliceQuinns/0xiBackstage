@@ -1,7 +1,9 @@
 let data = require('./mockData.json');
-var power = data.power;
-var userInfo = data.userInfo;
-var groupList = data.groupList;
+let power = data.power;
+let userInfo = data.userInfo;
+let groupList = data.groupList;
+let userList = data.userList;
+let options = data.optionsData;
 
 module.exports = function (apiRouter) {
   apiRouter.get('/api/power1', (req, res) => {
@@ -82,6 +84,90 @@ module.exports = function (apiRouter) {
       statusCode: 1,
       data: info
     });
+  });
+  apiRouter.post('/api/shscAdminGroupModify', (req, res) => {
+    let groupId = req.body.groupId;
+    let groupName = req.body.groupName;
+    let groupDesc = req.body.groupDesc;
+    let groupPerms = req.body.groupPerms;
+    if (groupId && groupName && groupDesc && groupPerms) {
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '删除成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '删除失败',
+      });
+    }
+  });
+  apiRouter.get('/api/shscAdminList', (req, res) => {
+    let page = req.query.page;
+    if (userList.length <= 0) {
+      for (let i = 0; i < 300; i++) {
+        userList.push({
+          "id": i,
+          "user": `Alvin${i}`,
+          "name": `晓丽${i}`,
+          "groupName": `财务组${i}`,
+        })
+      }
+    }
+    res.json({
+      success: true,
+      statusCode: 1,
+      msg: '删除成功',
+      data: {
+        total: 300,
+        data: userList.slice((page-1)*10, page*10)
+      },
+    })
+  });
+  apiRouter.post('/api/shscAdminDelete', (req, res) => {
+    let id = req.body.id;
+    if (id && id !== 0) {
+      for (let i = 0; i < userList.length; i++) {
+        if (userList[i].id === id) {
+          userList.splice(i, 1);
+          break;
+        }
+      }
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '删除成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '删除失败',
+      });
+    }
+  });
+  apiRouter.get('/api/shscAdminInsert', (req, res) => {
+    res.json({
+      statusCode: 1,
+      data: options
+    });
+  });
+  apiRouter.post('/api/shscAdminAdd', (req, res) => {
+    if (req.body.user) {
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '删除成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '删除失败',
+      });
+    }
   });
 };
 

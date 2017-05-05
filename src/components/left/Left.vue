@@ -45,7 +45,9 @@
       tree: {
         render(h) {
           let parent = this.$parent;
-          let path = parent.$route.path;
+          let path = parent.$route.path.split('/');
+          path.splice(3, path.length - 3);  // 排除最后的 params
+          path = path.join('/');
           // 左侧导航的选中状态
           let defaultActive = '0';
           for (let i = 0; i < parent.subNavPath.length; i++) {
@@ -59,7 +61,7 @@
                 }
               }
             } else {
-              if (item.pathname === path) {
+              if (item.pathName === path) {
                 defaultActive = i.toString();
               }
             }
