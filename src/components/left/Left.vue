@@ -61,7 +61,7 @@
                 }
               }
             } else {
-              if (item.pathname === path) {
+              if (item.pathName === path) {
                 defaultActive = i.toString();
               }
             }
