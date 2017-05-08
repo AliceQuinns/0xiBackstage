@@ -69,7 +69,8 @@
                 <!-- 按钮及分页 -->
               </el-table>
               <div style="margin-top: 20px">
-                <el-button @click="toggleSelection()">删除</el-button>
+                <el-button @click="toggleSelection()">取消</el-button>
+                <el-button type="danger">删除</el-button>
                 <el-pagination
                   class="pagination"
                   @current-change="handleCurrentChange"
@@ -99,7 +100,7 @@
                   </el-form-item>
 
                   <el-form-item label="状态" prop="state">
-                    <el-switch v-model="stateButton" on-color="#13ce66" off-color="#ff4949">
+                    <el-switch v-model="ruleForm.state" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                   </el-form-item>
 
@@ -152,6 +153,10 @@
 </template>
 
 <script>
+  import NProgress from 'nprogress'
+  import { addShopLevel } from '../../../api/index'
+  import { STATUS_SUCCESS } from '../../../common/consts/index'
+
   export default {
     data() {
       return {
@@ -218,7 +223,7 @@
           delivery: false,
           type: [],
           textField: '',
-          state: '',
+          state: true,
         },
 
         /* 修改 -- 表单 */
@@ -301,11 +306,38 @@
         this.multipleSelection = val;
       },
 
-      /* 添加 -- 表单 */
+      /* 添加 -- 表单 -- 提交 */
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            NProgress.start();
+            addShopLevel(this.axios,{
+              activityName: this.ruleForm.activityName,
+              textField: this.ruleForm.textField,
+              state: this.ruleForm.state ? 1 : 0
+            })
+              .then(response => {
+                let result = response.data;
+                if (result.statusCode === STATUS_SUCCESS) {
+                  this.$message({
+                    message: '增加管理员成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message({
+                    message: '增加失败，请重试',
+                    type: 'info'
+                  });
+                }
+                NProgress.done();
+              })
+              .catch(e => {
+                NProgress.done();
+                this.$message({
+                  message: '出现未知错误，请重试',
+                  type: 'error'
+                });
+              });
           } else {
             console.log('error submit!!');
             return false;
