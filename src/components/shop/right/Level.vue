@@ -8,7 +8,9 @@
 
             <!-- 管理 -->
             <el-tab-pane name="1" value="1">
-              <span slot="label" @click="toggleClickShow"><i class="el-icon-date"></i>&nbsp;&nbsp;管理</span><!-- 图标 -->
+              <span slot="label" @click="toggleClickShow">
+                <i class="el-icon-date"></i>&nbsp;&nbsp;管理
+              </span><!-- 图标 -->
 
               <!-- 提示语 -->
               <p class="topicTags">操作提示</p>
@@ -17,7 +19,7 @@
                   &nbsp;&nbsp;店铺等级默认包括4种店铺等级。默认店铺等级不可以删除。
                 </li>
                 <li><i class="el-icon-share"></i>
-                  &nbsp;&nbsp;如果店铺等级不够，可以自定以填加。自定义店铺等级可以删除。
+                  &nbsp;&nbsp;如果店铺等级不够，可以自定义添加。自定义店铺等级可以删除。
                 </li>
               </ul>
 
@@ -26,6 +28,7 @@
                 ref="multipleTable"
                 :data="tableData"
                 border
+                scopeone="scope"
                 style="width: 100%"
                 @selection-change="handleSelectionChange">
 
@@ -37,9 +40,9 @@
 
                 <!-- ID -->
                 <el-table-column
-                  label="ID"
+                  label="状态"
                   width="120"
-                  prop="id">
+                  prop="status">
                 </el-table-column>
 
                 <!-- 名称 -->
@@ -56,31 +59,40 @@
 
                 <!-- 创建时间 -->
                 <el-table-column
-                  prop="createTime"
+                  prop="create_time"
                   label="创建时间">
                 </el-table-column>
 
-                <!-- 状态 -->
+                <!-- 修改 -->
                 <el-table-column label="操作" width="100">
                   <template scope="scope">
-                    <el-button type="primary" icon="edit" size="small" @click="clickShow">修改</el-button>
+                    <el-button
+                      type="primary"
+                      icon="edit"
+                      size="small"
+                      @click="clickShow">
+                      修改
+                    </el-button>
                   </template>
                 </el-table-column>
+                </el-table>
+
                 <!-- 按钮及分页 -->
-              </el-table>
-              <div style="margin-top: 20px">
-                <el-button @click="toggleSelection()">取消</el-button>
-                <el-button type="danger">删除</el-button>
-                <el-pagination
-                  class="pagination"
-                  @current-change="handleCurrentChange"
-                  :current-page.sync="currentPage"
-                  :page-size="10"
-                  layout="prev, pager, next, jumper"
-                  :total="total">
-                </el-pagination>
-              </div>
-            </el-tab-pane>
+                  <div style="margin-top: 20px">
+                    <el-button
+                      type="danger"
+                      @click="handleDelete(multipleSelection)">
+                      删除</el-button>
+                    <el-pagination
+                      class="pagination"
+                      @current-change="handleCurrentChange"
+                      :current-page.sync="currentPage"
+                      :page-size="10"
+                      layout="prev, pager, next, jumper"
+                      :total="total">
+                    </el-pagination>
+                  </div>
+                </el-tab-pane>
 
 
             <!-- 添加 -->
@@ -91,12 +103,12 @@
               <div id="">
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="">
 
-                  <el-form-item label="名称" prop="activityName">
-                    <el-col :span="8"><el-input v-model="ruleForm.activityName"></el-input></el-col>
+                  <el-form-item label="名称" prop="name">
+                    <el-col :span="8"><el-input v-model="ruleForm.name"></el-input></el-col>
                   </el-form-item>
 
-                  <el-form-item label="形式" prop="textField">
-                    <el-col :span="8"><el-input type="textarea" v-model="ruleForm.textField" :rows="5"></el-input></el-col>
+                  <el-form-item label="描述" prop="desc">
+                    <el-col :span="8"><el-input type="textarea" v-model="ruleForm.desc" :rows="5"></el-input></el-col>
                   </el-form-item>
 
                   <el-form-item label="状态" prop="state">
@@ -122,12 +134,15 @@
                 <el-form :model="modifyForm" :rules="rulesModifyForm" ref="modifyForm" label-width="100px"
                          class="demo-modifyForm">
 
-                  <el-form-item label="名称" prop="activityName">
-                    <el-col :span="8"><el-input v-model="modifyForm.activityName"></el-input></el-col>
+                  <el-form-item label="名称" prop="name">
+                    <el-col :span="8"><el-input v-model="modifyForm.name"></el-input></el-col>
                   </el-form-item>
 
-                  <el-form-item label="描述" prop="textField">
-                    <el-col :span="8"><el-input type="textarea" v-model="modifyForm.textField" :rows="5"></el-input></el-col>
+                  <el-form-item label="描述" prop="desc">
+                    <el-col :span="8">
+                      <el-input type="textarea" v-model="modifyForm.desc" :rows="5">
+                      </el-input>
+                    </el-col>
                   </el-form-item>
 
                   <el-form-item label="状态" prop="state">
@@ -136,7 +151,7 @@
                   </el-form-item>
 
                   <el-form-item>
-                    <el-button type="primary" @click="submitForm('modifyForm')">提交</el-button>
+                    <el-button type="primary" @click="submitFormEdit('modifyForm')">提交</el-button>
                     <el-button @click="resetForm('modifyForm')">重置</el-button>
                   </el-form-item>
 
@@ -154,7 +169,7 @@
 
 <script>
   import NProgress from 'nprogress'
-  import { addShopLevel } from '../../../api/index'
+  import { addShopLevel, getAllShopsLevel,editShopLevel,getOneShopLevel,deleteShopLevel } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
 
   export default {
@@ -171,99 +186,101 @@
         displayCondition: false,
 
         /* 管理 -- 表格 */
-        tableData: [
-          {
-          id: '0',
-          createTime: '2016-05-03',
-          name: '王小虎',
-          desc: '上海市普陀区金沙江路 1518 弄',
-        }
-        , {
-          id: '1',
-          createTime: '2016-05-02',
-          name: '王小虎',
-          desc: '上海市普陀区金沙江路 1518 弄'
-        }
-        , {
-          id: '2',
-          createTime: '2016-05-04',
-          name: '王小虎',
-          desc: '上海市普陀区金沙江路 1518 弄'
-        }
-        , {
-          id: '3',
-          createTime: '2016-05-01',
-          name: '王小虎',
-          desc: '上海市普陀区金沙江路 1518 弄'
-        }
-        , {
-          id: '4',
-          createTime: '2016-05-08',
-          name: '王小虎',
-          desc: '上海市普陀区金沙江路 1518 弄'
-        }
-        , {
-          id: '5',
-          createTime: '2016-05-06',
-          name: '王小虎',
-          desc: '上海市普陀区金沙江路 1518 弄'
-        }
-        , {
-          id: '6',
-          createTime: '2016-05-07',
-          name: '王小虎',
-          desc: '上海市普陀区金沙江路 1518 弄'
-        }
-        ],
+        tableData: [],
+
+        /* 管理 -- 表格 -- 复选框 */
         multipleSelection: [],
 
         /* 添加 -- 表单 */
         ruleForm: {
-          activityName: '',
+          name: '',
           delivery: false,
           type: [],
-          textField: '',
+          desc: '',
           state: true,
         },
 
         /* 修改 -- 表单 */
         modifyForm: {
-          activityName: '',
+          name: '',
           delivery: false,
           type: [],
-          textField: '',
-          state: '',
+          desc: '',
+          state: true,
         },
 
-        /* 添加 -- 验证 */
+        /* 添加 -- 表单验证 */
         rules: {
-          activityName: [
+          name: [
             { required: true, message: '请输入店铺名称', trigger: 'blur' },
             { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
           ],
-          textField: [
+          desc: [
             { required: true, message: '请填写店铺描述', trigger: 'blur' }
           ]
         },
 
-        /* 修改 -- 验证 */
+        /* 修改 -- 表单验证 */
         rulesModifyForm: {
-          activityName: [
+          name: [
             { required: true, message: '请输入修改店铺名称', trigger: 'blur' },
             { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
           ],
-          textField: [
+          desc: [
             { required: true, message: '请填写修改描述内容', trigger: 'blur' }
           ]
         },
 
-        /* 开关滑块1 */
+        /* 添加 开关滑块 */
         stateButton: true,
-        /* 开关滑块2 */
+
+        /* 修改 开关滑块 */
         stateButtonModifyForm: true,
       }
     },
     methods: {
+      /* 编辑店铺页面 */
+      /* 表格删除按钮 */
+      handleDelete(index) {
+        this.$confirm('此操作将永久删除该权限组, 是否继续?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          NProgress.start();
+          deleteShopLevel(this.axios, { index })
+            .then(response => {
+              let data = response.data;
+              if (data.statusCode === STATUS_SUCCESS) {
+                this.tableData.splice(index, 1);
+                this.$message({
+                  message: '删除成功',
+                  type: 'success'
+                });
+              } else {
+                this.$message({
+                  message: '删除失败',
+                  type: 'error'
+                });
+              }
+              NProgress.done();
+            })
+            .catch(e => {
+              this.$message({
+                message: '出现未知错误，请重试',
+                type: 'error'
+              });
+              console.log(e);
+              NProgress.done();
+            });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+
       /* 分页 */
       handleCurrentChange(val) {
         NProgress.start();
@@ -271,8 +288,10 @@
           .then(response => {
             let userList = response.data;
             if (userList.statusCode === STATUS_SUCCESS) {
+
               this.tableData = userList.data.data;
               this.total = Number(userList.data.total);
+
               NProgress.done();
             } else {
               NProgress.done();
@@ -290,18 +309,28 @@
       clickShow: function(){
         this.displayCondition = !this.displayCondition;
         this.editableTabsValue = '3';
+
+          console.log("asydgjgas");
+          NProgress.start();
+        editShopLevel(this.axios)
+            .then(response => {
+              let groups = response.data;
+              if (groups.statusCode === STATUS_SUCCESS) {
+                this.modifyForm = groups.data;
+              }
+              NProgress.done();
+            })
+            .catch(e => {
+              this.$message({
+                message: '获取数据出错，请重新尝试',
+                type: 'error'
+              });
+              console.log(e);
+              NProgress.done();
+            });
       },
 
-      /* 管理 -- 表格操作 */
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
+      /* 管理 -- 保存选中的数组 */
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
@@ -312,15 +341,15 @@
           if (valid) {
             NProgress.start();
             addShopLevel(this.axios,{
-              activityName: this.ruleForm.activityName,
-              textField: this.ruleForm.textField,
+              name: this.ruleForm.name,
+              desc: this.ruleForm.desc,
               state: this.ruleForm.state ? 1 : 0
             })
               .then(response => {
                 let result = response.data;
                 if (result.statusCode === STATUS_SUCCESS) {
                   this.$message({
-                    message: '增加管理员成功',
+                    message: '增加店铺成功',
                     type: 'success'
                   });
                 } else {
@@ -344,10 +373,71 @@
           }
         });
       },
+      /* 编辑 -- 表单 -- 提交 */
+      submitFormEdit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            NProgress.start();
+            addShopLevel(this.axios,{
+              name: this.modifyForm.name,
+              desc: this.modifyForm.desc,
+              state: this.modifyForm.state ? 1 : 0
+            })
+              .then(response => {
+                let result = response.data;
+                if (result.statusCode === STATUS_SUCCESS) {
+                  this.$message({
+                    message: '修改店铺成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message({
+                    message: '修改失败，请重试',
+                    type: 'info'
+                  });
+                }
+                NProgress.done();
+              })
+              .catch(e => {
+                NProgress.done();
+                this.$message({
+                  message: '出现未知错误，请重试',
+                  type: 'error'
+                });
+              });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+
+      /* 重置表单 */
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-    }
+    },
+
+    /* 页面加载时请求 */
+    created() {
+      NProgress.start();
+      getAllShopsLevel(this.axios)
+        .then(response => {
+          let groups = response.data;
+          if (groups.statusCode === STATUS_SUCCESS) {
+            this.tableData = groups.data;
+          }
+          NProgress.done();
+        })
+        .catch(e => {
+          this.$message({
+            message: '获取数据出错，请重新尝试',
+            type: 'error'
+          });
+          console.log(e);
+          NProgress.done();
+        });
+    },
 
   }
 </script>
