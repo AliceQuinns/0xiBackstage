@@ -177,7 +177,7 @@
         timeSelectTwo: '',
         defaultValue: 1,
         currentPage: 1,
-        total: 100,
+        total: 10,
       }
     },
     created() {

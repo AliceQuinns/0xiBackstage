@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { getUserInfo } from '../../../api/index'
+  import { getIndexInfo } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   import { formatDate } from '../../../common/js/util'
   export default {
@@ -30,7 +30,7 @@
       }
     },
     created() {
-      getUserInfo(this.axios).then(response => {
+      getIndexInfo(this.axios).then(response => {
         let data = response.data;
         if (data.statusCode === STATUS_SUCCESS) {
           this.userInfo = data.userInfo;
