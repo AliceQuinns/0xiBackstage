@@ -149,7 +149,7 @@ module.exports = function (apiRouter) {
       });
     }
   });
-  apiRouter.get('/api/shscAdminInsert1', (req, res) => {
+  apiRouter.get('/api/shscAdminGroupId', (req, res) => {
     let user = {
       name: 'test',
       user: 'foo',

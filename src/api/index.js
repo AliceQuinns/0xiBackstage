@@ -73,7 +73,7 @@ export let editUser = (axios, data) => axios.post('/api/shscAdminModify', data);
  * @param axios
  * @param id
  */
-export let getUserInfo = (axios, id) => axios.get(`/api/shscAdminInsert1?id=${id}`);
+export let getUserInfo = (axios, id) => axios.get(`/api/shscAdminGroupId?id=${id}`);
 // ============================================== settings 接口结束 =====================================
 
 // ============================================= shop 接口开始 ==========================================
