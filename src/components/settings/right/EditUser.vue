@@ -12,6 +12,13 @@
 
             <el-form-item label="密码" prop="password">
               <el-col :span="8"><el-input v-model="userInfo.password" type="password"></el-input></el-col>
+              <el-col :span="5">
+                <el-alert
+                  class="alert"
+                  title="密码留空则不更改密码"
+                  type="info">
+                </el-alert>
+              </el-col>
             </el-form-item>
 
             <el-form-item label="管理员名" prop="name">
@@ -56,7 +63,14 @@
               </el-select>
             </el-form-item>
             <el-form-item label="所属城市" v-show="!isEdit">
-              <p>{{ address }} <span>编辑</span></p>
+              <el-col :span="6">
+                <el-input
+                  placeholder="请输入内容"
+                  v-model="address"
+                  :disabled="true">
+                </el-input>
+              </el-col>
+              <i class="el-icon-edit editAddress" @click="editAddress"></i>
             </el-form-item>
 
             <el-form-item label="店铺分类" prop="shopCate">
@@ -94,7 +108,7 @@
             <!--底部按钮-->
             <el-form-item>
               <el-button type="primary" @click="submitForm('userInfo') ">提交</el-button>
-              <el-button plain @click="reset">重置</el-button>
+              <el-button plain @click="reset('userInfo')">重置</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -108,7 +122,7 @@
   let cityData = require('../../../common/js/city.json');
   let areaData = require('../../../common/js/area.json');
   import NProgress from 'nprogress'
-  import { getOptionsData, addUser } from '../../../api/index'
+  import { getUserInfo, editUser } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
     data() {
@@ -129,15 +143,10 @@
           user: [
             { required: true, message: '请输入账号', trigger: 'blur' },
           ],
-          password: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
-            { min: 6, max: 20, message: '密码在6到20之间', trigger: 'blur' }
-          ],
           name: [{ required: true, message: '请输入管理员名', trigger: 'blur' }],
           group: [
             { required: true, message: '请选择管理组', trigger: 'change' }
           ],
-          area: [{ required: true, message: '请选择地址', trigger: 'change' }],
           shopCate: [
             { required: true, message: '请选择店铺分类', trigger: 'change' }
           ],
@@ -157,7 +166,8 @@
         shopCateData: [],
         languageData: ['cn'],
         isEdit: false,
-        address: '广东省深圳市南山区',
+        address: '',
+        originalUserInfo: {},
       };
     },
     methods: {
@@ -173,13 +183,15 @@
         this.areaData = areaData[val];
         if (!this.isShowArea) {this.isShowArea = true;}
       },
-      reset() {
-        this.userInfo.province = '';
-        this.userInfo.city = '';
+      reset(formName) {
+        this.$refs[formName].resetFields();
         this.$notify.info({
           title: '重置',
           message: '您已经重置了所有内容'
         });
+      },
+      editAddress() {
+        this.isEdit = true;
       },
       getLabel(id, arr) {
         for (let i = 0; i < arr.length; i++) {
@@ -192,20 +204,30 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             NProgress.start();
-            let provinceLabel = this.getLabel(this.userInfo.province, provinceData);
-            let cityLabel = this.getLabel(this.userInfo.city, cityData[this.userInfo.province]);
-            let areaLabel = this.getLabel(this.userInfo.area, areaData[this.userInfo.city]);
-            addUser(this.axios, {
+            let provinceLabel = '';
+            let cityLabel = '';
+            let areaLabel = '';
+            if (this.isEdit) {
+              provinceLabel = this.getLabel(this.userInfo.province, provinceData);
+              cityLabel = this.getLabel(this.userInfo.city, cityData[this.userInfo.province]);
+              areaLabel = this.getLabel(this.userInfo.area, areaData[this.userInfo.city]);
+            } else {
+              provinceLabel = this.originalUserInfo.province;
+              cityLabel = this.originalUserInfo.city;
+              areaLabel = this.originalUserInfo.area;
+            }
+
+            editUser(this.axios, {
               user: this.userInfo.user,
               name: this.userInfo.name,
               password: this.userInfo.password,
               groupId: this.userInfo.group,
               province: provinceLabel,
-              provinceid: this.userInfo.province,
+              provinceid: this.userInfo.province || this.originalUserInfo.provinceid,
               city: cityLabel,
-              cityid: this.userInfo.city,
+              cityid: this.userInfo.city || this.originalUserInfo.cityid,
               area: areaLabel,
-              areaid: this.userInfo.area,
+              areaid: this.userInfo.area || this.originalUserInfo.areaid,
               type: this.userInfo.shopCate,
               Lang: this.userInfo.language,
               desc: this.userInfo.desc,
@@ -218,7 +240,7 @@
                     type: 'success'
                   });
                   setTimeout(() => {
-                    this.$router.go(0);
+                    this.$router.go(-1);
                   }, 500);
                 } else {
                   this.$message({
@@ -246,15 +268,22 @@
       },
       fetchData() {
         NProgress.start();
-        getOptionsData(this.axios)
+        getUserInfo(this.axios, this.$route.params.id)
           .then(response => {
             let result = response.data;
             if (result.statusCode === STATUS_SUCCESS) {
-              this.groupData = result.data.data;
-              this.shopCateData = result.data.data1;
+              let user = result.data.data;
+              this.userInfo.name = user.name;
+              this.userInfo.user = user.user;
+              this.address = `${user.province + user.city + user.area}`;
+              this.userInfo.language = 'cn';
+              this.userInfo.desc = user.desc;
+              this.originalUserInfo = user;
+              this.groupData = result.data.data1;
+              this.shopCateData = result.data.data2;
             } else {
               this.$message({
-                message: '获取数据出错，请从新尝试',
+                message: '获取数据出错，请重新尝试',
                 type: 'error'
               });
             }
@@ -276,5 +305,10 @@
 </script>
 
 <style lang="sass" scoped>
-
+  .editAddress
+    margin-left: 10px
+    cursor: pointer
+  .alert
+    padding: 0
+    margin-left: 10px
 </style>

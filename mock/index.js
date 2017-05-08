@@ -1,8 +1,8 @@
 let data = require('./mockData.json');
 let power = data.power;
-let userInfo = data.userInfo;
+let indexInfo = data.indexInfo;
+let allUser = [];
 let groupList = data.groupList;
-let allLevel = data.userList;
 let options = data.optionsData;
 let allLevel = [];
 
@@ -28,7 +28,7 @@ module.exports = function (apiRouter) {
   apiRouter.post('/api/userinfo', (req, res) => {
     res.json({
       statusCode: 1,
-      userInfo: userInfo
+      userInfo: indexInfo
     });
   });
 
@@ -107,9 +107,9 @@ module.exports = function (apiRouter) {
   });
   apiRouter.get('/api/shscAdminList', (req, res) => {
     let page = req.query.page;
-    if (allLevel.length <= 0) {
+    if (allUser.length <= 0) {
       for (let i = 0; i < 300; i++) {
-        allLevel.push({
+        allUser.push({
           "id": i,
           "user": `Alvin${i}`,
           "name": `晓丽${i}`,
@@ -123,7 +123,7 @@ module.exports = function (apiRouter) {
       msg: '删除成功',
       data: {
         total: 300,
-        data: allLevel.slice((page-1)*10, page*10)
+        data: allUser.slice((page-1)*10, page*10)
       },
     })
   });
@@ -148,6 +148,26 @@ module.exports = function (apiRouter) {
         msg: '删除失败',
       });
     }
+  });
+  apiRouter.get('/api/shscAdminInsert1', (req, res) => {
+    let user = {
+      name: 'test',
+      user: 'foo',
+      groupId: "0",
+      province: '广东省',
+      city: '深圳市',
+      area: '宝安区',
+      type: 0,
+      desc: 'testetstetststeted',
+    };
+    res.json({
+      statusCode: 1,
+      data: {
+        data: user,
+        data1: options.data,
+        data2: options.data1
+      }
+    });
   });
   apiRouter.get('/api/shscAdminInsert', (req, res) => {
     res.json({
@@ -271,6 +291,13 @@ module.exports = function (apiRouter) {
         msg: '修改失败',
       });
     }
+  });
+  apiRouter.post('/api/shscAdminModify', (req, res) => {
+    res.json({
+      success: true,
+      statusCode: 1,
+      msg: '修改成功',
+    });
   });
 };
 

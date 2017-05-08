@@ -8,7 +8,9 @@ export let getPowers2 = axios => axios.get('/api/power2');
  * 获取首页个人信息
  * @param axios
  */
-export let getUserInfo = axios => axios.post('/api/userinfo');
+export let getIndexInfo = axios => axios.post('/api/userinfo');
+
+// ============================================== settings 接口开始 =====================================
 /**
  * 增加权限组
  * @param axios
@@ -61,6 +63,21 @@ export let getOptionsData = axios => axios.get('/api/shscAdminInsert');
  */
 export let addUser = (axios, data) => axios.post('/api/shscAdminAdd', data);
 /**
+ * 编辑管理员
+ * @param axios
+ * @param data
+ */
+export let editUser = (axios, data) => axios.post('/api/shscAdminModify', data);
+/**
+ * 获取管理员信息
+ * @param axios
+ * @param id
+ */
+export let getUserInfo = (axios, id) => axios.get(`/api/shscAdminInsert1?id=${id}`);
+// ============================================== settings 接口结束 =====================================
+
+// ============================================= shop 接口开始 ==========================================
+/**
  * 获取所有店铺的等级
  * @param axios
  */
@@ -89,3 +106,5 @@ export let addShopLevel = (axios, data) => axios.post('/api/shscShopGradeAdd', d
  * @param data
  */
 export let editShopLevel = (axios, data) => axios.post('/api/shscShopGradeUpdate', data);
+// ============================================= shop 接口结束 ==========================================
+
