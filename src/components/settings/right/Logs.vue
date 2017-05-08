@@ -17,41 +17,23 @@
                   <el-row>
                     <el-col :span="24">
                       <div>
-                        <el-form :inline="true" :model="formInline" class="">
+                        <el-form :inline="true" :model="search">
 
                           <el-form-item label="会员名">
-                            <el-input v-model="formInline.user" placeholder="会员名"></el-input>
+                            <el-input v-model="search.user" placeholder="会员名"></el-input>
                           </el-form-item>
 
-                          <el-form-item label="操作时间" required>
-                            <!--日期-->
-                            <el-col :span="11">
-                              <el-form-item prop="date1">
-                                <el-date-picker
-                                  type="date"
-                                  placeholder="选择日期"
-                                  v-model="ruleForm.date1"
-                                  style="width: 100%;">
-                                </el-date-picker>
-                              </el-form-item>
-                            </el-col>
-                            <!--分割线-->
-                            <el-col class="line" :span="1">-</el-col>
-                            <!--时间-->
-                            <el-col :span="11">
-                              <el-form-item prop="dateTime">
-                                <el-time-picker
-                                  type="fixed-time"
-                                  placeholder="选择时间"
-                                  v-model="ruleForm.dateTime"
-                                  style="width: 100%;">
-                                </el-time-picker>
-                              </el-form-item>
-                            </el-col>
+                          <el-form-item prop="date" label="操作日期">
+                            <el-date-picker
+                              type="date"
+                              placeholder="选择日期"
+                              v-model="search.date"
+                              style="width: 100%;">
+                            </el-date-picker>
                           </el-form-item>
 
                           <el-form-item label="操作URL:">
-                            <el-input v-model="formInline.url" placeholder="URL"></el-input>
+                            <el-input v-model="search.url" placeholder="URL"></el-input>
                           </el-form-item>
 
                           <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -59,58 +41,48 @@
                       </div>
                     </el-col>
                   </el-row>
-                  <!--表格-->
-                  <template>
-                    <el-table
-                      :data="tableData"
-                      style="width: 100%"
-                      :row-class-name="tableRowClassNames">
-                      <el-table-column
-                        prop="date"
-                        label="账号"
-                        width="180">
-                      </el-table-column>
-                      <el-table-column
-                        prop="name"
-                        label="操作"
-                        width="180">
-                      </el-table-column>
-                      <el-table-column
-                        prop="address"
-                        label="操作url">
-                      </el-table-column>
-                      <el-table-column
-                        prop="folder"
-                        label="文件名">
-                      </el-table-column>
-                      <el-table-column
-                        prop="time"
-                        label="操作时间">
-                      </el-table-column>
-                    </el-table>
-                  </template>
-                  <!--分页-->
-                  <el-row
-                    :gutter="20"
-                    class="deviation-top clearfix">
-                    <el-col :span="6">
-                      <div class=" ">
-                        <el-button>删除选择</el-button>
-                      </div>
-                    </el-col>
-
-                      <div class="pull-right" >
-                        <el-pagination
-                          @size-change="handleSizeChange"
-                          @current-change="handleCurrentChange"
-                          :current-page.sync="DefaultValue"
-                          :page-size="100"
-                          layout="prev, pager, next, jumper"
-                          :total="1000">
-                        </el-pagination>
-                      </div>
-
-                  </el-row>
+                  <el-table
+                    ref="logTable"
+                    :data="tableData"
+                    border
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    @selection-change="handleSelectionChange">
+                    <el-table-column
+                      type="selection"
+                      width="55">
+                    </el-table-column>
+                    <el-table-column
+                      label="账号"
+                      prop="user"
+                      width="120">
+                    </el-table-column>
+                    <el-table-column
+                      prop="url"
+                      label="操作的URL"
+                      width="120">
+                    </el-table-column>
+                    <el-table-column
+                      prop="scriptName"
+                      width="120"
+                      label="文件名">
+                    </el-table-column>
+                    <el-table-column
+                      prop="time"
+                      label="操作时间">
+                    </el-table-column>
+                  </el-table>
+                  <div style="margin-top: 20px" class="clearfix">
+                    <el-button @click="toggleSelection()">删除选择</el-button>
+                    <el-pagination
+                      class="pagination"
+                      @current-change="handleCurrentChange"
+                      :current-page.sync="currentPage"
+                      :page-size="10"
+                      layout="prev, pager, next, jumper"
+                      :total="total">
+                    </el-pagination>
+                  </div>
                 </el-tab-pane>
 
                 <!--选项卡2-->
@@ -124,13 +96,13 @@
                           v-model="dateSelectTwo"
                           type="date"
                           placeholder="选择开始日期"
-                          :picker-options="CalculationDate">
+                          :picker-options="calculationDate">
                         </el-date-picker>
                         <el-date-picker
                           v-model="timeSelectTwo"
                           type="date"
                           placeholder="选择结束日期"
-                          :picker-options="CalculationDate">
+                          :picker-options="calculationDate">
                         </el-date-picker>
                       </div>
                     </el-col>
@@ -149,9 +121,9 @@
 </template>
 
 <script>
-  import ElRow from "../../../../node_modules/element-ui/packages/row/src/row";
+  import NProgress from 'nprogress'
+  import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
-    components: {ElRow},
     methods: {
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -183,59 +155,33 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
+      fetchData() {
+
+      },
     },
     data() {
       return {
-        multipleSelection: [],
-        ruleForm:
-          {
-          date1: '',
-          dateTime: '',
-        },
-        formInline: {
+        search: {
           user: '',
           url: '',
+          date: '',
         },
-        tableData: [
-          {
-          select: '',
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          folder: 'alksdjfhka',
-          time: '2017-05-04',
-        },
-          {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          folder: 'alksdjfhka',
-          time: '2017-05-04',
-        },
-          {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          folder: 'alksdjfhka',
-          time: '2017-05-04',
-        },
-          {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄' ,
-          folder: 'alksdjfhka',
-          time: '2017-05-04',
-        },
-        ],
-        CalculationDate: {
+        tableData: [],
+        multipleSelection: [],
+        calculationDate: {
           disabledDate(time) {
             return time.getTime() < Date.now() - 8.64e7;
           }
         },
         dateSelectTwo : '',
         timeSelectTwo: '',
-        DefaultValue: 1,
+        defaultValue: 1,
+        currentPage: 1,
+        total: 100,
       }
+    },
+    created() {
+
     },
   }
 </script>
@@ -248,7 +194,6 @@
     margin-top: 0px
   h3
     line-height: 2em
-  .pull-right
+  .pagination
     float: right
-    margin-right: 0px
 </style>
