@@ -60,3 +60,32 @@ export let getOptionsData = axios => axios.get('/api/shscAdminInsert');
  * @param data
  */
 export let addUser = (axios, data) => axios.post('/api/shscAdminAdd', data);
+/**
+ * 获取所有店铺的等级
+ * @param axios
+ */
+export let getAllShopsLevel = axios => axios.get('/api/shscShopGradeList');
+/**
+ * 获取单个店铺的等级
+ * @param axios
+ * @param id
+ */
+export let getOneShopLevel = (axios, id) => axios.get(`/api/shscShopGradeList?id=${id}`);
+/**
+ * 删除店铺等级
+ * @param axios
+ * @param data
+ */
+export let deleteShopLevel = (axios, data) => axios.post('/api/shscShopGradeDelectList', data);
+/**
+ * 增加店铺等级
+ * @param axios
+ * @param data
+ */
+export let addShopLevel = (axios, data) => axios.post('/api/shscShopGradeAdd', data);
+/**
+ * 编辑店铺等级
+ * @param axios
+ * @param data
+ */
+export let editShopLevel = (axios, data) => axios.post('/api/shscShopGradeUpdate', data);

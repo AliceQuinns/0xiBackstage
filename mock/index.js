@@ -2,8 +2,9 @@ let data = require('./mockData.json');
 let power = data.power;
 let userInfo = data.userInfo;
 let groupList = data.groupList;
-let userList = data.userList;
+let allLevel = data.userList;
 let options = data.optionsData;
+let allLevel = [];
 
 module.exports = function (apiRouter) {
   apiRouter.get('/api/power1', (req, res) => {
@@ -106,9 +107,9 @@ module.exports = function (apiRouter) {
   });
   apiRouter.get('/api/shscAdminList', (req, res) => {
     let page = req.query.page;
-    if (userList.length <= 0) {
+    if (allLevel.length <= 0) {
       for (let i = 0; i < 300; i++) {
-        userList.push({
+        allLevel.push({
           "id": i,
           "user": `Alvin${i}`,
           "name": `晓丽${i}`,
@@ -122,16 +123,16 @@ module.exports = function (apiRouter) {
       msg: '删除成功',
       data: {
         total: 300,
-        data: userList.slice((page-1)*10, page*10)
+        data: allLevel.slice((page-1)*10, page*10)
       },
     })
   });
   apiRouter.post('/api/shscAdminDelete', (req, res) => {
     let id = req.body.id;
     if (id && id !== 0) {
-      for (let i = 0; i < userList.length; i++) {
-        if (userList[i].id === id) {
-          userList.splice(i, 1);
+      for (let i = 0; i < allLevel.length; i++) {
+        if (allLevel[i].id === id) {
+          allLevel.splice(i, 1);
           break;
         }
       }
@@ -166,6 +167,108 @@ module.exports = function (apiRouter) {
         success: false,
         statusCode: -1,
         msg: '删除失败',
+      });
+    }
+  });
+  apiRouter.get('/api/shscShopGradeList', (req, res) => {
+    if (allLevel.length <= 0) {
+      for (let i = 0; i < 100; i++) {
+        allLevel.push({
+          id: i,
+          name: `test${i}`,
+          desc: `描述${i}`,
+          create_time: '2017-05-08',
+          status: i % 2 === 0 ? 1 : 0,
+        });
+      }
+    }
+    res.json({
+      statusCode: 1,
+      data: allLevel
+    });
+  });
+  apiRouter.get('/api/shscShopGradeList', (req, res) => {
+    let id = req.query.id;
+    let level = {};
+    allLevel.forEach(v => {
+      if (v.id === id) {
+        level = v;
+      }
+    });
+    res.json({
+      statusCode: 1,
+      data: level
+    });
+  });
+  apiRouter.post('/api/shscShopGradeDelectList', (req, res) => {
+    let id = req.body.id;
+    if (id && id !== 0) {
+      for (let i = 0; i < allLevel.length; i++) {
+        if (allLevel[i].id === id) {
+          allLevel.splice(i, 1);
+          break;
+        }
+      }
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '删除成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '删除失败',
+      });
+    }
+  });
+  apiRouter.post('/api/shscShopGradeAdd', (req, res) => {
+    let name = req.body.name;
+    let desc = req.body.desc;
+    let status = req.body.status;
+    if (name !== '' && desc !== '' && status !== '') {
+      allLevel.push({
+        id: allLevel.length,
+        name,
+        desc,
+        status,
+      });
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '添加成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '添加失败',
+      });
+    }
+  });
+  apiRouter.post('/api/shscShopGradeUpdate', (req, res) => {
+    let id = req.body.id;
+    let name = req.body.name;
+    let desc = req.body.desc;
+    let status = req.body.status;
+    if (id && name && desc && status) {
+      allLevel.forEach(v => {
+        if (v.id === id) {
+          v.name = name;
+          v.desc = desc;
+          v.status = status;
+        }
+      });
+      res.json({
+        success: true,
+        statusCode: 1,
+        msg: '修改成功',
+      });
+    } else {
+      res.json({
+        success: false,
+        statusCode: -1,
+        msg: '修改失败',
       });
     }
   });
