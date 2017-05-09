@@ -66,7 +66,7 @@
 
     methods: {
       append(data, store) {
-        store.append({ id: id++, label: 'testtest', }, data);
+        store.append({ id: Symbol(), label: 'testtest', }, data);
       },
 
       remove(data, store) {
@@ -88,12 +88,14 @@
             style: {width: '50px'}}),
             h('el-input',
               {style: {width: '100px', marginLeft: '10px'}, attrs: {value:
-              node.label, size: 'small'}})])])
+              node.label, size: 'small'}})]), h('span',
+            {style: {float: 'right', marginRight: '20px'}},
+            [h('el-button', {on: {click: () => this.remove(data, store)},attrs: {size: 'mini'}}, '删除')])])
         }
       },
       addCate1() {
         this.data2.push({
-          id: id++,
+          id: Symbol(),
           label: '一级 100000000000',
           children: [],
         });
