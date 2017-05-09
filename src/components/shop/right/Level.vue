@@ -8,10 +8,10 @@
 
             <!-- 管理 -->
             <el-tab-pane name="1" value="1">
+              <!-- 图标 -->
               <span slot="label" @click="toggleClickShow">
                 <i class="el-icon-date"></i>&nbsp;&nbsp;管理
-              </span><!-- 图标 -->
-
+              </span>
               <!-- 提示语 -->
               <p class="topicTags">操作提示</p>
               <ul class="promptMessage">
@@ -22,7 +22,6 @@
                   &nbsp;&nbsp;如果店铺等级不够，可以自定义添加。自定义店铺等级可以删除。
                 </li>
               </ul>
-
               <!-- 数据表格 -->
               <el-table
                 ref="multipleTable"
@@ -31,38 +30,32 @@
                 scopeone="scope"
                 style="width: 100%"
                 @selection-change="handleSelectionChange">
-
                 <!-- selection -->
                 <el-table-column
                   type="selection"
                   width="55">
                 </el-table-column>
-
                 <!-- ID -->
                 <el-table-column
                   label="状态"
                   width="120"
                   prop="status">
                 </el-table-column>
-
                 <!-- 名称 -->
                 <el-table-column
                   prop="name"
                   label="名称">
                 </el-table-column>
-
                 <!-- 描述 -->
                 <el-table-column
                   prop="desc"
                   label="描述">
                 </el-table-column>
-
                 <!-- 创建时间 -->
                 <el-table-column
                   prop="create_time"
                   label="创建时间">
                 </el-table-column>
-
                 <!-- 修改 -->
                 <el-table-column label="操作" width="100">
                   <template scope="scope">
@@ -70,32 +63,30 @@
                       type="primary"
                       icon="edit"
                       size="small"
-                      @click="clickShow">
+                      @click="clickShow(scope.$index, scope.row)">
                       修改
                     </el-button>
                   </template>
                 </el-table-column>
                 </el-table>
-
                 <!-- 按钮及分页 -->
                   <div style="margin-top: 20px">
                     <el-button
                       type="danger"
-                      @click="handleDelete(multipleSelection)">
+                      @click="handleDelete()">
                       删除</el-button>
-                    <el-pagination
+                    <!--<el-pagination
                       class="pagination"
                       @current-change="handleCurrentChange"
                       :current-page.sync="currentPage"
                       :page-size="10"
                       layout="prev, pager, next, jumper"
                       :total="total">
-                    </el-pagination>
+                    </el-pagination>-->
                   </div>
                 </el-tab-pane>
 
-
-            <!-- 添加 -->
+            <!-- 添加--选项卡 -->
             <el-tab-pane label="添加" name="2" value="2">
               <span slot="label" @click="toggleClickShow"><i class="el-icon-star-on"></i>&nbsp;&nbsp;添加</span>
               <!-- 标题 -->
@@ -126,30 +117,26 @@
             </el-tab-pane>
 
 
-            <!-- 修改 -->
+            <!-- 修改--选项卡 -->
             <el-tab-pane label="修改" v-if="displayCondition" name="3" value="3">
               <span slot="label"><i class="el-icon-edit"></i>&nbsp;&nbsp;修改</span>
               <p class="topicTags">修改店铺</p>
               <div>
                 <el-form :model="modifyForm" :rules="rulesModifyForm" ref="modifyForm" label-width="100px"
                          class="demo-modifyForm">
-
                   <el-form-item label="名称" prop="name">
                     <el-col :span="8"><el-input v-model="modifyForm.name"></el-input></el-col>
                   </el-form-item>
-
                   <el-form-item label="描述" prop="desc">
                     <el-col :span="8">
                       <el-input type="textarea" v-model="modifyForm.desc" :rows="5">
                       </el-input>
                     </el-col>
                   </el-form-item>
-
-                  <el-form-item label="状态" prop="state">
+                  <el-form-item label="状态" prop="status">
                     <el-switch v-model="stateButtonModifyForm" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                   </el-form-item>
-
                   <el-form-item>
                     <el-button type="primary" @click="submitFormEdit('modifyForm')">提交</el-button>
                     <el-button @click="resetForm('modifyForm')">重置</el-button>
@@ -175,22 +162,19 @@
   export default {
     data() {
       return {
+        /* 复选框 */
+        selection: [],
         /* 选项卡默认选中 */
         editableTabsValue: '1',
-
         /* 分页 */
-        total: 10,
+        total: 100,
         currentPage: 1,
-
         /* 选项卡切换 */
         displayCondition: false,
-
         /* 管理 -- 表格 */
         tableData: [],
-
         /* 管理 -- 表格 -- 复选框 */
         multipleSelection: [],
-
         /* 添加 -- 表单 */
         ruleForm: {
           name: '',
@@ -199,16 +183,14 @@
           desc: '',
           state: true,
         },
-
         /* 修改 -- 表单 */
         modifyForm: {
           name: '',
           delivery: false,
           type: [],
           desc: '',
-          state: true,
+          status: true,
         },
-
         /* 添加 -- 表单验证 */
         rules: {
           name: [
@@ -219,7 +201,6 @@
             { required: true, message: '请填写店铺描述', trigger: 'blur' }
           ]
         },
-
         /* 修改 -- 表单验证 */
         rulesModifyForm: {
           name: [
@@ -230,29 +211,45 @@
             { required: true, message: '请填写修改描述内容', trigger: 'blur' }
           ]
         },
-
         /* 添加 开关滑块 */
         stateButton: true,
-
         /* 修改 开关滑块 */
         stateButtonModifyForm: true,
       }
     },
     methods: {
-      /* 编辑店铺页面 */
       /* 表格删除按钮 */
-      handleDelete(index) {
+      handleDelete() {
         this.$confirm('此操作将永久删除该权限组, 是否继续?', '警告', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           NProgress.start();
-          deleteShopLevel(this.axios, { index })
+          let idArr = [];
+          for (let i = 0; i < this.multipleSelection.length; i++) {
+            idArr.push(this.multipleSelection[i].id);
+          }
+          let result = idArr.join(',');
+          deleteShopLevel(this.axios, { id: result })
             .then(response => {
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
-                this.tableData.splice(index, 1);
+                /*let idx;
+                for (let i = 0; i < this.tableData.length; i++) {
+                  if (this.tableData[i].id === this.multipleSelection[0].id) {
+                    idx = i;
+                    break
+                  }
+                }
+                this.tableData.splice(idx, 1);*/
+                this.multipleSelection.forEach(v => {
+                  for (let i = 0; i < this.tableData.length; i++) {
+                    if (v.id === this.tableData[i].id) {
+                      this.tableData.splice(i, 1);
+                    }
+                  }
+                });
                 this.$message({
                   message: '删除成功',
                   type: 'success'
@@ -280,11 +277,10 @@
           });
         });
       },
-
       /* 分页 */
-      handleCurrentChange(val) {
+      /*handleCurrentChange(val) {
         NProgress.start();
-        getUserList(this.axios, val)
+        getAllShopsLevel(this.axios, val)
           .then(response => {
             let userList = response.data;
             if (userList.statusCode === STATUS_SUCCESS) {
@@ -300,25 +296,32 @@
           .catch(e => {
             NProgress.done();
           });
-      },
-
+      },*/
       /* 选项卡的切换 */
       toggleClickShow: function() {
         this.displayCondition = false;
       },
-      clickShow: function(){
+      /* 获取单条店铺信息 */
+      clickShow: function(index, row){
         this.displayCondition = !this.displayCondition;
         this.editableTabsValue = '3';
-
-          console.log("asydgjgas");
-          NProgress.start();
-        editShopLevel(this.axios)
+        /* 单条店铺信息 */
+        console.log("asydgjgas");
+        NProgress.start();
+        getOneShopLevel(this.axios,row.id)
             .then(response => {
               let groups = response.data;
               if (groups.statusCode === STATUS_SUCCESS) {
                 this.modifyForm = groups.data;
+                /*this.modifyForm.name = groups.data.name;
+                this.modifyForm.desc = groups.data.desc;*/
+                if (groups.data.status == 1){
+                  this.stateButtonModifyForm = true;
+                }else if(groups.data.status == 0){
+                  this.stateButtonModifyForm = false;
+                }
+                NProgress.done();
               }
-              NProgress.done();
             })
             .catch(e => {
               this.$message({
@@ -329,12 +332,10 @@
               NProgress.done();
             });
       },
-
       /* 管理 -- 保存选中的数组 */
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-
       /* 添加 -- 表单 -- 提交 */
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -411,13 +412,14 @@
           }
         });
       },
-
       /* 重置表单 */
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
+      selectRow(index, row) {
+        console.log(index, row);
+      },
     },
-
     /* 页面加载时请求 */
     created() {
       NProgress.start();
