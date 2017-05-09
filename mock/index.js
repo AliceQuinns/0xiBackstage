@@ -191,34 +191,36 @@ module.exports = function (apiRouter) {
     }
   });
   apiRouter.get('/api/shscShopGradeList', (req, res) => {
-    if (allLevel.length <= 0) {
-      for (let i = 0; i < 100; i++) {
-        allLevel.push({
-          id: i,
-          name: `test${i}`,
-          desc: `描述${i}`,
-          create_time: '2017-05-08',
-          status: i % 2 === 0 ? 1 : 0,
-        });
-      }
-    }
-    res.json({
-      statusCode: 1,
-      data: allLevel
-    });
-  });
-  apiRouter.get('/api/shscShopGradeList', (req, res) => {
     let id = req.query.id;
     let level = {};
-    allLevel.forEach(v => {
-      if (v.id === id) {
-        level = v;
+    if (!id) {
+      if (allLevel.length <= 0) {
+        for (let i = 0; i < 100; i++) {
+          allLevel.push({
+            id: i,
+            name: `test${i}`,
+            desc: `描述${i}`,
+            create_time: '2017-05-08',
+            status: i % 2 === 0 ? 1 : 0,
+          });
+        }
       }
-    });
-    res.json({
-      statusCode: 1,
-      data: level
-    });
+      res.json({
+        statusCode: 1,
+        data: allLevel
+      });
+    } else {
+      allLevel.forEach(v => {
+        if (v.id === id) {
+          level = v;
+        }
+      });
+      res.json({
+        statusCode: 1,
+        data: level
+      });
+    }
+
   });
   apiRouter.post('/api/shscShopGradeDelectList', (req, res) => {
     let id = req.body.id;
