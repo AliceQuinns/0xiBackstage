@@ -113,9 +113,26 @@ export let editShopLevel = (axios, data) => axios.post('/api/shscShopGradeUpdate
  */
 export let getAllShopInfo = (axios, search) => axios.get(`http://192.168.1.146:8080/shscShopList${search}`);
 /**
+ * 获取店铺模板
+ * @param axios
+ */
+export let getShopTemplate = axios => axios.get('http://192.168.1.146:8080/shscShopTemplateSelectAll');
+/**
  * 获取店铺的分类信息
  * @param axios
  */
 export let getShopType = axios => axios.get('http://192.168.1.146:8080/shscShopCat');
+/**
+ * 删除店铺模板
+ * @param axios
+ * @param data
+ */
+export let deleteShopTemplate = (axios, data) => axios.post(`http://192.168.1.146:8080/shscShopTemplateDelete`,data);
+/**
+ * 增加店铺模块
+ * @param axios
+ * @param data
+ */
+export let addStoreModule = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopTemplateAdd', data);
 // ============================================= shop 接口结束 ==========================================
 
