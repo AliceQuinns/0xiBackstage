@@ -274,6 +274,7 @@
     "subs": [
       {
         "name": "店铺管理",
+        "path": "/shop/manage",
         "id": "a2edbf6ac0fc24f76cf67669ff7477a1"
       },
       {

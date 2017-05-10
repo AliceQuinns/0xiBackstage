@@ -148,6 +148,5 @@
 
 <style lang="sass" scoped>
   .pagination
-    float: right
     margin-top: 10px
 </style>

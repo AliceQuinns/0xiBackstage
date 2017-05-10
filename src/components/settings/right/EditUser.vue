@@ -292,7 +292,7 @@
           .catch(e => {
             NProgress.done();
             this.$message({
-              message: '获取数据出错，请从新尝试',
+              message: '获取数据出错，请重新尝试',
               type: 'error'
             });
           });
