@@ -1,3 +1,4 @@
+import qs from 'qs'
 /**
  * 获取用户权限
  * @param axios
@@ -127,19 +128,19 @@ export let getShopTemplate = axios => axios.get('http://192.168.1.146:8080/shscS
  * @param axios
  * @param data
  */
-export let addStoreModule = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopTemplateAdd', data);
+export let addStoreModule = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopTemplateAdd', qs.stringify(data));
 /**
  * 修改店铺模板
  * @param axios
  * @param data
  */
-export let modifyStoreModule = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopTemplateUpdate', data);
+export let modifyStoreModule = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopTemplateUpdate', qs.stringify(data));
 /**
  * 删除店铺模板
  * @param axios
  * @param data
  */
-export let deleteShopTemplate = (axios, data) => axios.post(`http://192.168.1.146:8080/shscShopTemplateDelete`,data);
+export let deleteShopTemplate = (axios, data) => axios.post(`http://192.168.1.146:8080/shscShopTemplateDelete`,qs.stringify(data));
 /**
  * 查询店铺手机端模板
  * @param axios
@@ -151,18 +152,18 @@ export let getShopTemplateMobile = axios => axios.get('http://192.168.1.146:8080
  * @param axios
  * @param data
  */
-export let deleteShopTemplateMobile = (axios, data) => axios.post(`http://192.168.1.146:8080/shscShopSjTemplateDelete`,data);
+export let deleteShopTemplateMobile = (axios, data) => axios.post(`http://192.168.1.146:8080/shscShopSjTemplateDelete`,qs.stringify(data));
 /**
  * 增加店铺手机端模板
  * @param axios
  * @param data
  */
-export let addStoreModuleMobile = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopSjTemplateAdd', data);
+export let addStoreModuleMobile = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopSjTemplateAdd', qs.stringify(data));
 /**
  * 修改店铺手机端模板
  * @param axios
  * @param data
  */
-export let modifyStoreModuleMobile = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopSjTemplateUpdate', data);
+export let modifyStoreModuleMobile = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopSjTemplateUpdate', qs.stringify(data));
 // ============================================= shop 接口结束 ==========================================
 
