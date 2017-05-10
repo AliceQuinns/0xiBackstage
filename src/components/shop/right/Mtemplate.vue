@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col>
         <div class="container">
-          <h3>店铺模板</h3>
+          <h3>店铺手机端模板</h3>
           <el-tabs
             type="border-card"
             v-model="editableTabsValue">
@@ -31,40 +31,35 @@
                 <!-- 显示顺序 -->
                 <el-table-column
                   label="显示顺序"
-                  width="120">
-                  <template
-                    scope="scope">
+                  width="120"
+                  prop="displayorder">
+                  <template scope="scope">
                     <el-input
                       placeholder="255"
                       type="number"
                       size="small"
-                      prop="displayorder">
+                      v-model= "scope.row.displayorder">
                     </el-input>
                   </template>
                 </el-table-column>
-                <!-- 模板名称 -->
+                <!--  模板名称 -->
                 <el-table-column
+                  prop="name"
                   label="模板名称">
-                  <template
-                    scope="scope"
-                    prop="name">
-                    <img class="name-img">
-                    <span class="name-text">实例</span>
-                  </template>
                 </el-table-column>
                 <!-- 模板风格 -->
                 <el-table-column
                   prop="style"
                   label="模板风格">
                 </el-table-column>
-                <!-- 状态 -->
+                <!--  状态 -->
                 <el-table-column
-                  label="状态"
-                  prop="status">
+                  prop="status"
+                  label="状态">
                 </el-table-column>
                 <!-- 创建时间 -->
                 <el-table-column
-                  prop="create_time"
+                  prop="createTime"
                   label="创建时间">
                 </el-table-column>
                 <!-- 操作 -->
@@ -91,15 +86,16 @@
                   </template>
                 </el-table-column>
               </el-table>
-              <!-- 提交 -->
+              <!-- 批量删除 -->
               <div class="submit-display">
                 <el-button
-                  type="info">
-                  提交
+                  type="info"
+                  @click="batchHandleDelete()">
+                  删除
                 </el-button>
               </div>
             </el-tab-pane>
-            <!-- 添加--选项卡 -->
+            <!-- 添加选项卡 -->
             <el-tab-pane
               label="添加"
               name="2"
@@ -138,7 +134,7 @@
                 </el-form>
               </div>
             </el-tab-pane>
-            <!-- 修改--选项卡 -->
+            <!-- 修改选项卡 -->
             <el-tab-pane
               label="修改"
               v-if="displayCondition"
@@ -166,7 +162,7 @@
                   </el-form-item>
 
                   <el-form-item label="状态" prop="status">
-                    <el-switch v-model="stateButtonModifyForm" on-color="#13ce66" off-color="#ff4949">
+                    <el-switch v-model="modifyForm.status" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                   </el-form-item>
 
@@ -187,7 +183,8 @@
 
 <script>
   import NProgress from 'nprogress'
-  import { addShopLevel, getAllShopsLevel,editShopLevel,getOneShopLevel,deleteShopLevel } from '../../../api/index'
+  import { addStoreModuleMobile,modifyStoreModuleMobile,deleteShopTemplateMobile,getShopTemplateMobile, }
+    from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
 
   export default {
@@ -221,11 +218,11 @@
         /* 修改 -- 表单 */
         modifyForm: {
           name: '',
-          delivery: false,
+          delivery: false,/* 选项卡切换 */
           type: [],
           style: '',
           tempFile: '',
-          state: true,
+          status: true,
         },
         /* 添加表单 -- 表单验证 */
         rules: {
@@ -255,19 +252,69 @@
         stateButtonModifyForm: true,
       }
     },
-    /* 计算属性 */
+    /* 操作 */
     methods: {
-      /* 表格删除按钮 */
-      handleDelete(index, row) {
-        this.$confirm('此操作将永久删除该权限组, 是否继续?', '警告', {
+      /* 批量删除按钮 */
+      batchHandleDelete() {
+        this.$confirm('此操作将永久删除该店铺, 是否继续?', '警告', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           NProgress.start();
-          let rowId = row.id;
-          console.log(row);
-          deleteShopLevel(this.axios, { rowId })
+          let idArr = [];
+          for (let i = 0; i < this.multipleSelection.length; i++) {
+            idArr.push(this.multipleSelection[i].id);
+          }
+          let result = idArr.join(',');
+          console.log(result);
+          deleteShopTemplateMobile(this.axios, result)
+            .then(response => {
+              let data = response.data;
+              if (data.statusCode === STATUS_SUCCESS) {
+                this.multipleSelection.forEach(v => {
+                  for (let i = 0; i < this.tableData.length; i++) {
+                    if (v.id === this.tableData[i].id) {
+                      this.tableData.splice(i, 1);
+                    }
+                  }
+                });
+                this.$message({
+                  message: '删除成功',
+                  type: 'success'
+                });
+              } else {
+                this.$message({
+                  message: '删除失败',
+                  type: 'error'
+                });
+              }
+              NProgress.done();
+            })
+            .catch(e => {
+              this.$message({
+                message: '出现未知错误，请重试',
+                type: 'error'
+              });
+              console.log(e);
+              NProgress.done();
+            });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      /* 单条删除按钮 */
+      handleDelete(index, row) {
+        this.$confirm('此操作将永久删除该店铺, 是否继续?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          NProgress.start();
+          deleteShopTemplateMobile(this.axios, {id: Number(row.id)})
             .then(response => {
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
@@ -307,32 +354,30 @@
       clickShow: function(index, row){
         this.displayCondition = !this.displayCondition;
         this.editableTabsValue = '3';
-        /* 单条店铺信息 */
-        console.log("asydgjgas");
-        NProgress.start();
-        getOneShopLevel(this.axios,row.id)
-          .then(response => {
-            let groups = response.data;
-            if (groups.statusCode === STATUS_SUCCESS) {
-              this.modifyForm = groups.data;
-              /*this.modifyForm.name = groups.data.name;
-               this.modifyForm.desc = groups.data.desc;*/
-              if (groups.data.status == 1){
-                this.stateButtonModifyForm = true;
-              }else if(groups.data.status == 0){
-                this.stateButtonModifyForm = false;
-              }
-              NProgress.done();
-            }
-          })
-          .catch(e => {
-            this.$message({
-              message: '获取数据出错，请重新尝试',
-              type: 'error'
-            });
-            console.log(e);
-            NProgress.done();
-          });
+        /*/!* 单条店铺信息 *!/
+         console.log("asydgjgas");
+         NProgress.start();
+         getOneShopLevel(this.axios,row.id)
+         .then(response => {
+         let groups = response.data;
+         if (groups.statusCode === STATUS_SUCCESS) {
+         this.modifyForm = groups.data;
+         if (groups.data.status == 1){
+         this.stateButtonModifyForm = true;
+         }else if(groups.data.status == 0){
+         this.stateButtonModifyForm = false;
+         }
+         NProgress.done();
+         }
+         })
+         .catch(e => {
+         this.$message({
+         message: '获取数据出错，请重新尝试',
+         type: 'error'
+         });
+         console.log(e);
+         NProgress.done();
+         });*/
       },
       /* 管理 -- 保存选中的数组 */
       handleSelectionChange(val) {
@@ -340,13 +385,26 @@
       },
       /* 添加 -- 表单 -- 提交 */
       submitForm(formName) {
+
+        /* 测试 */
+        /*let name = this.ruleForm.name;
+        let style = this.ruleForm.style;
+        let status = this.ruleForm.state ? 1 : 0;
+        let tempFile = this.ruleForm.tempFile;
+        console.log(name);
+        console.log(style);
+        console.log(status);
+        console.log(tempFile);
+        return;*/
+        /* 测试 */
+
         this.$refs[formName].validate((valid) => {
           if (valid) {
             NProgress.start();
-            addShopLevel(this.axios,{
+            addStoreModuleMobile(this.axios,{
               name: this.ruleForm.name,
               style: this.ruleForm.style,
-              state: this.ruleForm.state ? 1 : 0,
+              status: this.ruleForm.state ? 1 : 0,
               tempFile: this.ruleForm.tempFile,
             })
               .then(response => {
@@ -379,14 +437,27 @@
       },
       /* 编辑 -- 表单 -- 提交 */
       submitFormEdit(formName) {
+
+        /* 测试 */
+        /*let name = this.modifyForm.name;
+        let style = this.modifyForm.style;
+        let status = this.modifyForm.status ? 1 : 0;
+        let tempFile = this.modifyForm.tempFile;
+        console.log(name);
+        console.log(style);
+        console.log(status);
+        console.log(tempFile);
+        return;*/
+        /* 测试 */
+
         this.$refs[formName].validate((valid) => {
           if (valid) {
             NProgress.start();
-            addShopLevel(this.axios,{
-              name: this.ruleForm.name,
-              style: this.ruleForm.style,
-              state: this.ruleForm.state ? 1 : 0,
-              tempFile: this.ruleForm.tempFile,
+            modifyStoreModuleMobile(this.axios,{
+              name: this.modifyForm.name,
+              style: this.modifyForm.style,
+              status: this.modifyForm.status ? 1 : 0,
+              tempFile: this.modifyForm.tempFile,
             })
               .then(response => {
                 let result = response.data;
@@ -424,18 +495,25 @@
         console.log(index, row);
       },
     },
-    /* 页面加载时请求 */
     created() {
+      /* 查询店铺请求 */
       NProgress.start();
-      getAllShopsLevel(this.axios)
+      getShopTemplateMobile(this.axios)
         .then(response => {
           let groups = response.data;
           if (groups.statusCode === STATUS_SUCCESS) {
             this.tableData = groups.data;
+
             /* 自定 */
             let tableData = this.tableData;
-            console.log(tableData[0].status);
-            tableData[0].status = "开启";
+            var i
+            for( i=0; i<tableData.length; i++){
+              if(tableData[i].status == true){
+                tableData[i].status = "开启";
+              }else if(tableData[i].status == false){
+                tableData[i].status = "关闭";
+              };
+            };
           }
           NProgress.done();
         })
@@ -453,6 +531,23 @@
 </script>
 
 <style lang="sass" scoped>
+  //模板实例
+  .name-img
+    float: left
+    background-color: #eef1f6
+    width:  5em
+    height: 5em
+    margin:
+    top: 0.5em
+    bottom: 0.5em
+  .name-text
+    padding-top: 2em
+    padding-left: 10px
+    display: inline-block
+  .submit-display
+    margin-top: 20px
+  .tempFileSelection
+    margin-left: 10px
   .topicTags
     background-color: #eef1f6
     line-height: 3em
@@ -463,23 +558,4 @@
       line-height: 2em
     .pagination
       float: right
-    //模板实例
-    .name-img
-      float: left
-      background-color: #eef1f6
-      width:  5em
-      height: 5em
-      margin:
-        top: 0.5em
-        bottom: 0.5em
-    .name-text
-      padding-top: 2em
-      padding-left: 10px
-      display: inline-block
-    //提交按钮
-    .submit-display
-      margin-top: 20px
-    //添加店铺 下拉菜单
-    .tempFileSelection
-      margin-left: 10px
 </style>

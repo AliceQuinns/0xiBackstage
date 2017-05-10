@@ -161,11 +161,8 @@
                     </el-select>
                   </el-form-item>
 
-                  <el-form-item label="状态" prop="statusForm">
-                    <el-switch
-                      on-color="#13ce66"
-                      off-color="#ff4949"
-                      v-model="stateButtonModifyForm">
+                  <el-form-item label="状态" prop="status">
+                    <el-switch v-model="modifyForm.status" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                   </el-form-item>
 
@@ -186,7 +183,7 @@
 
 <script>
   import NProgress from 'nprogress'
-  import { addStoreModule, getShopTemplate,editShopLevel,getOneShopLevel,deleteShopTemplate }
+  import { addStoreModule, getShopTemplate,modifyStoreModule,deleteShopTemplate }
   from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
 
@@ -225,7 +222,7 @@
           type: [],
           style: '',
           tempFile: '',
-          state: true,
+          status: true,
         },
         /* 添加表单 -- 表单验证 */
         rules: {
@@ -357,7 +354,7 @@
       clickShow: function(index, row){
         this.displayCondition = !this.displayCondition;
         this.editableTabsValue = '3';
-        /* 单条店铺信息 */
+        /*/!* 单条店铺信息 *!/
         console.log("asydgjgas");
         NProgress.start();
         getOneShopLevel(this.axios,row.id)
@@ -380,7 +377,7 @@
             });
             console.log(e);
             NProgress.done();
-          });
+          });*/
       },
       /* 管理 -- 保存选中的数组 */
       handleSelectionChange(val) {
@@ -430,7 +427,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             NProgress.start();
-            addShopLevel(this.axios,{
+            modifyStoreModule(this.axios,{
               name: this.modifyForm.name,
               style: this.modifyForm.style,
               status: this.modifyForm.status ? 1 : 0,
