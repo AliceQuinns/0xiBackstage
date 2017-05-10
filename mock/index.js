@@ -211,7 +211,7 @@ module.exports = function (apiRouter) {
       });
     } else {
       allLevel.forEach(v => {
-        if (v.id === id) {
+        if (v.id === Number(id)) {
           level = v;
         }
       });
@@ -226,7 +226,7 @@ module.exports = function (apiRouter) {
     let id = req.body.id;
     if (id && id !== 0) {
       for (let i = 0; i < allLevel.length; i++) {
-        if (allLevel[i].id === id) {
+        if (allLevel[i].id === Number(id)) {
           allLevel.splice(i, 1);
           break;
         }
