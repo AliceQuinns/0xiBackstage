@@ -309,7 +309,7 @@
       },
       {
         "name": "店铺新闻推荐位",
-        "path": "/shop/NewsRecommendation",
+        "path": "/shop/newsRecommendation",
         "id": "2ba4c418aa716c8a7f24054f1fc510ae"
       },
       {
