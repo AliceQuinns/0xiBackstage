@@ -119,11 +119,17 @@ export let getAllShopInfo = (axios, search) => axios.get(`http://192.168.1.146:8
  */
 export let getShopType = axios => axios.get('http://192.168.1.146:8080/shscShopCat');
 /**
- * 获取单个店铺的信息
+ * 获取分销店铺的信息
  * @param axios
  * @param userid
  */
 export let getDistributionInfo = (axios, userid) => axios.get(`http://192.168.1.146:8080/shscDistributionShopId?userid=${userid}`);
+/**
+ * 查询商家店铺的信息
+ * @param axios
+ * @param userid
+ */
+export let getShopInfo = (axios, userid) => axios.get(`http://192.168.1.146:8080/shscShopId?userid=${userid}`);
 /**
  * 店铺管理删除店铺
  * @param axios

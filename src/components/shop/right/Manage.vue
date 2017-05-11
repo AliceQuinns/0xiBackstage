@@ -26,7 +26,7 @@
   import Search from './Search.vue'
   import TableList from './TableList.vue'
   import Info from './Info.vue'
-  import { getAllShopInfo, getDistributionInfo } from '../../../api/index'
+  import { getAllShopInfo, getDistributionInfo, getShopInfo } from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
@@ -79,32 +79,59 @@
         this.search = condition;
         this.fetchData(condition);
       },
-      editInfo(userid) {
+      editInfo(userid, shopType) {
         NProgress.start();
-        getDistributionInfo(this.axios, userid)
-          .then(response => {
-            let result = response.data;
-            if (result.statusCode === STATUS_SUCCESS) {
-              this.isDisabled = false;
-              this.currentTab= 'info';
-              this.shopInfo = result.data;
-              this.shopGradeData = result.data1;
-              this.shopTypeData = result.data2;
-            } else {
+        if (shopType === 1) {
+          getDistributionInfo(this.axios, userid)
+            .then(response => {
+              let result = response.data;
+              if (result.statusCode === STATUS_SUCCESS) {
+                this.isDisabled = false;
+                this.currentTab= 'info';
+                this.shopInfo = result.data;
+                this.shopGradeData = result.data1;
+                this.shopTypeData = result.data2;
+              } else {
+                this.$message({
+                  message: '获取数据出错，请重新尝试',
+                  type: 'error'
+                });
+              }
+              NProgress.done();
+            })
+            .catch(e => {
+              NProgress.done();
               this.$message({
                 message: '获取数据出错，请重新尝试',
                 type: 'error'
               });
-            }
-            NProgress.done();
-          })
-          .catch(e => {
-            NProgress.done();
-            this.$message({
-              message: '获取数据出错，请重新尝试',
-              type: 'error'
             });
-          });
+        } else {
+          getShopInfo(this.axios, userid)
+            .then(response => {
+              let result = response.data;
+              if (result.statusCode === STATUS_SUCCESS) {
+                this.isDisabled = false;
+                this.currentTab= 'info';
+                this.shopInfo = result.data;
+                this.shopGradeData = result.data1;
+                this.shopTypeData = result.data2;
+              } else {
+                this.$message({
+                  message: '获取数据出错，请重新尝试',
+                  type: 'error'
+                });
+              }
+              NProgress.done();
+            })
+            .catch(e => {
+              NProgress.done();
+              this.$message({
+                message: '获取数据出错，请重新尝试',
+                type: 'error'
+              });
+            });
+        }
       },
       clickTab(tab) {
         this.isDisabled = true;
