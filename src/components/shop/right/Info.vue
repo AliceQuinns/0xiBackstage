@@ -1,47 +1,47 @@
 <template>
   <el-form :model="shopInfo" ref="shopInfo" label-width="140px">
     <el-form-item label="店主用户名" >
-      <el-col :span="5">
+      <el-col :span="8">
         <a href="" target="_blank">{{ shopInfo.user }}</a>
       </el-col>
     </el-form-item>
     <el-form-item label="商铺名称" >
-      <el-col :span="5">
+      <el-col :span="8">
         <a href="" target="_blank">{{ shopInfo.company }}</a>
       </el-col>
     </el-form-item>
     <el-form-item label="地址" >
-      <el-col :span="5">
+      <el-col :span="8">
         {{ shopInfo.addr }}
       </el-col>
     </el-form-item>
     <el-form-item label="联系电话" >
-      <el-col :span="5">
+      <el-col :span="8">
         {{ shopInfo.tel }}
       </el-col>
     </el-form-item>
     <el-form-item label="主营商品" >
-      <el-col :span="5">
+      <el-col :span="8">
         {{ shopInfo.main_pro }}
       </el-col>
     </el-form-item>
     <el-form-item label="创店时间" >
-      <el-col :span="5">
+      <el-col :span="8">
         {{ shopInfo.create_time | formatTime }}
       </el-col>
     </el-form-item>
     <el-form-item label="商品数量" >
-      <el-col :span="5">
+      <el-col :span="8">
         {{ shopInfo.productCount }}
       </el-col>
     </el-form-item>
     <el-form-item label="收藏数量" >
-      <el-col :span="5">
+      <el-col :span="8">
         {{ shopInfo.shop_collect }}
       </el-col>
     </el-form-item>
     <el-form-item label="访问数量" >
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="shopInfo.view_times"></el-input>
       </el-col>
     </el-form-item>
@@ -51,7 +51,7 @@
         type="daterange"
         align="left"
         placeholder="选择日期范围"
-        :picker-options="pickerOptions2">
+        :picker-options="pickerOptions">
       </el-date-picker>
     </el-form-item>
     <el-form-item label="店铺等级" >
@@ -65,22 +65,19 @@
       </el-select>
     </el-form-item>
     <el-form-item label="店铺分类">
-      <el-select v-model="shopInfo.catid" placeholder="请选择">
-        <el-option
-          v-for="item in typeData"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id">
-        </el-option>
-      </el-select>
+      <el-cascader
+        :options="actualTypeData"
+        :props="props"
+        v-model="shopCate"
+      ></el-cascader>
     </el-form-item>
     <el-form-item label="保证金" >
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="shopInfo.earnest"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item label="pos押金" >
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="shopInfo.pos_deposit"></el-input>
       </el-col>
     </el-form-item>
@@ -99,27 +96,27 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="平台提取佣金比率" v-if="!isDistribution">
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="plantformMission"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item label="一级店铺佣金比率" v-if="!isDistribution">
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="rate1Mission"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item label="二级店铺佣金比率" v-if="!isDistribution">
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="rate2Mission"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item label="三级店铺佣金比率" v-if="!isDistribution">
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="rate3Mission"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item label="店铺顶级域名">
-      <el-col :span="5">
+      <el-col :span="8">
         <el-input v-model="shopInfo.domin"></el-input>
       </el-col>
     </el-form-item>
@@ -152,7 +149,7 @@
     },
     data() {
       return {
-        pickerOptions2: {
+        pickerOptions: {
           shortcuts: [{
             text: '最近一周',
             onClick(picker) {
@@ -179,9 +176,26 @@
             }
           }]
         },
+        props: {
+          value: 'id',
+          label: 'name',
+          children: 'shscTwoShopCatList'
+        },
       }
     },
     computed: {
+      shopCate() {
+        return [Number(this.shopInfo.catid)];
+      },
+      actualTypeData() {
+        let data = [...this.typeData];
+        data.forEach(v => {
+          if (v.shscTwoShopCatList.length <= 0) {
+            delete v.shscTwoShopCatList;
+          }
+        });
+        return data;
+      },
       expiryDate() {
         let start = this.shopInfo.stime*1000;
         let end = this.shopInfo.etime*1000;
@@ -191,16 +205,28 @@
         return this.shopInfo.shop_type === 1 ? true : false;
       },
       plantformMission() {
-        return this.isDistribution ? '' : shopInfo.shscDistributionCommissionShop.commission_shop_rate_plantform;
+        if (this.shopInfo.shscDistributionCommissionShop) {
+          return this.shopInfo.shscDistributionCommissionShop.commission_shop_rate_plantform;
+        }
+        return '';
       },
       rate1Mission() {
-        return this.isDistribution ? '' : shopInfo.shscDistributionCommissionShop.commission_shop_rate_0;
+        if (this.shopInfo.shscDistributionCommissionShop) {
+          return this.shopInfo.shscDistributionCommissionShop.commission_shop_rate_0;
+        }
+        return '';
       },
       rate2Mission() {
-        return this.isDistribution ? '' : shopInfo.shscDistributionCommissionShop.commission_shop_rate_1;
+        if (this.shopInfo.shscDistributionCommissionShop) {
+          return this.shopInfo.shscDistributionCommissionShop.commission_shop_rate_1;
+        }
+        return '';
       },
       rate3Mission() {
-        return this.isDistribution ? '' : shopInfo.shscDistributionCommissionShop.commission_shop_rate_2;
+        if (this.shopInfo.shscDistributionCommissionShop) {
+          return this.shopInfo.shscDistributionCommissionShop.commission_shop_rate_2;
+        }
+        return '';
       },
     },
 //    data() {
@@ -248,7 +274,7 @@
 //          label: '北京烤鸭'
 //        }],
 //        value: '',
-//        pickerOptions2: {
+//        pickerOptions: {
 //          shortcuts: [{
 //            text: '最近一周',
 //            onClick(picker) {

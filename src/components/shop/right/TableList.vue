@@ -72,7 +72,7 @@
       </el-table-column>
     </el-table>
     <div style="margin-top: 20px" class="clearfix">
-      <el-button @click="deleteItem">删除</el-button>
+      <el-button @click="deleteItem" type="danger">删除</el-button>
       <el-pagination
         class="pagination"
         @current-change="handleCurrentChange"
@@ -171,7 +171,7 @@
         this.$emit('change-page', val);
       },
       handleEdit(index, row) {
-        this.$emit('edit', row.userid);
+        this.$emit('edit', row.userid, row.shop_type);
       },
     },
     filters: {
