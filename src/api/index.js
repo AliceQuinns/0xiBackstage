@@ -195,5 +195,11 @@ export let removeGetStoreNews = (axios, data) => axios.post('http://192.168.1.14
  * @param data
  */
 export let addgetStoreNews = (axios, data) => axios.post('http://192.168.1.146:8080/shscSjTjWeiAddORModify', qs.stringify(data));
+/**
+ * 查询发货地址列表
+ * @param axios
+ * @param data
+ */
+export let goodsAddress = axios => axios.get('http://192.168.1.146:8080/shscShippingAddressSelectAll');
 // ============================================= shop 接口结束 ==========================================
 
