@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col>
         <div class="container">
-          <h3>店铺分类</h3>
+          <h3>店铺</h3>
           <el-tabs type="border-card">
             <el-tab-pane>
               <span slot="label"><i class="el-icon-date"></i> 管理</span>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-  // TODO 没有指数，也就不需要选中和提交的功能
   import Search from './Search.vue'
   import TableList from './TableList.vue'
   import Info from './Info.vue'
