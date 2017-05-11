@@ -177,5 +177,23 @@ export let addStoreModuleMobile = (axios, data) => axios.post('http://192.168.1.
  * @param data
  */
 export let modifyStoreModuleMobile = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopSjTemplateUpdate', qs.stringify(data));
+/**
+ * 店铺新闻推荐位列表
+ * @param axios
+ * @param data
+ */
+export let getStoreNews = axios => axios.get('http://192.168.1.146:8080/shscSjTjWeiList');
+/**
+ * 删除店铺新闻推荐位
+ * @param axios
+ * @param data
+ */
+export let removeGetStoreNews = (axios, data) => axios.post('http://192.168.1.146:8080/shscSjTjWeiDelete', qs.stringify(data));
+/**
+ * 增加或修改新闻推荐位
+ * @param axios
+ * @param data
+ */
+export let addgetStoreNews = (axios, data) => axios.post('http://192.168.1.146:8080/shscSjTjWeiAddORModify', qs.stringify(data));
 // ============================================= shop 接口结束 ==========================================
 

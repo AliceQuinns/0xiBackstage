@@ -7,13 +7,13 @@
           <el-tabs type="border-card" v-model="currentTab" @tab-click="clickTab">
             <el-tab-pane name="list">
               <span slot="label"><i class="el-icon-date"></i> 管理</span>
-              <search @change-condition="changeCondition"></search>
+              <search @change-condition="changeCondition" :show-time="isShowTime"></search>
               <table-list :table-data="tableData" :total="total" @change-page="changePage"
                           @edit="editInfo"></table-list>
             </el-tab-pane>
             <el-tab-pane :disabled="isDisabled" name="info">
               <span slot="label"><i class="el-icon-edit"></i> 修改</span>
-              <info :info="info"></info>
+              <info :shop-info="shopInfo" :grade-data="shopGradeData" :type-data="shopTypeData"></info>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -23,11 +23,10 @@
 </template>
 
 <script>
-  // TODO 店铺信息的接口缺失
   import Search from './Search.vue'
   import TableList from './TableList.vue'
   import Info from './Info.vue'
-  import { getAllShopInfo, getShopInfo } from '../../../api/index'
+  import { getAllShopInfo, getDistributionInfo } from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
@@ -37,10 +36,11 @@
         total: 10,
         isDisabled: true,
         search: '',
-        shopInfo: [],
+        shopInfo: {},
         shopGradeData: [],
         shopTypeData: [],
         currentTab: 'list',
+        isShowTime: true,
       }
     },
     methods: {
@@ -80,9 +80,8 @@
         this.fetchData(condition);
       },
       editInfo(userid) {
-        console.log(userid);
-        /*NProgress.start();
-        getShopInfo(this.axios, userid)
+        NProgress.start();
+        getDistributionInfo(this.axios, userid)
           .then(response => {
             let result = response.data;
             if (result.statusCode === STATUS_SUCCESS) {
@@ -105,7 +104,7 @@
               message: '获取数据出错，请重新尝试',
               type: 'error'
             });
-          });*/
+          });
       },
       clickTab(tab) {
         this.isDisabled = true;

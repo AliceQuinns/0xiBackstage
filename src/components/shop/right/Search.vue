@@ -6,7 +6,7 @@
     <el-form-item label="商铺名称">
       <el-input v-model="searchForm.company" placeholder="商铺名称"></el-input>
     </el-form-item>
-    <el-form-item label="创建时间">
+    <el-form-item label="创建时间" v-if="showTime">
       <el-date-picker
         v-model="searchForm.time"
         type="daterange"
@@ -38,6 +38,11 @@
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
     name: 'search',
+    props: {
+      showTime: {
+        type: Boolean,
+      },
+    },
     data() {
       return {
         searchForm: {
