@@ -141,81 +141,86 @@
 
 <script>
   export default {
-    data() {
-      return {
-        name: 'info',
-        shopInfo: {
-          user: 'Hello World',
-          company: 'love',
-          area: '广东省深圳市宝安区',
-          tel: '13100000000',
-          main_pro: '瓷砖',
-          create_time: '2017-05-06',
-          productCount: 0,
-          shop_collect: 0,
-          view_times: 1200,
-          duration: '',
-          grade: '白金店铺',
-          greades: [],
-          catid: 1,
-          catids: [],
-          earnest: '0.00',
-          pos_deposit: '0.00',
-          shop_statu: 0,
-          commission_shop_rate_plantform: 0,
-          commission_shop_rate_0: 0,
-          commission_shop_rate_1: 0,
-          commission_shop_rate_2: 0,
-          domin: 'baidu.com',
-          statu: 0,
-        },
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: '',
-        pickerOptions2: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
-        value7: ''
-      };
+    props: {
+      info: {
+        type: Array,
+      },
     },
+//    data() {
+//      return {
+//        name: 'info',
+//        shopInfo: {
+//          user: 'Hello World',
+//          company: 'love',
+//          area: '广东省深圳市宝安区',
+//          tel: '13100000000',
+//          main_pro: '瓷砖',
+//          create_time: '2017-05-06',
+//          productCount: 0,
+//          shop_collect: 0,
+//          view_times: 1200,
+//          duration: '',
+//          grade: '白金店铺',
+//          greades: [],
+//          catid: 1,
+//          catids: [],
+//          earnest: '0.00',
+//          pos_deposit: '0.00',
+//          shop_statu: 0,
+//          commission_shop_rate_plantform: 0,
+//          commission_shop_rate_0: 0,
+//          commission_shop_rate_1: 0,
+//          commission_shop_rate_2: 0,
+//          domin: 'baidu.com',
+//          statu: 0,
+//        },
+//        options: [{
+//          value: '选项1',
+//          label: '黄金糕'
+//        }, {
+//          value: '选项2',
+//          label: '双皮奶'
+//        }, {
+//          value: '选项3',
+//          label: '蚵仔煎'
+//        }, {
+//          value: '选项4',
+//          label: '龙须面'
+//        }, {
+//          value: '选项5',
+//          label: '北京烤鸭'
+//        }],
+//        value: '',
+//        pickerOptions2: {
+//          shortcuts: [{
+//            text: '最近一周',
+//            onClick(picker) {
+//              const end = new Date();
+//              const start = new Date();
+//              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+//              picker.$emit('pick', [start, end]);
+//            }
+//          }, {
+//            text: '最近一个月',
+//            onClick(picker) {
+//              const end = new Date();
+//              const start = new Date();
+//              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+//              picker.$emit('pick', [start, end]);
+//            }
+//          }, {
+//            text: '最近三个月',
+//            onClick(picker) {
+//              const end = new Date();
+//              const start = new Date();
+//              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+//              picker.$emit('pick', [start, end]);
+//            }
+//          }]
+//        },
+//        value7: ''
+//      };
+//    },
     methods: {
       submitForm(formuser) {
         this.$refs[formuser].validate((valid) => {

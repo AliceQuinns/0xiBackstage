@@ -4,15 +4,16 @@
       <el-col>
         <div class="container">
           <h3>店铺</h3>
-          <el-tabs type="border-card">
-            <el-tab-pane>
+          <el-tabs type="border-card" v-model="currentTab" @tab-click="clickTab">
+            <el-tab-pane name="list">
               <span slot="label"><i class="el-icon-date"></i> 管理</span>
               <search @change-condition="changeCondition"></search>
-              <table-list :table-data="tableData" :total="total" @change-page="changePage"></table-list>
+              <table-list :table-data="tableData" :total="total" @change-page="changePage"
+                          @edit="editInfo"></table-list>
             </el-tab-pane>
-            <el-tab-pane :disabled="isDisabled">
+            <el-tab-pane :disabled="isDisabled" name="info">
               <span slot="label"><i class="el-icon-edit"></i> 修改</span>
-              修改
+              <info :info="info"></info>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -22,10 +23,11 @@
 </template>
 
 <script>
+  // TODO 店铺信息的接口缺失
   import Search from './Search.vue'
   import TableList from './TableList.vue'
   import Info from './Info.vue'
-  import { getAllShopInfo } from '../../../api/index'
+  import { getAllShopInfo, getShopInfo } from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
@@ -35,10 +37,15 @@
         total: 10,
         isDisabled: true,
         search: '',
+        shopInfo: [],
+        shopGradeData: [],
+        shopTypeData: [],
+        currentTab: 'list',
       }
     },
     methods: {
       fetchData(search) {
+        NProgress.start();
         getAllShopInfo(this.axios, search)
           .then(response => {
             let result = response.data;
@@ -62,10 +69,46 @@
           });
       },
       changePage(page) {
-        console.log(page);
+        if (this.search) {
+          this.fetchData(this.search + '&page=' + page)
+        } else {
+          this.fetchData('?page=' + page)
+        }
       },
       changeCondition(condition) {
-        console.log(condition);
+        this.search = condition;
+        this.fetchData(condition);
+      },
+      editInfo(userid) {
+        console.log(userid);
+        /*NProgress.start();
+        getShopInfo(this.axios, userid)
+          .then(response => {
+            let result = response.data;
+            if (result.statusCode === STATUS_SUCCESS) {
+              this.isDisabled = false;
+              this.currentTab= 'info';
+              this.shopInfo = result.data;
+              this.shopGradeData = result.data1;
+              this.shopTypeData = result.data2;
+            } else {
+              this.$message({
+                message: '获取数据出错，请重新尝试',
+                type: 'error'
+              });
+            }
+            NProgress.done();
+          })
+          .catch(e => {
+            NProgress.done();
+            this.$message({
+              message: '获取数据出错，请重新尝试',
+              type: 'error'
+            });
+          });*/
+      },
+      clickTab(tab) {
+        this.isDisabled = true;
       },
     },
     created() {

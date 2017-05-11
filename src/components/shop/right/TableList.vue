@@ -8,7 +8,6 @@
       style="width: 100%"
       @selection-change="handleSelectionChange">
       <el-table-column
-        v-if="isShowIndex"
         type="selection"
         width="55">
       </el-table-column>
@@ -73,7 +72,7 @@
       </el-table-column>
     </el-table>
     <div style="margin-top: 20px" class="clearfix">
-      <el-button @click="submit" v-if="isShowIndex">提交</el-button>
+      <el-button @click="deleteItem">删除</el-button>
       <el-pagination
         class="pagination"
         @current-change="handleCurrentChange"
@@ -88,6 +87,9 @@
 
 <script>
   import { formatDate } from '../../../common/js/util'
+  import { deleteShop } from '../../../api/index'
+  import NProgress from 'nprogress'
+  import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
     name: 'tableList',
     props: {
@@ -106,8 +108,61 @@
       }
     },
     methods: {
-      submit() {
-        console.log('tijiao');
+      deleteItem() {
+        if (this.multipleSelection.length <= 0) {
+          this.$message({
+            message: '请选择要删除的项目',
+            type: 'info'
+          });
+        } else {
+          let idArr = [];
+          this.multipleSelection.forEach(v => {
+            idArr.push(v.userid);
+          });
+          this.$confirm('此操作将永久删除该管理员, 是否继续?', '警告', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            NProgress.start();
+            deleteShop(this.axios, {userid: idArr.join(',')})
+              .then(response => {
+                let result = response.data;
+                if (result.statusCode === STATUS_SUCCESS) {
+                  this.multipleSelection.forEach(v => {
+                    for (let i = 0; i < this.tableData.length; i++) {
+                      if (v.userid === this.tableData[i].userid) {
+                        this.tableData.splice(i, 1);
+                        break;
+                      }
+                    }
+                  });
+                  this.$message({
+                    message: '成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message({
+                    message: '失败，请重试',
+                    type: 'info'
+                  });
+                }
+                NProgress.done();
+              })
+              .catch(e => {
+                NProgress.done();
+                this.$message({
+                  message: '出现未知错误，请重试',
+                  type: 'error'
+                });
+              });
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        }
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -116,10 +171,7 @@
         this.$emit('change-page', val);
       },
       handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
+        this.$emit('edit', row.userid);
       },
     },
     filters: {

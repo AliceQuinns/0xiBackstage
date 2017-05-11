@@ -16,7 +16,7 @@
       </el-date-picker>
     </el-form-item>
     <el-form-item label="商铺分类">
-      <el-select v-model="searchForm.shopType" placeholder="商铺分类">
+      <el-select v-model="searchForm.catid" placeholder="商铺分类" clearable>
         <el-option
           v-for="item in shopTypeData"
           :key="item.id"
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+  import { formatDate } from '../../../common/js/util'
   import { getShopType } from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
@@ -42,7 +43,7 @@
         searchForm: {
           user: '',
           company: '',
-          shopType: '',
+          catid: '',
           time: '',
         },
         shopTypeData: [],
@@ -77,6 +78,7 @@
     },
     methods: {
       fetchData() {
+        NProgress.start();
         getShopType(this.axios)
           .then(response => {
             let result = response.data;
@@ -100,9 +102,16 @@
           });
       },
       goSearch() {
-        // TODO 是否可以没有查询条件也放到参数里面
-        // let condition = `?user=${this.searchForm.user}&company=${this.searchForm.company}`
-        this.$emit('change-condition', this.searchForm);
+        let condition = `?user=${this.searchForm.user}&company=${this.searchForm.company}&catid=${this.searchForm.catid}`;
+        if (this.searchForm.time && this.searchForm.time[0]) {
+          let start = this.searchForm.time[0];
+          let end = this.searchForm.time[1];
+          condition = condition + '&startTime=' + formatDate(start, 'yyyy-MM-dd') + '&endTime=' + formatDate(end,
+              'yyyy-MM-dd');
+        } else {
+          condition = condition + '&startTime=&endTime='
+        }
+        this.$emit('change-condition', condition);
       },
     },
     created() {
