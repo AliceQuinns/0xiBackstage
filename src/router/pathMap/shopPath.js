@@ -13,6 +13,6 @@ export const shopChildRouter = [
   {path: 'template', component: Template},
   {path: 'manage', component: Manage},
   {path: 'mtemplate', component: Mtemplate},
-  {path: 'newsRecommendation', component: NewsRecommendation},
+  {path: 'newsrecommendation', component: NewsRecommendation},
   {path: 'distribution', component: Distribution},
 ];
