@@ -69,7 +69,6 @@
     },
     methods: {
       handleDelete(index, row) {
-        // TODO 将这类的功能封装为公共的函数
         this.$confirm('此操作将永久删除该管理员, 是否继续?', '警告', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
