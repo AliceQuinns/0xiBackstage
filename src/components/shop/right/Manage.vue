@@ -13,7 +13,8 @@
             </el-tab-pane>
             <el-tab-pane :disabled="isDisabled" name="info">
               <span slot="label"><i class="el-icon-edit"></i> 修改</span>
-              <info :shop-info="shopInfo" :grade-data="shopGradeData" :type-data="shopTypeData"></info>
+              <info :shop-info="shopInfo" :grade-data="shopGradeData" :type-data="shopTypeData"
+                    @distribution="handleDist" @normal="handleNormal"></info>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -26,7 +27,7 @@
   import Search from './Search.vue'
   import TableList from './TableList.vue'
   import Info from './Info.vue'
-  import { getAllShopInfo, getDistributionInfo, getShopInfo } from '../../../api/index'
+  import { getAllShopInfo, getDistributionInfo, getShopInfo, editNormal, editDist } from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
@@ -44,6 +45,16 @@
       }
     },
     methods: {
+      fixDigit(val) {
+        if (val || val === 0) {
+          return val.toFixed(2);
+        }
+      },
+      formatTimeData(s, e) {
+        let start = s*1000;
+        let end = e*1000;
+        return [start, end];
+      },
       fetchData(search) {
         NProgress.start();
         getAllShopInfo(this.axios, search)
@@ -88,6 +99,11 @@
               if (result.statusCode === STATUS_SUCCESS) {
                 this.isDisabled = false;
                 this.currentTab= 'info';
+                // 处理好数据再传给子组件
+                result.data.earnest = this.fixDigit(result.data.earnest);
+                result.data.pos_deposit = this.fixDigit(result.data.pos_deposit);
+                result.data.catid = [Number(result.data.catid)];
+                result.data.duration = this.formatTimeData(result.data.stime, result.data.etime);
                 this.shopInfo = result.data;
                 this.shopGradeData = result.data1;
                 this.shopTypeData = result.data2;
@@ -113,6 +129,15 @@
               if (result.statusCode === STATUS_SUCCESS) {
                 this.isDisabled = false;
                 this.currentTab= 'info';
+                // 处理好数据再传给子组件
+                result.data.earnest = this.fixDigit(result.data.earnest);
+                result.data.pos_deposit = this.fixDigit(result.data.pos_deposit);
+                result.data.catid = [Number(result.data.catid)];
+                result.data.duration = this.formatTimeData(result.data.stime, result.data.etime);
+                result.data.plantformMission = result.data.shscDistributionCommissionShop.commission_shop_rate_plantform;
+                result.data.rate1Mission = result.data.shscDistributionCommissionShop.commission_shop_rate_0;
+                result.data.rate2Mission = result.data.shscDistributionCommissionShop.commission_shop_rate_1;
+                result.data.rate3Mission = result.data.shscDistributionCommissionShop.commission_shop_rate_2;
                 this.shopInfo = result.data;
                 this.shopGradeData = result.data1;
                 this.shopTypeData = result.data2;
@@ -135,6 +160,62 @@
       },
       clickTab(tab) {
         this.isDisabled = true;
+      },
+      handleDist(data) {
+        editDist(this.axios, data)
+          .then(response => {
+            let result = response.data;
+            if (result.statusCode === STATUS_SUCCESS) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              });
+              this.isDisabled = true;
+              this.currentTab = 'list';
+            } else {
+              this.$message({
+                message: '失败，请重试',
+                type: 'info'
+              });
+            }
+            NProgress.done();
+          })
+          .catch(e => {
+            console.log(e);
+            NProgress.done();
+            this.$message({
+              message: '出现未知错误，请重试',
+              type: 'error'
+            });
+          });
+      },
+      handleNormal(data) {
+        editNormal(this.axios, data)
+          .then(response => {
+            let result = response.data;
+            if (result.statusCode === STATUS_SUCCESS) {
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              });
+              this.isDisabled = true;
+              this.currentTab = 'list';
+            } else {
+              this.$message({
+                message: '失败，请重试',
+                type: 'info'
+              });
+            }
+            NProgress.done();
+          })
+          .catch(e => {
+            console.log(e);
+            NProgress.done();
+            this.$message({
+              message: '出现未知错误，请重试',
+              type: 'error'
+            });
+          });
       },
     },
     created() {

@@ -131,6 +131,18 @@ export let getDistributionInfo = (axios, userid) => axios.get(`http://192.168.1.
  */
 export let getShopInfo = (axios, userid) => axios.get(`http://192.168.1.146:8080/shscShopId?userid=${userid}`);
 /**
+ * 编辑分销店铺
+ * @param axios
+ * @param data
+ */
+export let editDist = (axios, data) => axios.post('http://192.168.1.146:8080/shscDistributionShopModify', qs.stringify(data));
+/**
+ * 编辑商家店铺
+ * @param axios
+ * @param data
+ */
+export let editNormal = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopModify', qs.stringify(data));
+/**
  * 店铺管理删除店铺
  * @param axios
  * @param data
