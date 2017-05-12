@@ -7,7 +7,7 @@
 
           <!-- 表格 -->
           <el-table
-            :data="tableData.data"
+            :data="tableData.shscActivityList"
             scopeone="scope"
             border
             ref="multipleTable"
@@ -20,54 +20,46 @@
               width="55">
             </el-table-column>
 
-            <!--店铺ID-->
+            <!--活动名称-->
             <el-table-column
-              prop="userid"
-              label="店铺ID"
-              width="80">
+              prop="activityName"
+              label="活动名称">
             </el-table-column>
 
-            <!--店主用户名-->
+            <!--活动商家-->
             <el-table-column
-              prop="shscMember.user"
-              label="店主用户名">
+              prop="shopName"
+              label="活动商家">
             </el-table-column>
 
-            <!--店铺名称-->
+            <!--活动商家电话-->
             <el-table-column
-              prop="company"
-              label="店铺名称">
+              prop="shopIphone"
+              label="活动商家电话">
             </el-table-column>
 
-            <!--收货人-->
+            <!--预约用户名称-->
             <el-table-column
               prop="name"
-              label="收货人">
+              label="预约用户名称">
             </el-table-column>
 
-            <!--所在地址-->
+            <!--预约用户电话-->
             <el-table-column
-              prop="areaaddr"
-              label="所在地址"
-              width="300">
+              prop="iphone"
+              label="预约用户电话">
             </el-table-column>
 
-            <!--电话-->
+            <!--预约会员-->
             <el-table-column
-              prop="tel"
-              label="电话">
+              prop="username"
+              label="预约会员">
             </el-table-column>
 
-            <!--手机-->
+            <!--添加时间-->
             <el-table-column
               prop="mobile"
-              label="手机">
-            </el-table-column>
-
-            <!--邮编-->
-            <el-table-column
-              prop="post"
-              label="邮编">
+              label="添加时间">
             </el-table-column>
 
             <!--操作-->
@@ -89,7 +81,7 @@
           </el-table>
 
           <!-- 批量删除按钮 -->
-          <div class="btn-group">
+          <div style="margin-top: 20px;">
             <el-button
               type="danger"
               :plain="true"
@@ -97,17 +89,13 @@
               @click="deleteItem()">
               删除
             </el-button>
-          </div>
-
-          <!-- 分页 -->
-          <div class="block">
             <el-pagination
-              @size-change="handleSizeChange"
+              class="pagination"
               @current-change="handleCurrentChange"
-              :current-page.sync="currentPage3"
-              :page-size="pageSize"
+              :current-page.sync="currentPage"
+              :page-size="10"
               layout="prev, pager, next, jumper"
-              :total="tableData.total">
+              :total="total">
             </el-pagination>
           </div>
         </div>
@@ -119,21 +107,48 @@
 <script>
   /* 接口 */
   import NProgress from 'nprogress'
-  import { goodsAddress,deletegoodsAddress, } from '../../../api/index'
+  import { reservedUser,deletereservedUser, } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
 
   export default {
     data() {
       return {
         total: 10,/* 每页显示 */
-        pageSize: 10,/* 每页显示 */
         tableData: [],/* 全部表格数据 */
         tableDataPage: [],/* 逻辑分页后表格*/
         multipleSelection: [],/* 批量删除复选框 */
-        currentPage3: 1,/* 分页默认显示页码 */
+        currentPage: 1,/* 分页默认显示页码 */
       }
     },
     methods: {
+      fetchData(page) {
+        /* 查询店铺发货地址 */
+        NProgress.start();
+        reservedUser(this.axios , page)
+          .then(
+            response => {
+              let groups = response.data;
+              if (groups.statusCode === STATUS_SUCCESS) {
+                this.total = groups.total;
+                this.tableData = groups.data;
+                /*for (let i = 0; i<this.tableData.data.length;i++) {
+                  var text = this.tableData.data[i].area+this.tableData.data[i].addr;
+                  this.tableData.data[i].areaaddr = text;
+                  this.total = Number(groups.data.total);
+                };*/
+                console.log(this.tableData);
+              }
+              NProgress.done();
+            })
+          .catch(e => {
+            this.$message({
+              message: '获取数据出错，请重新尝试',
+              type: 'error'
+            });
+            console.log(e);
+            NProgress.done();
+          });
+      },
       /* 获取复选框 */
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -147,11 +162,11 @@
           type: 'warning'
         }).then(() => {
           NProgress.start();
-          deletegoodsAddress(this.axios, {id: Number(row.id)})
+          deletereservedUser(this.axios, {id: Number(row.id)})
             .then(response => {
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
-                this.tableData.data.splice(index, 1);
+                this.tableData.shscActivityList.splice(index, 1);
                 this.$message({
                   message: '删除成功',
                   type: 'success'
@@ -196,22 +211,21 @@
             var select= this.multipleSelection[i].id;
             selectGroup.push(select);
           }
-          console.log(selectGroup.join(','));
           this.$confirm('此操作将永久删除该店铺发货地址, 是否继续?', '警告', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
             NProgress.start();
-            deletegoodsAddress(this.axios, {id: selectGroup.join(',')})
+            deletereservedUser(this.axios, {id: selectGroup.join(',')})
               .then(response => {
                 let result = response.data;
                 if (result.statusCode === STATUS_SUCCESS) {
                   /* 前端删除 */
                   this.multipleSelection.forEach(v => {
-                    for (let i = 0; i < this.tableData.data.length; i++) {
-                      if (v.id === this.tableData.data[i].id) {
-                        this.tableData.data.splice(i, 1);
+                    for (let i = 0; i < this.tableData.shscActivityList.length; i++) {
+                      if (v.id === this.tableData.shscActivityList[i].id) {
+                        this.tableData.shscActivityList.splice(i, 1);
                         break;
                       }
                     }
@@ -245,72 +259,16 @@
       },
 
       /* 分页 */
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
       handleCurrentChange(val) {
-        /*var pageA = val - 1;
-         var pageB = val + 9;
-         this.tableDataPage = this.tableData.data.slice(pageA,pageB);*/
-        NProgress.start();
-        goodsAddress(this.axios, val)
-          .then(response => {
-            let groups = response.data;
-            if (groups.statusCode === STATUS_SUCCESS) {
-              this.tableData = groups.data.data;
-              this.total = Number(groups.data.total);
-              NProgress.done();
-            } else {
-              NProgress.done();
-            }
-          })
-          .catch(e => {
-            NProgress.done();
-          });
+        this.fetchData(val);
       },
     },
     created() {
-      /* 查询店铺发货地址 */
-      NProgress.start();
-      goodsAddress(this.axios , 1)
-        .then(
-          response => {
-            let groups = response.data;
-            if (groups.statusCode === STATUS_SUCCESS) {
-              this.tableData = groups.data;
-              for (let i = 0; i<this.tableData.data.length;i++) {
-                var text = this.tableData.data[i].area+this.tableData.data[i].addr;
-                this.tableData.data[i].areaaddr = text;
-                this.total = Number(groups.data.total);
-              };
-              console.log(this.tableData);
-            }
-            NProgress.done();
-          })
-        .catch(e => {
-          this.$message({
-            message: '获取数据出错，请重新尝试',
-            type: 'error'
-          });
-          console.log(e);
-          NProgress.done();
-        });
+      this.fetchData(1);
     },
   }
 </script>
 
 <style lang="sass" scoped>
-  .nameInput
-    margin: 0.5em
-    max-width: 20em
-    .btn-group
-      display: inline-block
-      margin-top: 1em
-    .deletone
-      margin-top: 0.5em
-      margin-bottom: 0.5em
-    .block
-      display: inline-block
-      float: right
-      margin-top: 1em
+
 </style>

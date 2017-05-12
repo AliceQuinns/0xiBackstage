@@ -360,6 +360,7 @@
           },
           {
             "name": "最新活动用户预约",
+            "path": "/shop/activereservation",
             "id": "a9b7d430ba669ea4c061ef3273138d85"
           }
         ]
