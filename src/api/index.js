@@ -235,14 +235,26 @@ export let addgetStoreNews = (axios, data) => axios.post('http://192.168.1.146:8
 /**
  * 查询发货地址列表
  * @param axios
- * @param data
+ * @param page
  */
-export let goodsAddress = axios => axios.get('http://192.168.1.146:8080/shscShippingAddressSelectAll');
+export let goodsAddress = (axios, page) => axios.get(`http://192.168.1.146:8080/shscShippingAddressSelectAll?page=${page}`);
 /**
  * 删除发货地址
  * @param axios
  * @param data
  */
 export let deletegoodsAddress = (axios, data) => axios.post('http://192.168.1.146:8080/shscShippingAddressDelete', qs.stringify(data));
+/**
+ * 查询最新活动用户预约
+ * @param axios
+ * @param data
+ */
+export let reservedUser = (axios, page) => axios.get(`http://192.168.1.146:8080/shscMemberMakeSelectAll?page=${page}`);
+/**
+ * 删除最新活动用户预约
+ * @param axios
+ * @param data
+ */
+export let deletereservedUser = (axios, data) => axios.post('http://192.168.1.146:8080/shscMemberMakeDelete', qs.stringify(data));
 // ============================================= shop 接口结束 ==========================================
 
