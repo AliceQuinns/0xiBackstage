@@ -4,12 +4,15 @@
       <el-col>
         <div class="container">
           <h3>发货地址</h3>
+
           <!-- 表格 -->
           <el-table
-            :model="tableData"
-            :data="tableData.data"
+            :data="tableDataPage"
             scopeone="scope"
-            style="width: 100%">
+            border
+            ref="multipleTable"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
 
             <!--批量删除-->
             <el-table-column
@@ -20,12 +23,13 @@
             <!--店铺ID-->
             <el-table-column
               prop="userid"
-              label="店铺ID">
+              label="店铺ID"
+              width="80">
             </el-table-column>
 
             <!--店主用户名-->
             <el-table-column
-              prop="user"
+              prop="shscMember.user"
               label="店主用户名">
             </el-table-column>
 
@@ -43,8 +47,9 @@
 
             <!--所在地址-->
             <el-table-column
-              prop="area"
-              label="所在地址">
+              prop="areaaddr"
+              label="所在地址"
+              width="300">
             </el-table-column>
 
             <!--电话-->
@@ -68,33 +73,42 @@
             <!--操作-->
             <el-table-column
               label="操作"
-              width="150">
+              width="100">
               <template
                 scope="scope">
                 <el-button
                   @click.native.prevent="deleteRow(scope.$index, scope.row)"
                   type="danger"
                   icon="delete"
-                  size="small">
+                  size="small"
+                  class="deletone">
                   删除
                 </el-button>
               </template>
             </el-table-column>
           </el-table>
-          <!-- 提交增加按钮 -->
+
+          <!-- 批量删除按钮 -->
           <div class="btn-group">
             <el-button
-              type="primary"
-              @click="addRecommend">
-              <i class="el-icon-star-on"></i>
-              添加
+              type="danger"
+              :plain="true"
+              icon="delete"
+              @click="deleteItem()">
+              删除
             </el-button>
-            <el-button
-              type="success"
-              icon="upload2"
-              @click="submitRecommend(tableData.data)">
-              提交
-            </el-button>
+          </div>
+
+          <!-- 分页 -->
+          <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currentPage3"
+              :page-size="pageSize"
+              layout="prev, pager, next, jumper"
+              :total="tableData.total">
+            </el-pagination>
           </div>
         </div>
       </el-col>
@@ -105,30 +119,35 @@
 <script>
   /* 接口 */
   import NProgress from 'nprogress'
-  import { goodsAddress,removeGetStoreNews,addgetStoreNews, } from '../../../api/index'
+  import { goodsAddress,deletegoodsAddress, } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
 
   export default {
     data() {
       return {
-        tableData: [],
+        pageSize: 10,/* 每页显示 */
+        tableData: [],/* 全部表格数据 */
+        tableDataPage: [],/* 逻辑分页后表格*/
+        multipleSelection: [],/* 批量删除复选框 */
+        currentPage3: 1,/* 分页默认显示页码 */
       }
     },
     methods: {
-      /* 新闻推荐位单条删除 */
+      /* 获取复选框 */
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+
+      /* 单条删除发货地址 */
       deleteRow(index, row) {
-        this.$confirm('此操作将永久删除该店铺新闻推荐位, 是否继续?', '警告', {
+        this.$confirm('此操作将永久删除该店铺发货地址, 是否继续?', '警告', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           NProgress.start();
-          /* 用户删除 已新增 但未提交的推荐位时 */
-          if (row.id == null) {
-            NProgress.done();
-            this.tableData.data.splice(index, 1);
-          }
-          removeGetStoreNews(this.axios, {id: Number(row.id)})
+          console.log(this.tableData.data);
+          deletegoodsAddress(this.axios, {id: Number(row.id)})
             .then(response => {
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
@@ -160,86 +179,95 @@
           });
         });
       },
-      /* 添加新闻推荐位 */
-      addRecommend() {
-        console.log(this.tableData.data);
-        this.tableData.data.push({
-          id: null,
-          name: '请输入推荐位名称',
-        })
-      },
-      /* 提交增加或修改的新闻推荐位 */
-      submitRecommend(formName) {
-        this.$confirm('确认提交您的操作? , 是否继续?', '警告', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          NProgress.start();
-          var formNameText = [];/* 父数组 */
-          for(let i = 0;i < formName.length;i++) {
-            var formId = formName[i].id;
-            var formNameTextChild = [];/* 子数组 */
-            if(formId == null){
-              formId = '0';
-            }
-            formNameTextChild.push(formId);
-            formNameTextChild.push(formName[i].name.toString());
-            var a = formNameTextChild.join(':');
-            formNameText.push(a);
+
+      /* 批量删除 */
+      deleteItem() {
+        /*判断是否有选中*/
+        if (this.multipleSelection.length <= 0) {
+          this.$message({
+            message: '请选择要删除的项目',
+            type: 'info'
+          });
+        } else {
+          /*遍历出选中的id*/
+          var selectGroup = [];
+          var i;
+          for(i = 0; i<this.multipleSelection.length; i++) {
+            var select= this.multipleSelection[i].id;
+            selectGroup.push(select);
           }
-          var param = formNameText.join(',');
-          addgetStoreNews(this.axios,{param})
-            .then(response => {
-              let data = response.data;
-              if (data.statusCode === STATUS_SUCCESS) {
+          console.log(selectGroup.join(','));
+          this.$confirm('此操作将永久删除该店铺发货地址, 是否继续?', '警告', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            NProgress.start();
+            deletegoodsAddress(this.axios, {id: selectGroup.join(',')})
+              .then(response => {
+                let result = response.data;
+                if (result.statusCode === STATUS_SUCCESS) {
+                  /* 前端删除 */
+                  this.multipleSelection.forEach(v => {
+                    for (let i = 0; i < this.tableData.data.length; i++) {
+                      if (v.id === this.tableData.data[i].id) {
+                        this.tableData.data.splice(i, 1);
+                        break;
+                      }
+                    }
+                  });
+                  this.$message({
+                    message: '删除成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message({
+                    message: '失败，请重试',
+                    type: 'info'
+                  });
+                }
+                NProgress.done();
+              })
+              .catch(e => {
+                NProgress.done();
                 this.$message({
-                  message: '提交成功',
-                  type: 'success'
-                });
-              } else {
-                this.$message({
-                  message: '提交失败',
+                  message: '出现未知错误，请重试',
                   type: 'error'
                 });
-              }
-              NProgress.done();
-            })
-            .catch(e => {
-              this.$message({
-                message: '出现未知错误，请重试',
-                type: 'error'
               });
-              console.log(e);
-              NProgress.done();
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
             });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消提交'
           });
-          NProgress.done();
-        });
+        }
+      },
+
+      /* 分页 */
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        var pageA = val - 1;
+        var pageB = val + 9;
+        this.tableDataPage = this.tableData.data.slice(pageA,pageB);
       },
     },
     created() {
-      /* 查询店铺新闻推荐位列表 */
+      /* 查询店铺发货地址 */
       NProgress.start();
       goodsAddress(this.axios)
         .then(
           response => {
-            let groups =
-              response.data;
+            let groups = response.data;
             if (groups.statusCode === STATUS_SUCCESS) {
-              this.tableData = groups.data;/*
+              this.tableData = groups.data;
               for (let i = 0; i<this.tableData.data.length;i++) {
-                var i = this.tableData.data[i];
-                var areaaddr = i.area + i.addr;
-                i.push(areaaddr);
-                console.log(i);
-              }*/
-              console.log(typeof this.tableData.data[0]);
-              console.log(this.tableData.data.length);
+                var text = this.tableData.data[i].area+this.tableData.data[i].addr;
+                this.tableData.data[i].areaaddr = text;
+              };
+              this.tableDataPage = this.tableData.data.slice(0,10);/* 第一次加载拿10条 */
             }
             NProgress.done();
           })
@@ -259,6 +287,14 @@
   .nameInput
     margin: 0.5em
     max-width: 20em
-    .btn-group
-      margin-top: 1em
+  .btn-group
+    display: inline-block
+    margin-top: 1em
+  .deletone
+    margin-top: 0.5em
+    margin-bottom: 0.5em
+  .block
+    display: inline-block
+    float: right
+    margin-top: 1em
 </style>
