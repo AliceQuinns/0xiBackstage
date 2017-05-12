@@ -7,7 +7,7 @@
 
           <!-- 表格 -->
           <el-table
-            :data="tableDataPage"
+            :data="tableData.data"
             scopeone="scope"
             border
             ref="multipleTable"
@@ -89,7 +89,7 @@
           </el-table>
 
           <!-- 批量删除按钮 -->
-          <div class="btn-group">
+          <div style="margin-top: 20px;">
             <el-button
               type="danger"
               :plain="true"
@@ -97,17 +97,13 @@
               @click="deleteItem()">
               删除
             </el-button>
-          </div>
-
-          <!-- 分页 -->
-          <div class="block">
             <el-pagination
-              @size-change="handleSizeChange"
+              class="pagination"
               @current-change="handleCurrentChange"
-              :current-page.sync="currentPage3"
-              :page-size="pageSize"
+              :current-page.sync="currentPage"
+              :page-size="10"
               layout="prev, pager, next, jumper"
-              :total="tableData.total">
+              :total="total">
             </el-pagination>
           </div>
         </div>
@@ -125,14 +121,42 @@
   export default {
     data() {
       return {
-        pageSize: 10,/* 每页显示 */
+        total: 10,/* 每页显示 */
         tableData: [],/* 全部表格数据 */
         tableDataPage: [],/* 逻辑分页后表格*/
         multipleSelection: [],/* 批量删除复选框 */
-        currentPage3: 1,/* 分页默认显示页码 */
+        currentPage: 1,/* 分页默认显示页码 */
       }
     },
     methods: {
+      fetchData(page) {
+        /* 查询店铺发货地址 */
+        NProgress.start();
+        goodsAddress(this.axios , page)
+          .then(
+            response => {
+              let groups = response.data;
+              if (groups.statusCode === STATUS_SUCCESS) {
+                this.total = groups.total;
+                this.tableData = groups.data;
+                for (let i = 0; i<this.tableData.data.length;i++) {
+                  var text = this.tableData.data[i].area+this.tableData.data[i].addr;
+                  this.tableData.data[i].areaaddr = text;
+                  this.total = Number(groups.data.total);
+                };
+                console.log(this.tableData);
+              }
+              NProgress.done();
+            })
+          .catch(e => {
+            this.$message({
+              message: '获取数据出错，请重新尝试',
+              type: 'error'
+            });
+            console.log(e);
+            NProgress.done();
+          });
+      },
       /* 获取复选框 */
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -146,7 +170,6 @@
           type: 'warning'
         }).then(() => {
           NProgress.start();
-          console.log(this.tableData.data);
           deletegoodsAddress(this.axios, {id: Number(row.id)})
             .then(response => {
               let data = response.data;
@@ -245,56 +268,16 @@
       },
 
       /* 分页 */
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
       handleCurrentChange(val) {
-        var pageA = val - 1;
-        var pageB = val + 9;
-        this.tableDataPage = this.tableData.data.slice(pageA,pageB);
+        this.fetchData(val);
       },
     },
     created() {
-      /* 查询店铺发货地址 */
-      NProgress.start();
-      goodsAddress(this.axios)
-        .then(
-          response => {
-            let groups = response.data;
-            if (groups.statusCode === STATUS_SUCCESS) {
-              this.tableData = groups.data;
-              for (let i = 0; i<this.tableData.data.length;i++) {
-                var text = this.tableData.data[i].area+this.tableData.data[i].addr;
-                this.tableData.data[i].areaaddr = text;
-              };
-              this.tableDataPage = this.tableData.data.slice(0,10);/* 第一次加载拿10条 */
-            }
-            NProgress.done();
-          })
-        .catch(e => {
-          this.$message({
-            message: '获取数据出错，请重新尝试',
-            type: 'error'
-          });
-          console.log(e);
-          NProgress.done();
-        });
+      this.fetchData(1);
     },
   }
 </script>
 
 <style lang="sass" scoped>
-  .nameInput
-    margin: 0.5em
-    max-width: 20em
-  .btn-group
-    display: inline-block
-    margin-top: 1em
-  .deletone
-    margin-top: 0.5em
-    margin-bottom: 0.5em
-  .block
-    display: inline-block
-    float: right
-    margin-top: 1em
+
 </style>
