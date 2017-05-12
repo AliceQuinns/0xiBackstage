@@ -27,7 +27,7 @@
   import Search from './Search.vue'
   import TableList from './TableList.vue'
   import Info from './Info.vue'
-  import { getAllDistInfo, getDistributionInfo, getShopInfo, editNormal, editDist } from '../../../api/index'
+  import { getAllNormalInfo, getDistributionInfo, getShopInfo, editNormal, editDist } from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
@@ -41,7 +41,7 @@
         shopGradeData: [],
         shopTypeData: [],
         currentTab: 'list',
-        isShowTime: false,
+        isShowTime: true,
       }
     },
     methods: {
@@ -57,7 +57,7 @@
       },
       fetchData(search) {
         NProgress.start();
-        getAllDistInfo(this.axios, search)
+        getAllNormalInfo(this.axios, search)
           .then(response => {
             let result = response.data;
             if (result.statusCode === STATUS_SUCCESS) {

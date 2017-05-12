@@ -284,10 +284,12 @@
       },
       {
         "name": "商家店铺",
+        "path": "/shop/normal",
         "id": "d7c229fd7ff46e2e37dc9ddb9759a4e5"
       },
       {
         "name": "已关店铺",
+        "path": "/shop/closed",
         "id": "4ce2d8df977e2f465bd3dee2e4314f6f"
       },
       {

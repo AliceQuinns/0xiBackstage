@@ -6,6 +6,8 @@ import Manage from '../../components/shop/right/Manage.vue'
 import NewsRecommendation from '../../components/shop/right/NewsRecommendation.vue'
 import Distribution from '../../components/shop/right/Distribution.vue'
 import GoodsAddress from '../../components/shop/right/GoodsAddress.vue'
+import Normal from '../../components/shop/right/Normal.vue'
+import Closed from '../../components/shop/right/Closed.vue'
 
 export const shopChildRouter = [
   {path: '', redirect: 'level'},
@@ -17,4 +19,6 @@ export const shopChildRouter = [
   {path: 'newsrecommendation', component: NewsRecommendation},
   {path: 'distribution', component: Distribution},
   {path: 'goodsaddress', component: GoodsAddress},
+  {path: 'normal', component: Normal},
+  {path: 'closed', component: Closed},
 ];

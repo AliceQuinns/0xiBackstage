@@ -149,6 +149,19 @@ export let editNormal = (axios, data) => axios.post('http://192.168.1.146:8080/s
  */
 export let deleteShop = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopDelete', qs.stringify(data));
 /**
+ * 获取分销店铺的信息
+ * @param axios
+ * @param search
+ */
+export let getAllDistInfo = (axios, search) => axios.get(`http://192.168.1.146:8080/shscDistributionShopManagerList${search}`);
+/**
+ * 获取所有的商家店铺信息
+ * @param axios
+ * @param search
+ * @param shop_statu=-1 可查询已关店铺
+ */
+export let getAllNormalInfo = (axios, search) => axios.get(`http://192.168.1.146:8080/shscShopManagerList${search}`);
+/**
  * 获取店铺模板
  * @param axios
  */
