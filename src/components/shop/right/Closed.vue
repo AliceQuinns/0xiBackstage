@@ -27,7 +27,7 @@
   import Search from './Search.vue'
   import TableList from './TableList.vue'
   import Info from './Info.vue'
-  import { getAllDistInfo, getDistributionInfo, getShopInfo, editNormal, editDist } from '../../../api/index'
+  import { getAllNormalInfo, getDistributionInfo, getShopInfo, editNormal, editDist } from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
@@ -36,7 +36,7 @@
         tableData: [],
         total: 10,
         isDisabled: true,
-        search: '',
+        search: '?shop_statu=-1',
         shopInfo: {},
         shopGradeData: [],
         shopTypeData: [],
@@ -57,7 +57,7 @@
       },
       fetchData(search) {
         NProgress.start();
-        getAllDistInfo(this.axios, search)
+        getAllNormalInfo(this.axios, search)
           .then(response => {
             let result = response.data;
             if (result.statusCode === STATUS_SUCCESS) {
@@ -80,15 +80,11 @@
           });
       },
       changePage(page) {
-        if (this.search) {
-          this.fetchData(this.search + '&page=' + page)
-        } else {
-          this.fetchData('?page=' + page)
-        }
+        this.fetchData(this.search + '&page=' + page);
       },
       changeCondition(condition) {
-        this.search = condition;
-        this.fetchData(condition);
+        this.search = condition + '&shop_statu=-1';
+        this.fetchData(condition + '&shop_statu=-1');
       },
       editInfo(userid, shopType) {
         NProgress.start();
