@@ -341,6 +341,7 @@
       },
       {
         "name": "发货地址",
+        "path": "/shop/goodsaddress",
         "id": "6df94b14b4abb38b4154504e8186ba48"
       },
       {

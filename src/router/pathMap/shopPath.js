@@ -5,6 +5,7 @@ import Mtemplate from '../../components/shop/right/Mtemplate.vue'
 import Manage from '../../components/shop/right/Manage.vue'
 import NewsRecommendation from '../../components/shop/right/NewsRecommendation.vue'
 import Distribution from '../../components/shop/right/Distribution.vue'
+import GoodsAddress from '../../components/shop/right/GoodsAddress.vue'
 
 export const shopChildRouter = [
   {path: '', redirect: 'level'},
@@ -15,4 +16,5 @@ export const shopChildRouter = [
   {path: 'mtemplate', component: Mtemplate},
   {path: 'newsrecommendation', component: NewsRecommendation},
   {path: 'distribution', component: Distribution},
+  {path: 'goodsaddress', component: GoodsAddress},
 ];
