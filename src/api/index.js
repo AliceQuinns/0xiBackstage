@@ -162,6 +162,12 @@ export let getAllDistInfo = (axios, search) => axios.get(`http://192.168.1.146:8
  */
 export let getAllNormalInfo = (axios, search) => axios.get(`http://192.168.1.146:8080/shscShopManagerList${search}`);
 /**
+ * 获取所有的申请店铺信息
+ * @param axios
+ * @param search
+ */
+export let getAllApplyInfo = (axios, search) => axios.get(`http://192.168.1.146:8080/applyShopList${search}`);
+/**
  * 获取店铺模板
  * @param axios
  */

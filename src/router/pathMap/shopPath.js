@@ -8,6 +8,8 @@ import Distribution from '../../components/shop/right/Distribution.vue'
 import GoodsAddress from '../../components/shop/right/GoodsAddress.vue'
 import Normal from '../../components/shop/right/Normal.vue'
 import Closed from '../../components/shop/right/Closed.vue'
+import Apply from '../../components/shop/right/Apply.vue'
+import Verify from '../../components/shop/right/Verify.vue'
 
 export const shopChildRouter = [
   {path: '', redirect: 'level'},
@@ -21,4 +23,6 @@ export const shopChildRouter = [
   {path: 'goodsaddress', component: GoodsAddress},
   {path: 'normal', component: Normal},
   {path: 'closed', component: Closed},
+  {path: 'apply', component: Apply},
+  {path: 'verify', component: Verify},
 ];

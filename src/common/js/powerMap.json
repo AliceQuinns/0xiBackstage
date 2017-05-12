@@ -294,6 +294,7 @@
       },
       {
         "name": "开店申请",
+        "path": "/shop/apply",
         "id": "f0e70573dee79e0f217e47dd394993f3"
       },
       {
@@ -331,6 +332,7 @@
       },
       {
         "name": "店铺认证",
+        "path": "/shop/verify",
         "id": "a343e04ccda07777e68f1c1963451773"
       },
       {
