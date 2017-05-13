@@ -220,8 +220,8 @@
           if (valid) {
             let data = {
               view_times: this.shopInfo.view_times,
-              stime: formatDate(new Date(this.shopInfo.duration[0]), 'yyyy-MM-dd'),
-              etime: formatDate(new Date(this.shopInfo.duration[1]), 'yyyy-MM-dd'),
+              stime: (new Date(this.shopInfo.duration[0])).getTime()/1000,
+              etime: (new Date(this.shopInfo.duration[1])).getTime()/1000,
               grade: this.shopInfo.grade,
               catid: this.shopInfo.catid[0],
               earnest: parseFloat(this.shopInfo.earnest).toFixed(2),
