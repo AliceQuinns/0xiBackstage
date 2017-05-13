@@ -239,6 +239,7 @@
       },
       {
         "name": "会员等级",
+        "path": "/member/membershiplevel",
         "id": "714c2566c2ade418b3cb8a25c7b15378"
       },
       {

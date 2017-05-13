@@ -279,5 +279,34 @@ export let obtainAddress = (axios, page) => axios.get(`http://192.168.1.146:8080
  * @param data
  */
 export let deleteAddress = (axios, data) => axios.post('http://192.168.1.146:8080/deliveryAddressListDelete', qs.stringify(data));
-
+/**
+ * 查询所有会员等级
+ * @param axios
+ * @param data
+ */
+export let membershipLevel = axios => axios.get('http://192.168.1.146:8080/memberGradeList');
+/**
+ * 获取单个会员等级
+ * @param axios
+ * @param id
+ */
+export let getOnemembershipLevel = (axios, id) => axios.get(`http://192.168.1.146:8080/memberGradeListId?id=${id}`);
+/**
+ * 删除会员等级
+ * @param axios
+ * @param data
+ */
+export let deletemembershipLevel = (axios, data) => axios.post('http://192.168.1.146:8080/memberGradeDeleteList', qs.stringify(data));
+/**
+ * 增加会员等级
+ * @param axios
+ * @param data
+ */
+export let addmembershipLevel = (axios, data) => axios.post('http://192.168.1.146:8080/memberGradeAdd', qs.stringify(data));
+/**
+ * 修改会员等级
+ * @param axios
+ * @param data
+ */
+export let modifymembershipLevel = (axios, data) => axios.post('http://192.168.1.146:8080/memberGradeUpdate', qs.stringify(data));
 // ============================================= member 接口结束 ==========================================
