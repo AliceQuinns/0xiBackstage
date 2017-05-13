@@ -11,6 +11,7 @@ import Closed from '../../components/shop/right/Closed.vue'
 import ActiveReservation from '../../components/shop/right/ActiveReservation.vue'
 import Apply from '../../components/shop/right/Apply.vue'
 import Verify from '../../components/shop/right/Verify.vue'
+import StoreNews from '../../components/shop/right/StoreNews.vue'
 
 export const shopChildRouter = [
   {path: '', redirect: 'level'},
@@ -27,4 +28,5 @@ export const shopChildRouter = [
   {path: 'activereservation', component: ActiveReservation},
   {path: 'apply', component: Apply},
   {path: 'verify', component: Verify},
+  {path: 'storenews', component: StoreNews},
 ];

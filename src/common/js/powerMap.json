@@ -309,6 +309,7 @@
       },
       {
         "name": "店铺新闻",
+        "path": "/shop/storenews",
         "id": "4a2368a4153653cd03c40b55b21fbd9c"
       },
       {
