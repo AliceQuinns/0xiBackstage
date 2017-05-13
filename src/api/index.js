@@ -174,6 +174,23 @@ export let getAllApplyInfo = (axios, search) => axios.get(`http://192.168.1.146:
  */
 export let editApplyStatus = (axios, data) => axios.post('http://192.168.1.146:8080/applyShopModify', qs.stringify(data));
 /**
+ * 获取所有的店铺分类
+ * @param axios
+ */
+export let getAllCates = axios => axios.get(`http://192.168.1.146:8080/shscShopCatList`);
+/**
+ * 删除店铺分类
+ * @param axios
+ * @param data
+ */
+export let deleteCate = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopCatDelete', qs.stringify(data));
+/**
+ * 增加修改分类
+ * @param axios
+ * @param data
+ */
+export let modifyNAddCate = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopCatAddOrModify', qs.stringify(data));
+/**
  * 获取店铺模板
  * @param axios
  */
