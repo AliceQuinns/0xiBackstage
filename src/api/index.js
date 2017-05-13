@@ -168,6 +168,12 @@ export let getAllNormalInfo = (axios, search) => axios.get(`http://192.168.1.146
  */
 export let getAllApplyInfo = (axios, search) => axios.get(`http://192.168.1.146:8080/applyShopList${search}`);
 /**
+ * 修改申请店铺的状态
+ * @param axios
+ * @param data
+ */
+export let editApplyStatus = (axios, data) => axios.post('http://192.168.1.146:8080/applyShopModify', qs.stringify(data));
+/**
  * 获取店铺模板
  * @param axios
  */
