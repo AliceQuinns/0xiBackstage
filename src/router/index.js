@@ -5,6 +5,7 @@ import Index from '@/components/index/Index'
 import Settings from '@/components/settings/Settings'
 import Product from '@/components/product/Product'
 import Shop from '@/components/shop/Shop'
+import Member from '@/components/member/Member'
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,11 @@ const routes = [
   {
     path: '/product',
     component: Product,
+  },
+  {
+    path: '/member',
+    component: Member,
+    children: childrenPath.memberChildRouter,
   },
   {
     path: '/shop',

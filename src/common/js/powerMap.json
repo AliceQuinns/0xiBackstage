@@ -259,6 +259,7 @@
       },
       {
         "name": "收货地址",
+        "path": "/member/address",
         "id": "35c6502bf32b69ee8d8590dc2a80ff1a"
       },
       {
