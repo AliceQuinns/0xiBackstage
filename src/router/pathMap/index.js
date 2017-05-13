@@ -4,6 +4,7 @@
 import { indexChildRouter } from './indexPath'
 import { settingsChildRouter } from './settingsPath'
 import { shopChildRouter } from './shopPath'
+import { memberChildRouter } from './memberPath'
 
-export { indexChildRouter, settingsChildRouter, shopChildRouter }
+export { indexChildRouter, settingsChildRouter, shopChildRouter, memberChildRouter }
 
