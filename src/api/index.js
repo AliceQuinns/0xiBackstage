@@ -258,3 +258,20 @@ export let reservedUser = (axios, page) => axios.get(`http://192.168.1.146:8080/
 export let deletereservedUser = (axios, data) => axios.post('http://192.168.1.146:8080/shscMemberMakeDelete', qs.stringify(data));
 // ============================================= shop 接口结束 ==========================================
 
+
+// ============================================= member 接口开始 ==========================================
+
+/**
+ * 查询收货地址列表
+ * @param axios
+ * @param page
+ */
+export let obtainAddress = (axios, page) => axios.get(`http://192.168.1.146:8080/deliveryAddressList?page=${page}`);
+/**
+ * 删除收货地址
+ * @param axios
+ * @param data
+ */
+export let deleteAddress = (axios, data) => axios.post('http://192.168.1.146:8080/deliveryAddressListDelete', qs.stringify(data));
+
+// ============================================= member 接口结束 ==========================================
