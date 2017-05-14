@@ -58,7 +58,7 @@
 
             <!--添加时间-->
             <el-table-column
-              prop="mobile"
+              prop="addTime"
               label="添加时间">
             </el-table-column>
 
@@ -122,21 +122,15 @@
     },
     methods: {
       fetchData(page) {
-        /* 查询店铺发货地址 */
+        /* 查询最新活动用户预约 */
         NProgress.start();
         reservedUser(this.axios , page)
           .then(
             response => {
               let groups = response.data;
               if (groups.statusCode === STATUS_SUCCESS) {
-                this.total = groups.total;
+                this.total = Number(groups.data.total);
                 this.tableData = groups.data;
-                /*for (let i = 0; i<this.tableData.data.length;i++) {
-                  var text = this.tableData.data[i].area+this.tableData.data[i].addr;
-                  this.tableData.data[i].areaaddr = text;
-                  this.total = Number(groups.data.total);
-                };*/
-                console.log(this.tableData);
               }
               NProgress.done();
             })
@@ -149,6 +143,8 @@
             NProgress.done();
           });
       },
+
+
       /* 获取复选框 */
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -206,8 +202,7 @@
         } else {
           /*遍历出选中的id*/
           var selectGroup = [];
-          var i;
-          for(i = 0; i<this.multipleSelection.length; i++) {
+          for(var i = 0; i<this.multipleSelection.length; i++) {
             var select= this.multipleSelection[i].id;
             selectGroup.push(select);
           }

@@ -4,7 +4,10 @@
       <el-col>
         <div class="container">
           <h3>会员等级</h3>
-          <el-tabs type="border-card">
+          <el-tabs
+            type="border-card"
+            v-model="editableTabsValue"
+            @tab-click="display = false">
       <!-- 管理 -->
             <el-tab-pane>
               <span slot="label"><i class="el-icon-date"></i> 管理</span>
@@ -35,11 +38,11 @@
 
                 <!--名称-->
                 <el-table-column
-                  label="日期">
+                  label="名称">
                   <template scope="scope">
                     <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                    <!--<img :src="scope.row.pic">
-                    <img :src="scope.row.pic1">-->
+                    <img :src="scope.row.pic">
+                    <img :src="scope.row.pic1">
                   </template>
                 </el-table-column>
 
@@ -152,8 +155,8 @@
                   <!-- 状态 -->
                   <el-form-item
                     label="状态"
-                    prop="state">
-                    <el-switch v-model="ruleForm.state" on-color="#13ce66" off-color="#ff4949">
+                    prop="status">
+                    <el-switch v-model="ruleForm.status" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                   </el-form-item>
 
@@ -172,10 +175,10 @@
               <p class="topicTags">修改会员等级</p>
               <!-- 添加会员表单 -->
               <div>
-                <el-form :model="modifyRuleForm" :rules="rules" ref="modifyRuleForm" label-width="100px" class="">
+                <el-form :model="modifyRuleForm" :rules="modifyrules" ref="modifyRuleForm" label-width="100px" class="">
 
                   <el-form-item label="名称" prop="name">
-                    <el-col :span="8"><el-input v-model="modifyRuleForm.modifyName"></el-input></el-col>
+                    <el-col :span="8"><el-input v-model="modifyRuleForm.name"></el-input></el-col>
                   </el-form-item>
 
                   <!-- 大图图片上传 -->
@@ -213,20 +216,20 @@
                     label="描述"
                     prop="desc">
                     <el-col
-                      :span="8"><el-input type="textarea" v-model="modifyRuleForm.modifyDesc" :rows="5"></el-input></el-col>
+                      :span="8"><el-input type="textarea" v-model="modifyRuleForm.desc" :rows="5"></el-input></el-col>
                   </el-form-item>
 
                   <!-- 状态 -->
                   <el-form-item
                     label="状态"
-                    prop="state">
-                    <el-switch v-model="modifyRuleForm.modifyState" on-color="#13ce66" off-color="#ff4949">
+                    prop="status">
+                    <el-switch v-model="modifyRuleForm.status" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
                   </el-form-item>
 
                   <!-- 提交 -->
                   <el-form-item>
-                    <el-button type="primary" @click="submitForm('modifyRuleForm')">立即添加</el-button>
+                    <el-button type="primary" @click="modifySubmitForm('modifyRuleForm')">立即添加</el-button>
                     <el-button @click="resetForm('modifyRuleForm')">重置</el-button>
                   </el-form-item>
 
@@ -243,37 +246,39 @@
 <script>
   /* 接口 */
   import NProgress from 'nprogress'
-  import { membershipLevel,deletemembershipLevel,addmembershipLevel } from '../../../api/index'
+  import { membershipLevel,deletemembershipLevel,addmembershipLevel,getOnemembershipLevel,modifymembershipLevel } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
 
   export default {
     data() {
       return {
+        editableTabsValue: "0",/* 选项卡默认选中 */
+
         tableData: [],/* 全部表格数据 */
 
         multipleSelection: [],/* 批量删除复选框 */
 
-        display: true,/* 控制编辑表单显示 */
+        display: false,/* 控制编辑表单显示 */
 
-        /* 添加会员 */
+        /* 添加 */
         ruleForm: {
           name: '',
           delivery: false,
           type: [],
           desc: '',
-          state: true,
+          status: true,
         },
 
-        /* 编辑会员 */
+        /* 编辑 */
         modifyRuleForm: {
-          modifyName: '',
-          modifyDelivery: false,
-          modifyType: [],
-          modifyDesc: '',
-          modifyState: true,
+          name: '',
+          delivery: false,
+          type: [],
+          desc: '',
+          status: true,
         },
 
-        /* 添加会员等级表单验证 */
+        /* 添加验证 */
         rules: {
           name: [
             { required: true, message: '请输入名称', trigger: 'blur' },
@@ -281,6 +286,17 @@
           ],
           desc: [
             { required: true, message: '请填写描述', trigger: 'blur' }
+          ]
+        },
+
+        /* 修改验证 */
+        modifyrules: {
+          name: [
+            { required: true, message: '请输入修改的名称', trigger: 'blur' },
+            { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
+          ],
+          desc: [
+            { required: true, message: '请填写修改的描述', trigger: 'blur' }
           ]
         },
 
@@ -362,6 +378,34 @@
         });
       },
 
+      /* 获取单条数据 */
+      clickShow: function(index, row){
+        this.display = !this.display;
+        this.editableTabsValue = '2';
+        NProgress.start();
+        getOnemembershipLevel(this.axios,row.id)
+          .then(response => {
+            let groups = response.data;
+            if (groups.statusCode === STATUS_SUCCESS) {
+              this.modifyRuleForm = groups.data[0];
+              if (groups.data[0].status == 1){
+                this.modifyRuleForm.status = true;
+              }else if(groups.data[0].status == 0){
+                this.modifyRuleForm.status = false;
+              }
+              NProgress.done();
+            }
+          })
+          .catch(e => {
+            this.$message({
+              message: '获取数据出错，请重新尝试',
+              type: 'error'
+            });
+            console.log(e);
+            NProgress.done();
+          });
+      },
+
       /* 批量删除 */
       deleteItem() {
         /*判断是否有选中*/
@@ -378,7 +422,6 @@
             var select= this.multipleSelection[i].id;
             selectGroup.push(select);
           }
-          console.log(selectGroup.join(','));
           this.$confirm('此操作将永久删除该会员等级, 是否继续?', '警告', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -426,20 +469,20 @@
         }
       },
 
-      /* 添加 */
-        /* 重置表单 */
-          resetForm(formName) {
+      /* 重置表单 */
+      resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-        /* 提交表单 */
-          submitForm(formName) {
+
+      /* 提交添加 */
+      submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             NProgress.start();
             addmembershipLevel(this.axios,{
               name: this.ruleForm.name,
               desc: this.ruleForm.desc,
-              state: this.ruleForm.state ? 1 : 0
+              status: this.ruleForm.status ? 1 : 0
             })
               .then(response => {
                 let result = response.data;
@@ -451,6 +494,45 @@
                 } else {
                   this.$message({
                     message: '增加失败，请重试',
+                    type: 'info'
+                  });
+                }
+                NProgress.done();
+              })
+              .catch(e => {
+                NProgress.done();
+                this.$message({
+                  message: '出现未知错误，请重试',
+                  type: 'error'
+                });
+              });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+
+      /* 提交修改 */
+      modifySubmitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            NProgress.start();
+            modifymembershipLevel(this.axios,{
+              name: this.modifyRuleForm.name,
+              desc: this.modifyRuleForm.desc,
+              state: this.modifyRuleForm.status ? 1 : 0
+            })
+              .then(response => {
+                let result = response.data;
+                if (result.statusCode === STATUS_SUCCESS) {
+                  this.$message({
+                    message: '修改会员等级成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message({
+                    message: '修改失败，请重试',
                     type: 'info'
                   });
                 }
