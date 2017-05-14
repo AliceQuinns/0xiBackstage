@@ -235,6 +235,7 @@
     "subs": [
       {
         "name": "会员管理",
+        "path": "/member/manage",
         "id": "c6480c1a3fe8c1a339ac23fcdc05d97d"
       },
       {
