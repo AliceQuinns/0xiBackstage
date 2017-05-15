@@ -283,7 +283,36 @@ export let deletereservedUser = (axios, data) => axios.post('http://192.168.1.14
 
 
 // ============================================= member 接口开始 ==========================================
-
+/**
+ * 会员管理
+ * @param axios
+ * @param search
+ */
+export let getAllMember = (axios, search) => axios.get(`http://192.168.1.146:8080/shscMemberList${search}`);
+/**
+ * 删除会员
+ * @param axios
+ * @param data
+ */
+export let deleteMember = (axios, data) => axios.post('http://192.168.1.146:8080/shscMemberDelete', qs.stringify(data));
+/**
+ * 用户通过审核
+ * @param axios
+ * @param data
+ */
+export let passMember = (axios, data) => axios.post('http://192.168.1.146:8080/alreadyCheck', qs.stringify(data));
+/**
+ * 用户修改为待审核
+ * @param axios
+ * @param data
+ */
+export let unpassMember = (axios, data) => axios.post('http://192.168.1.146:8080/stayCheck', qs.stringify(data));
+/**
+ * 禁止用户访问
+ * @param axios
+ * @param data
+ */
+export let blockMember = (axios, data) => axios.post('http://192.168.1.146:8080/banVisit', qs.stringify(data));
 /**
  * 查询收货地址列表
  * @param axios
