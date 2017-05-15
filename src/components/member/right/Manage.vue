@@ -17,25 +17,20 @@
                     </el-select>
                   </el-input>
                 </el-form-item>
-                <el-form-item label="会员等级">
-                  <el-select v-model="searchForm.grade" placeholder="选择会员等级">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                  </el-select>
-                </el-form-item>
                 <el-form-item label="注册时间段">
                   <el-date-picker
-                    v-model="value7"
+                    v-model="time"
                     type="daterange"
                     align="right"
                     placeholder="选择日期范围"
-                    :picker-options="pickerOptions2">
+                    :picker-options="pickerOptions">
                   </el-date-picker>
                 </el-form-item>
-                <el-form-item label="活动区域">
-                  <el-select v-model="searchForm.grade" placeholder="活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-form-item label="状态">
+                  <el-select v-model="searchForm.status" placeholder="选择状态">
+                    <el-option label="已审核" value="2"></el-option>
+                    <el-option label="待审核" value="1"></el-option>
+                    <el-option label="禁止访问" value="-2"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -57,12 +52,13 @@
     data() {
       return {
         searchForm: {
-          user: '',
-          grade: '',
+          status: '',
           input: '',
           type: '',
+          time: '',
         },
-        pickerOptions2: {
+        search: '',
+        pickerOptions: {
           shortcuts: [{
             text: '最近一周',
             onClick(picker) {
@@ -89,13 +85,15 @@
             }
           }]
         },
-        value7: '',
       }
     },
     methods: {
       onSubmit() {
         console.log('submit!');
-      }
+      },
+      fetchData(search) {
+
+      },
     }
   };
 </script>
