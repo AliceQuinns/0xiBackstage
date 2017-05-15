@@ -181,12 +181,11 @@
           if (cate.shscTwoShopCatList) {
             for (let j = 0; j < cate.shscTwoShopCatList.length; j++) {
               let subCate = cate.shscTwoShopCatList[j];
-              secondLevelArr.push(`${subCate.id}:${subCate.displayorder}:${subCate.name}:${cate.id}`);
-              /*if (subCate.id.toString().indexOf('fan') !== -1) {
+              if (subCate.id.toString().indexOf('fan') !== -1) {
                 secondLevelArr.push(`0:${subCate.displayorder}:${subCate.name}:${cate.id}`);
               } else {
                 secondLevelArr.push(`${subCate.id}:${subCate.displayorder}:${subCate.name}:${cate.id}`);
-              }*/
+              }
             }
           }
         }
