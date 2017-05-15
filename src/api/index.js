@@ -75,6 +75,24 @@ export let editUser = (axios, data) => axios.post('/api/shscAdminModify', data);
  * @param id
  */
 export let getUserInfo = (axios, id) => axios.get(`/api/shscAdminGroupId?id=${id}`);
+/**
+ * 获取热门关键词
+ * @param axios
+ * @param search
+ */
+export let getHotKeywords = (axios, search) => axios.get(`http://192.168.1.146:8080/shscSearchWordList${search}`);
+/**
+ * 增加热门关键词
+ * @param axios
+ * @param data
+ */
+export let addHotKeyword = (axios, data) => axios.post('http://192.168.1.146:8080/shscSearchWordAdd', qs.stringify(data));
+/**
+ * 删除热门关键词
+ * @param axios
+ * @param data
+ */
+export let deleteHotKeyword = (axios, data) => axios.post('http://192.168.1.146:8080/shscSearchWordDelete', qs.stringify(data));
 // ============================================== settings 接口结束 =====================================
 
 // ============================================= shop 接口开始 ==========================================

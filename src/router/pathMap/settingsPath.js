@@ -8,6 +8,7 @@ import AddUser from '../../components/settings/right/AddUser.vue'
 import UserList from '../../components/settings/right/UserList.vue'
 import EditUser from '../../components/settings/right/EditUser.vue'
 import Logs from '../../components/settings/right/Logs.vue'
+import HotKeywords from '../../components/settings/right/HotKeywords.vue'
 export const settingsChildRouter = [
   {path: '', redirect: 'addusergroup'},
   {path: 'addusergroup', component: AddUserGroup},
@@ -17,4 +18,5 @@ export const settingsChildRouter = [
   {path: 'userlist', component: UserList},
   {path: 'userlist/:id', component: EditUser},
   {path: 'logs', component: Logs},
+  {path: 'hotkeywords', component: HotKeywords},
 ];
