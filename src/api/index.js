@@ -93,6 +93,18 @@ export let addHotKeyword = (axios, data) => axios.post('http://192.168.1.146:808
  * @param data
  */
 export let deleteHotKeyword = (axios, data) => axios.post('http://192.168.1.146:8080/shscSearchWordDelete', qs.stringify(data));
+/**
+ * 获取疯狂抢购和热卖商品
+ * @param axios
+ * @param search
+ */
+export let getIndexContent = (axios, search) => axios.get(`http://192.168.1.146:8080/product/ph${search}`);
+/**
+ * 增加疯狂抢购和热卖商品
+ * @param axios
+ * @param data type类型传0就可以删除
+ */
+export let addIndexContent = (axios, data) => axios.post('http://192.168.1.146:8080/product/shp', qs.stringify(data));
 // ============================================== settings 接口结束 =====================================
 
 // ============================================= shop 接口开始 ==========================================
