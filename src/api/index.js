@@ -437,4 +437,16 @@ export let ditorialMember = (axios, data) => axios.post('http://192.168.1.146:80
  * @param data
  */
 export let productEvaluation = (axios, data) => axios.post('http://192.168.1.146:8080/product/comment', qs.stringify(data));
+/**
+ * 查询单个商品的评论
+ * @param axios
+ * @param data
+ */
+export let singleEvaluation = (axios, data) => axios.post('http://192.168.1.146:8080/product/comment', qs.stringify(data));
+/**
+ * 删除商品评论
+ * @param axios
+ * @param data
+ */
+export let deletesingleEvaluation = (axios, data) => axios.post('http://192.168.1.146:8080/productcomment/del', qs.stringify(data));
 // ============================================= product 接口结束 ==========================================

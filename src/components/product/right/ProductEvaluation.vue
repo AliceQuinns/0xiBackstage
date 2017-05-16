@@ -5,9 +5,29 @@
         <div class="container">
           <h3>收货地址</h3>
 
+          <!-- 搜索表单 -->
+          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+            <!-- 产品名称 -->
+              <el-form-item label="产品名称">
+                <el-input v-model="formInline.user" placeholder="审批人"></el-input>
+              </el-form-item>
+            <!-- 活动区域 -->
+            <el-form-item label="活动区域">
+              <el-select v-model="formInline.region" placeholder="请选择">
+                <el-option label="好评" value="2"></el-option>
+                <el-option label="中评" value="1"></el-option>
+                <el-option label="差评" value="0"></el-option>
+              </el-select>
+            </el-form-item>
+            <!-- 查询 -->
+            <el-form-item>
+               <el-button type="primary" @click="query">查询</el-button>
+            </el-form-item>
+          </el-form>
+
           <!-- 表格 -->
           <el-table
-            :data="tableData"
+            :data="far.comments"
             scopeone="scope"
             border
             style="width: 100%"
@@ -25,25 +45,25 @@
 
                 <!--评论者-->
                 <el-table-column
-                  prop="far.comments.fromUserName"
+                  prop="fromUserName"
                   label="评论者">
                 </el-table-column>
 
                 <!--评论等级-->
                 <el-table-column
-                  prop="comments.goodbad"
+                  prop="goodbad"
                   label="评论等级">
                 </el-table-column>
 
                 <!--评论内容-->
                 <el-table-column
-                  prop="comments.con"
+                  prop="con"
                   label="评论内容">
                 </el-table-column>
 
                 <!--更新时间-->
                 <el-table-column
-                  prop="comments.upTimeStr"
+                  prop="upTimeStr"
                   label="更新时间">
                 </el-table-column>
 
@@ -95,18 +115,23 @@
 <script>
   /* 接口 */
   import NProgress from 'nprogress'
-  import { productEvaluation,deleteAddress, } from '../../../api/index'
+  import { productEvaluation,deletesingleEvaluation,singleEvaluation } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   import ElFormItem from "../../../../node_modules/element-ui/packages/form/src/form-item";
 
   export default {
     data() {
       return {
+        formInline: {user: '', region: ''},/* 搜索表单 */
+
         total: 10,/* 每页显示 */
-        tableData: [],/* 全部表格数据 */
+
         tableDataPage: [],/* 逻辑分页后表格*/
+
         multipleSelection: [],/* 批量删除复选框 */
+
         currentPage: 1,/* 分页默认显示页码 */
+
         tabelfor: '',/* 表格数组 */
       }
     },
@@ -121,8 +146,9 @@
               if (groups.statusCode === STATUS_SUCCESS) {
                 this.total = groups.data.rows;
                 this.tabelfor = groups.data.displayData;
+                /*console.log(groups.data);
                 console.log(this.tabelfor);
-                console.log(this.tabelfor[0].subhead);
+                console.log(this.tabelfor[0].subhead);*/
               }
               NProgress.done();
             })
@@ -134,6 +160,14 @@
             console.log(e);
             NProgress.done();
           });
+      },
+
+      /* 搜素表单 */
+      query() {
+        this.fetchData({
+          pname: this.user,
+          goodbad: this.region,
+        });
       },
 
       /* 获取复选框 */
@@ -149,7 +183,9 @@
           type: 'warning'
         }).then(() => {
           NProgress.start();
-          deleteAddress(this.axios, {id: Number(row.id)})
+          console.log(row.id);
+          console.log(index);
+          deletesingleEvaluation(this.axios, {id: Number(row.id)})
             .then(response => {
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
@@ -186,6 +222,7 @@
       deleteItem() {
         /*判断是否有选中*/
         if (this.multipleSelection.length <= 0) {
+          console.log(this.multipleSelection);
           this.$message({
             message: '请选择要删除的项目',
             type: 'info'
@@ -205,7 +242,7 @@
             type: 'warning'
           }).then(() => {
             NProgress.start();
-            deleteAddress(this.axios, {id: selectGroup.join(',')})
+            deletesingleEvaluation(this.axios, {id: selectGroup.join(',')})
               .then(response => {
                 let result = response.data;
                 if (result.statusCode === STATUS_SUCCESS) {
@@ -248,7 +285,7 @@
 
       /* 分页 */
       handleCurrentChange(val) {
-        this.fetchData(val);
+        this.fetchData({page: val});
       },
     },
     created() {
