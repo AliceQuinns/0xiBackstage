@@ -24,6 +24,7 @@ const routes = [
   {
     path: '/product',
     component: Product,
+    children: childrenPath.productChildRouter,
   },
   {
     path: '/member',

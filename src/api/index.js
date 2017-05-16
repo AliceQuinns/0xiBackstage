@@ -386,3 +386,49 @@ export let addmembershipLevel = (axios, data) => axios.post('http://192.168.1.14
  */
 export let modifymembershipLevel = (axios, data) => axios.post('http://192.168.1.146:8080/memberGradeUpdate', qs.stringify(data));
 // ============================================= member 接口结束 ==========================================
+
+
+// ============================================= product 接口开始 ==========================================
+/**
+ * 产品列表查询商品
+ * @param axios
+ * @param data
+ */
+export let inquiryCommodity = (axios, search) => axios.get(`http://192.168.1.146:8080/product/query${search}`);
+/**
+ * 查询未审核的商品
+ * @param axios
+ * @param data
+ */
+export let notAudited = (axios, search) => axios.get(`http://192.168.1.146:8080/product/unaudited${search}`);
+/**
+ * 查询违规下架的商品
+ * @param axios
+ * @param data
+ */
+export let illegalDelivery = (axios, search) => axios.get(`http://192.168.1.146:8080/product/violate${search}`);
+/**
+ * 更新商品状态
+ * @param axios
+ * @param data
+ */
+export let updateStatus = (axios, data) => axios.post('http://192.168.1.146:8080/product/updateStatus', qs.stringify(data));
+/**
+ * 单条删除商品
+ * @param axios
+ * @param data
+ */
+export let deleteProduct = (axios, data) => axios.post('http://192.168.1.146:8080/product/del', qs.stringify(data));
+/**
+ * 查询单个商品
+ * @param axios
+ * @param data
+ */
+export let individualCommodity = (axios, data) => axios.post('http://192.168.1.146:8080/product/edit', qs.stringify(data));
+/**
+ * 提交编辑表单
+ * @param axios
+ * @param data
+ */
+export let ditorialMember = (axios, data) => axios.post('http://192.168.1.146:8080/product/update', qs.stringify(data));
+// ============================================= product 接口结束 ==========================================

@@ -151,7 +151,7 @@
         "itemIds": [
           {
             "name": "产品列表",
-            "path": "/product/list",
+            "path": "/product/productlist",
             "id": "525417bac7e611ba3391b5b0afd2a84d"
           },
           {
