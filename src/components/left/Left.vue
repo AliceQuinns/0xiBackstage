@@ -73,14 +73,16 @@
            [ h('el-menu', {key: new Date(),props: { defaultActive }, attrs: {
            /*theme: 'dark'*/ } }, parent.subNavPath.map( (v, i) => {
              if (v.itemIds) {
-               return h('el-submenu', { props: { key: i, index: String(i) } }, [h('template', { slot: 'title' },
-                 [h('i', { attrs: { class: 'el-icon-message' } }), v.name]), h('el-menu-item-group',
-                 v.itemIds.map((item, idx) => {
-                   return h('el-menu-item', { props: { index: i + '-' + idx } }, [h('router-link', { props: { to:
-                   item.pathName || '' }
+               if (v.itemIds.length > 0 ) {
+                 return h('el-submenu', { props: { key: i, index: String(i) } }, [h('template', { slot: 'title' },
+                   [h('i', { attrs: { class: 'el-icon-message' } }), v.name]), h('el-menu-item-group',
+                   v.itemIds.map((item, idx) => {
+                     return h('el-menu-item', { props: { index: i + '-' + idx } }, [h('router-link', { props: { to:
+                     item.pathName || '' }
 
-                   }, item.name)])
-                 }))])
+                     }, item.name)])
+                   }))])
+               }
              } else {
                return h('el-menu-item', { props: { index: String(i), key: i, } },
                  [ h('router-link', { props: { to: v.pathName || '' } }, v.name) ]);
