@@ -431,4 +431,10 @@ export let individualCommodity = (axios, data) => axios.post('http://192.168.1.1
  * @param data
  */
 export let ditorialMember = (axios, data) => axios.post('http://192.168.1.146:8080/product/update', qs.stringify(data));
+/**
+ * 查询所有商品的评论
+ * @param axios
+ * @param data
+ */
+export let productEvaluation = (axios, data) => axios.post('http://192.168.1.146:8080/product/comment', qs.stringify(data));
 // ============================================= product 接口结束 ==========================================
