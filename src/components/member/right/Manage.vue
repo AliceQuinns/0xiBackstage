@@ -99,12 +99,12 @@
                     <el-button
                       size="small"
                       icon="search"
-                      @click="handleEdit(scope.$index, scope.row)">查看详细信息</el-button>
+                      @click="handleEdit(scope.$index, scope.row)" disabled>查看详细信息</el-button>
                     <el-button
                       size="small"
                       icon="edit"
                       type="danger"
-                      @click="handleMobile(scope.$index, scope.row)">修改手机</el-button>
+                      @click="handleMobile(scope.$index, scope.row)" disabled>修改手机</el-button>
                   </template>
                 </el-table-column>
               </el-table>
