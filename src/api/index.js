@@ -412,5 +412,11 @@ export let deleteProduct = (axios, data) => axios.post('http://192.168.1.146:808
  * @param axios
  * @param data
  */
-  export let individualCommodity = (axios, search) => axios.get(`http://192.168.1.146:8080/product/edit${search}`);
+export let individualCommodity = (axios, data) => axios.post('http://192.168.1.146:8080/product/edit', qs.stringify(data));
+/**
+ * 提交编辑表单
+ * @param axios
+ * @param data
+ */
+export let ditorialMember = (axios, data) => axios.post('http://192.168.1.146:8080/product/update', qs.stringify(data));
 // ============================================= product 接口结束 ==========================================

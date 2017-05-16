@@ -5,10 +5,15 @@
         <div class="container">
           <h3>产品管理</h3>
 
-          <el-tabs type="border-card">
+          <el-tabs
+            type="border-card"
+            v-model="editableTabsValue">
             <!-- 产品信息 -->
             <el-tab-pane>
-              <span slot="label"><i class="el-icon-star-on"></i> 产品信息</span>
+              <span
+                slot="label"
+                @click= "displayshow"
+                class="spanblock"><i class="el-icon-star-on"></i> 产品信息</span>
               <!-- 查询表单 -->
               <el-form
                 :inline="true"
@@ -60,7 +65,7 @@
                     @click="goSearch">查询
                   </el-button>
                   <el-button
-                    @click="resetForm()">重置
+                    @click="resetForm">重置
                   </el-button>
                 </el-form-item>
 
@@ -158,7 +163,7 @@
                     </el-button>
                     <!-- 编辑按钮 -->
                     <el-button
-                      @click.native.prevent="query(scope.$index, scope.row)"
+                      @click="clickShow(scope.$index, scope.row)"
                       icon="setting"
                       size="small">
                       编辑
@@ -208,7 +213,8 @@
             </el-tab-pane>
 
             <!-- 编辑产品 -->
-            <el-tab-pane>
+            <el-tab-pane
+              v-if="display">
               <span slot="label"><i class="el-icon-edit"></i> 编辑产品</span>
               <h4 class="textHeader">操作提示:</h4>
               <p>
@@ -232,38 +238,49 @@
                 <!-- 产品名称 -->
                 <el-form-item
                   label="产品名称"
-                  prop="name"
+                  prop="subhead"
                   :rules="[
                       { required: true, message: '请输入产品名称', trigger: 'blur' },
                       { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
                   ]">
-                  <el-input v-model="editform.name"></el-input>
+                  <el-input v-model="editform.subhead"></el-input>
                 </el-form-item>
 
                 <!-- 关键字 -->
                 <el-form-item
                   label="关键字"
-                  prop="Keyword"
+                  prop="keywords"
                   :rules="[
                       { required: true, message: '关键字不能为空', trigger: 'blur' },
                       { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
                   ]">
-                  <el-input v-model="editform.Keyword"></el-input>
+                  <el-input v-model="editform.keywords"></el-input>
                 </el-form-item>
 
                 <!-- 竞价排名 -->
                 <el-form-item
                   label="竞价排名"
-                  prop="biddingRanking"
+                  prop="rank"
                   :rules="[
                       { required: true, message: '竞价排名不能为空'},
                       { type: 'number', message: '竞价排名必须为数字'}
                   ]">
-                  <el-input v-model="editform.biddingRanking"></el-input>
+                  <el-input v-model.number="editform.rank"></el-input>
+                </el-form-item>
+
+                <!-- 产品详情 -->
+                <el-form-item label="产品详情" prop="detail">
+                  <el-input
+                    type="textarea"
+                    v-model="editform.detail"
+                    :rows="6"></el-input>
                 </el-form-item>
 
                 <!-- 提交按钮 -->
-                <el-button type="primary">提交</el-button>
+                <el-form-item>
+                  <el-button type="primary" @click="submitFormEdit('editform')">提交</el-button>
+                  <el-button @click="resetForm2('editform')">重置</el-button>
+                </el-form-item>
 
               </el-form>
             </el-tab-pane>
@@ -283,13 +300,17 @@
     illegalDelivery,
     updateStatus,
     deleteProduct,
-    individualCommodity,} from '../../../api/index'
+    individualCommodity,
+    ditorialMember,} from '../../../api/index'
   import NProgress from 'nprogress'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   import ElFormItem from "../../../../node_modules/element-ui/packages/form/src/form-item";
   export default {
     data() {
       return {
+        /* 默认页码 */
+        editableTabsValue: '0',
+
         /* 表下拉框数据 */
         options: [
           {
@@ -308,9 +329,9 @@
         value: '',
 
         /*产品编辑*/
-        display: true,
+        display: false,
 
-        /* 查询表单 */
+        /* 搜索筛选表单 */
         searchForm: {
           company: '',
           shopName: '',
@@ -328,7 +349,7 @@
         /* 分页显示条数 */
         total: 10,
 
-        /* 分页请求头 */
+        /* 搜索筛选请求头 */
         search: " ",
 
         /* 当前页码数 */
@@ -339,9 +360,11 @@
 
         /* 编辑表单 */
         editform: {
-          name: '',
-          Keyword: '',
-          biddingRanking: '',
+          subhead: '',
+          keywords: '',
+          rank: '',
+          detail: '',
+          id: '',/* 存贮id */
         },
       }
     },
@@ -529,15 +552,56 @@
         this.searchForm.shopName = '';
       },
 
-      /* 拼接请求 */
+      /* 搜素筛选 */
       goSearch() {
-        this.search = `?company=${this.searchForm.company}&shop_statu=${this.searchForm.shopName}`;
+        this.search = `?productName=${this.searchForm.company}&shopName=${this.searchForm.shopName}`;
         this.fetchData(this.search);
       },
 
-      /* 编辑表单 */
-      onSubmit() {
-        console.log('submit!');
+      /* 编辑表单提交 */
+      submitFormEdit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            NProgress.start();
+            console.log(this.editform.id);
+            ditorialMember(this.axios,{
+              id: this.editform.id,
+              subhead: this.editform.subhead,
+              keywords: this.editform.keywords,
+              rank: this.editform.rank,
+            })
+              .then(response => {
+                let result = response.data;
+                if (result.statusCode === STATUS_SUCCESS) {
+                  this.$message({
+                    message: '修改成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message({
+                    message: '修改失败，请重试',
+                    type: 'info'
+                  });
+                }
+                NProgress.done();
+              })
+              .catch(e => {
+                NProgress.done();
+                this.$message({
+                  message: '出现未知错误，请重试',
+                  type: 'error'
+                });
+              });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+
+      /* 重置编辑表单 */
+      resetForm2(formName) {
+        this.$refs[formName].resetFields();
       },
 
       /* 分页 */
@@ -596,9 +660,41 @@
         });
       },
 
-      /* 单条信息查询 */
-      query() {},
+      /* 显示选项卡 */
+      displayshow() {
+        this.display = false;
+      },
 
+      /* 获取单条店铺信息 */
+      clickShow: function(index, row){
+        this.display = !this.display;
+        this.editableTabsValue = '1';
+        console.log(this.editform.detail);
+        NProgress.start();
+        individualCommodity(this.axios,{pid:row.id})
+          .then(response => {
+            let groups = response.data;
+            if (groups.statusCode === STATUS_SUCCESS) {
+              this.editform = groups.data;
+              this.editform.id = row.id;
+              console.log(this.editform.detail);
+              if (groups.data.status == 1){
+                this.stateButtonModifyForm = true;
+              }else if(groups.data.status == 0){
+                this.stateButtonModifyForm = false;
+              }
+              NProgress.done();
+            }
+          })
+          .catch(e => {
+            this.$message({
+              message: '获取数据出错，请重新尝试',
+              type: 'error'
+            });
+            console.log(e);
+            NProgress.done();
+          });
+      },
     },
     created() {
       this.fetchData(this.search);
@@ -635,4 +731,6 @@
     margin-left: 1em
   .editForm
     width: 26%
+  .spanblock
+    display: block
 </style>
