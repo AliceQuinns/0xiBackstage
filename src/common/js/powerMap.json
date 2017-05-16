@@ -182,37 +182,30 @@
         "itemIds": [
           {
             "name": "分类管理",
-            "path": "/product/editCategory",
             "id": "2a6b0f310ec2d9c879a6fb1c7391842d"
           },
           {
             "name": "删除分类",
-            "path": "/product/deleteCategory",
             "id": "ee690b968dbdde58b3abe7ed406c830b"
           },
           {
             "name": "品牌管理",
-            "path": "/product/editBrand",
             "id": "5a598c864ab8aafb529990b6d4ad17d3"
           },
           {
             "name": "品牌分类管理",
-            "path": "/product/brandCategory",
             "id": "3861d0b8085908689eaae929321beac6"
           },
           {
             "name": "删除品牌分类和品牌",
-            "path": "/product/deleteBrand",
             "id": "bf75c8bb9d582920c0f7c844030dd049"
           },
           {
             "name": "类型管理",
-            "path": "/product/editType",
             "id": "4f7b79ebd7daaf5df47a9b9b3fcb17a3"
           },
           {
             "name": "规格管理",
-            "path": "/product/spec",
             "id": "21935c54010ddf7bbcd60fd164c45b61"
           }
         ]
@@ -223,7 +216,6 @@
         "itemIds": [
           {
             "name": "热卖产品排序",
-            "path": "/product/sortHot",
             "id": "ad665303ff4c2e735ec2598642347a3a"
           }
         ]
