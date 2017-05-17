@@ -6,11 +6,13 @@ import Settings from '@/components/settings/Settings'
 import Product from '@/components/product/Product'
 import Shop from '@/components/shop/Shop'
 import Member from '@/components/member/Member'
+import Login from '@/components/login/Login'
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', redirect: '/index'},
+  { path: '/', redirect: '/login'},
+  { path: '/login', component: Login},
   {
     path: '/index',
     component: Index,

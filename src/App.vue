@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <app-header :path-data="path"></app-header>
+    <app-header :path-data="path" v-if="isShowHeader"></app-header>
     <router-view :sub-nav="subNavData"></router-view>
   </div>
 </template>
@@ -23,6 +23,11 @@
     },
     components: {
       'app-header': Header,
+    },
+    computed: {
+      isShowHeader() {
+        return this.$store.state.isShowHeader;
+      },
     },
     created() {
       // 获取用户权限并分组
