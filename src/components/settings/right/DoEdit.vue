@@ -56,7 +56,6 @@
 </template>
 
 <script>
-  // TODO 优化，重构组件
   import NProgress from 'nprogress'
   import { getGroupInfo, editGroup } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
@@ -91,7 +90,6 @@
           console.log(err);
           NProgress.done();
         });
-      // TODO 是否把权限给选中，需要后台给相应的字段
       // 页面中的权限及分类
       let total = [];
       for (let i = 0; i < cateMap.length; i++) {
