@@ -449,4 +449,16 @@ export let singleEvaluation = (axios, data) => axios.post('http://192.168.1.146:
  * @param data
  */
 export let deletesingleEvaluation = (axios, data) => axios.post('http://192.168.1.146:8080/productcomment/del', qs.stringify(data));
+/**
+ * 查询所有商品的咨询
+ * @param axios
+ * @param data
+ */
+export let consultations = (axios, data) => axios.post('http://192.168.1.146:8080/product/consult', qs.stringify(data));
+/**
+ * 删除商品咨询
+ * @param axios
+ * @param data
+ */
+export let deleteconsultations = (axios, data) => axios.post('http://192.168.1.146:8080/productconsult/del', qs.stringify(data));
 // ============================================= product 接口结束 ==========================================

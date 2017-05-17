@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col>
         <div class="container">
-          <h3>产品管理</h3>
+          <h3>产品列表</h3>
 
           <el-tabs
             type="border-card"
@@ -64,9 +64,6 @@
                     type="primary"
                     @click="goSearch">查询
                   </el-button>
-                  <el-button
-                    @click="resetForm">重置
-                  </el-button>
                 </el-form-item>
 
               </el-form>
@@ -90,7 +87,7 @@
                   label="产品名称"
                   width="450">
                   <template scope="scope">
-                    <img  class="imgName"><!--:src="scope.row.pic"-->
+                    <img  class="imgName" :src="scope.row.pic">
                     <div class="textName">
                       <h4>标题：{{ scope.row.subhead }}</h4>
                       <span>
@@ -544,12 +541,6 @@
               });
             });
         };
-      },
-
-      /* 重置表单 */
-      resetForm() {
-        this.searchForm.company = '';
-        this.searchForm.shopName = '';
       },
 
       /* 搜素筛选 */

@@ -3,34 +3,41 @@
     <el-row :gutter="20">
       <el-col>
         <div class="container">
-          <h3>产品评价</h3>
+          <h3>产品咨询</h3>
 
           <!-- 搜索表单 -->
           <el-form
             :inline="true"
             :model="formInline"
             class="demo-form-inline marignbottom">
+
             <!-- 产品名称 -->
-              <el-form-item label="产品名称">
-                <el-input v-model="formInline.user" placeholder="请输入产品名称" icon="search"></el-input>
-              </el-form-item>
-            <!-- 评论等级 -->
-            <el-form-item label="评论等级">
+            <el-form-item label="产品名称">
+              <el-input v-model="formInline.user" placeholder="请输入产品名称" icon="search"></el-input>
+            </el-form-item>
+
+            <!-- 咨询内容 -->
+            <el-form-item label="咨询内容">
+              <el-input v-model="formInline.text" placeholder="请输入咨询内容" icon="search"></el-input>
+            </el-form-item>
+
+            <!-- 咨询分类 -->
+            <el-form-item label="咨询分类">
               <el-select v-model="formInline.region" placeholder="请选择">
-                <el-option label="好评" value="2"></el-option>
-                <el-option label="中评" value="1"></el-option>
-                <el-option label="差评" value="0"></el-option>
+                <el-option label="已回复" value="1"></el-option>
+                <el-option label="未回复" value="0"></el-option>
               </el-select>
             </el-form-item>
+
             <!-- 查询 -->
             <el-form-item>
-               <el-button type="primary" @click="query">查询</el-button>
+              <el-button type="primary" @click="query">查询</el-button>
             </el-form-item>
           </el-form>
 
           <!-- 表格 -->
           <el-table
-            :data="far.comments"
+            :data="far.consults"
             scope="scope"
             border
             style="width: 100%"
@@ -39,56 +46,51 @@
             :key="far"
             class="tabels">
             <el-table-column :render-header="(h, {column, $index}) =>
-            { return renderHeader(h, column, $index, far.subhead, far.comments.length, far.id)
+            { return renderHeader(h, column, $index, far.subhead, far.consults.length, far.id,far.price)
             }" class="theader">
-                <!--批量删除-->
-                <el-table-column
-                  type="selection"
-                  width="55">
-                </el-table-column>
-
-                <!--评论者-->
-                <el-table-column
-                  prop="fromUserName"
-                  label="评论者">
-                </el-table-column>
-
-                <!--评论等级-->
-                <el-table-column
-                  prop="goodbad"
-                  label="评论等级">
-                </el-table-column>
-
-                <!--评论内容-->
-                <el-table-column
-                  prop="con"
-                  label="评论内容">
-                </el-table-column>
-
-                <!--更新时间-->
-                <el-table-column
-                  prop="upTimeStr"
-                  label="更新时间">
-                </el-table-column>
-
-                <!--操作-->
-                <el-table-column
-                  label="操作"
-                  width="100">
-                  <template
-                    scope="scope">
-                    <el-button
-                      @click="deleteRow(scope.$index, scope.row)"
-                      type="danger"
-                      icon="delete"
-                      size="small"
-                      class="deletone">
-                      删除
-                    </el-button>
-                  </template>
-                </el-table-column>
-
+              <!--批量删除-->
+              <el-table-column
+                type="selection"
+                width="55">
               </el-table-column>
+
+              <!--咨询内容-->
+              <el-table-column
+                prop="question"
+                label="咨询内容">
+              </el-table-column>
+
+
+              <!--回复-->
+              <el-table-column
+                prop="answer"
+                label="回复">
+              </el-table-column>
+
+              <!--提问时间-->
+              <el-table-column
+                prop="questionTimeStr"
+                label="提问时间">
+              </el-table-column>
+
+              <!--操作-->
+              <el-table-column
+                label="操作"
+                width="100">
+                <template
+                  scope="scope">
+                  <el-button
+                    @click="deleteRow(scope.$index, scope.row)"
+                    type="danger"
+                    icon="delete"
+                    size="small"
+                    class="deletone">
+                    删除
+                  </el-button>
+                </template>
+              </el-table-column>
+
+            </el-table-column>
           </el-table>
 
           <!-- 删除&分页 -->
@@ -119,14 +121,14 @@
 <script>
   /* 接口 */
   import NProgress from 'nprogress'
-  import { productEvaluation,deletesingleEvaluation,singleEvaluation } from '../../../api/index'
+  import { consultations,deleteconsultations } from '../../../api/index'
   import { STATUS_SUCCESS } from '../../../common/consts/index'
   import ElFormItem from "../../../../node_modules/element-ui/packages/form/src/form-item";
 
   export default {
     data() {
       return {
-        formInline: {user: '', region: ''},/* 搜索表单 */
+        formInline: {user: '', region: '',text: ''},/* 搜索表单 */
 
         total: 10,/* 每页显示 */
 
@@ -142,34 +144,23 @@
       }
     },
     methods: {
-      /* 查询产品评价 */
+      /* 查询产品咨询 */
       fetchData(obj) {
         NProgress.start();
-        productEvaluation(this.axios , obj)
+        consultations(this.axios , obj)
           .then(
             response => {
               let groups = response.data;
               if (groups.statusCode === STATUS_SUCCESS) {
                 this.total = groups.data.rows;
                 this.tabelfor = groups.data.displayData;
-                for(var i=0;i< groups.data.displayData.length;i++) {
-                    for(var j=0; j< groups.data.displayData[i].comments.length;j++){
-                        if( groups.data.displayData[i].comments[j].goodbad == 2) {
-                          groups.data.displayData[i].comments[j].goodbad = "好评";
-                        }else if(groups.data.displayData[i].comments[j].goodbad == 1) {
-                          groups.data.displayData[i].comments[j].goodbad = "中评";
-                        }else if(groups.data.displayData[i].comments[j].goodbad == 0) {
-                          groups.data.displayData[i].comments[j].goodbad = "差评";
-                        };
-                  };
-                };
               }
               NProgress.done();
             })
           .catch(e => {
             this.$message({
               message: '获取数据出错，请重新尝试',
-              type: 'error'
+              type: 'info'
             });
             console.log(e);
             NProgress.done();
@@ -179,9 +170,15 @@
       /* 搜素表单 */
       query() {
         this.fetchData({
-          pname: this.formInline.user,
-          goodbad: this.formInline.region,
+          productName: this.formInline.user,/* 产品名称 */
+          status: this.formInline.region,/* 咨询分类 */
+          question: this.formInline.text,/* 咨询内容 */
         });
+      },
+
+      /* 获取单条产品咨询 */
+      handleClick(id) {
+        this.fetchData({productId: id});
       },
 
       /* 获取复选框 */
@@ -197,7 +194,7 @@
           type: 'warning'
         }).then(() => {
           NProgress.start();
-          deletesingleEvaluation(this.axios, {commentIds: row.id})
+          deleteconsultations(this.axios, {consultIds: row.id})
             .then(response => {
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
@@ -254,7 +251,7 @@
             type: 'warning'
           }).then(() => {
             NProgress.start();
-            deletesingleEvaluation(this.axios, {commentIds: selectGroup.join(',')})
+            deleteconsultations(this.axios, {consultIds: selectGroup.join(',')})
               .then(response => {
                 let result = response.data;
                 if (result.statusCode === STATUS_SUCCESS) {
@@ -287,29 +284,6 @@
         }
       },
 
-      /* 获取单条产品评价 */
-      handleClick(id) {
-        NProgress.start();
-        singleEvaluation(this.axios , {pid: id})
-          .then(
-            response => {
-              let groups = response.data;
-              if (groups.statusCode === STATUS_SUCCESS) {
-                this.total = groups.data.rows;
-                this.tabelfor = groups.data.displayData;
-              }
-                NProgress.done();
-            })
-          .catch(e => {
-            this.$message({
-              message: '获取数据出错，请重新尝试',
-              type: 'error'
-            });
-              console.log(e);
-              NProgress.done();
-          });
-      },
-
       /* 分页 */
       handleCurrentChange(val) {
         this.fetchData({page: val});
@@ -317,10 +291,17 @@
       },
 
       /* render渲染 */
-      renderHeader(h, column, $index, name, num, id) {
-        return h('div', [h('span', name), h('el-button', {attrs: {type: 'primary', size: 'small',icon: 'search'}, style:
+      renderHeader(h, column, $index, name, num, id,prices) {
+        return h('div',
+          [h('span', name),h('span',{style:{color: '#f00',marginLeft: '1em'},},`￥${prices}`),h('el-button',
+          {attrs:
+            {type:
+            'primary', size:
+            'small',icon:
+            'search'},
+            style:
             {float: 'right'}, on: {click: () => {this.handleClick(id)}}},
-          `${num}条评价`)]);
+          `${num}条咨询`)]);
       },
     },
     created() {
@@ -332,8 +313,8 @@
 <style lang="sass" scoped>
   .tabels
     margin-top: 2em
-  .marignbottom
-    margin-bottom: -20px
-  .theader
-    color: #fff
+    .marignbottom
+      margin-bottom: -20px
+    .theader
+      color: #fff
 </style>
