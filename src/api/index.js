@@ -15,16 +15,16 @@ export let getIndexInfo = axios => axios.post('/api/userinfo');
 /**
  * 增加权限组
  * @param axios
- * @param data  发给服务器的数据
+ * @param data
  */
-export let addUserGroup = (axios, data) => axios.post('/api/addadmin', data);
+export let addUserGroup = (axios, data) => axios.post('http://192.168.1.146:8080/shscAdminGroupAdd', qs.stringify(data));
 /**
- * 获取权限组列表
+ * 获取管理权限组
  * @param axios
  */
-export let getGroupList = axios => axios.get('/api/shscAdminGroupList');
+export let getGroupList = axios => axios.get(`http://192.168.1.146:8080/shscAdminGroupList`);
 /**
- * 删除某一个权限组
+ * 删除管理权限组
  * @param axios
  * @param data 权限组的 groupId
  */
@@ -34,47 +34,47 @@ export let deleteGroup = (axios, data) => axios.post('/api/shscAdminGroupDelete'
  * @param axios
  * @param groupid
  */
-export let getGroupInfo = (axios, groupid) => axios.get(`/api/shscAdminGroupId?groupid=${groupid}`);
+export let getGroupInfo = (axios, userid) => axios.get(`http://192.168.1.146:8080/shscAdminGroupId?userid=${userid}`);
 /**
  * 编辑权限组
  * @param axios
  * @param data
  */
-export let editGroup = (axios, data) => axios.post('/api/shscAdminGroupModify', data);
+export let editGroup = (axios, data) => axios.post('http://192.168.1.146:8080/shscAdminGroupModify', data);
 /**
  * 获取管理员列表
  * @param axios
  */
-export let getUserList = (axios, page) => axios.get(`/api/shscAdminList?page=${page}`);
+export let getUserList = (axios, page) => axios.get(`http://192.168.1.146:8080/shscAdminList?page=${page}`);
 /**
  * 删除管理员
  * @param axios
- * @param data  管理员 id
+ * @param data
  */
-export let deleteUser = (axios, data) => axios.post('/api/shscAdminDelete', data);
+export let deleteUser = (axios, data) => axios.post('http://192.168.1.146:8080/shscAdminDelete', qs.stringify(data));
 /**
  * 获取增加管理员页面下拉框的数据
  * @param axios
  */
-export let getOptionsData = axios => axios.get('/api/shscAdminInsert');
+export let getOptionsData = axios => axios.get(`http://192.168.1.146:8080/shscAdminInsert`);
 /**
  * 增加管理员
  * @param axios
  * @param data
  */
-export let addUser = (axios, data) => axios.post('/api/shscAdminAdd', data);
+export let addUser = (axios, data) => axios.post('http://192.168.1.146:8080/shscAdminAdd', data);
 /**
- * 编辑管理员
+ * 编辑管理员 提交
  * @param axios
  * @param data
  */
-export let editUser = (axios, data) => axios.post('/api/shscAdminModify', data);
+export let editUser = (axios, data) => axios.post('http://192.168.1.146:8080/shscAdminModify', data);
 /**
  * 获取管理员信息
  * @param axios
  * @param id
  */
-export let getUserInfo = (axios, id) => axios.get(`/api/shscAdminGroupId?id=${id}`);
+export let getUserInfo = axios => axios.get(`http://192.168.1.146:8080/shscAdminInsert`);
 /**
  * 获取热门关键词
  * @param axios

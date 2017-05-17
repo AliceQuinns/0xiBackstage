@@ -26,12 +26,12 @@
             </el-form-item>
 
             <el-form-item label="管理组" prop="group">
-              <el-select v-model="userInfo.group" placeholder="请选择管理组">
+              <el-select v-model="userInfo.group" placeholder="请选择管理组" class="marginleft">
                 <el-option
                   v-for="group in groupData"
-                  :value="group.groupId"
-                  :label="group.groupName"
-                  :key="group.groupId">
+                  :value="group.id"
+                  :label="group.name"
+                  :key="group.id">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -74,7 +74,7 @@
             </el-form-item>
 
             <el-form-item label="店铺分类" prop="shopCate">
-              <el-select v-model="userInfo.shopCate" placeholder="请选择店铺分类">
+              <el-select v-model="userInfo.shopCate" placeholder="请选择店铺分类" class="marginleft">
                 <el-option
                   v-for="cate in shopCateData"
                   :value="cate.id"
@@ -85,7 +85,7 @@
             </el-form-item>
 
             <el-form-item label="语言" prop="language">
-              <el-select v-model="userInfo.language" placeholder="请选择语言">
+              <el-select v-model="userInfo.language" placeholder="请选择语言" class="marginleft">
                 <el-option
                   v-for="language in languageData"
                   :value="language"
@@ -270,17 +270,20 @@
         NProgress.start();
         getUserInfo(this.axios, this.$route.params.id)
           .then(response => {
+            console.log(this.$route.params.id);
             let result = response.data;
+            console.log(result);
             if (result.statusCode === STATUS_SUCCESS) {
-              let user = result.data.data;
+              let user = result.data;
+              console.log(user.name);
               this.userInfo.name = user.name;
               this.userInfo.user = user.user;
               this.address = `${user.province + user.city + user.area}`;
               this.userInfo.language = 'cn';
               this.userInfo.desc = user.desc;
               this.originalUserInfo = user;
-              this.groupData = result.data.data1;
-              this.shopCateData = result.data.data2;
+              this.groupData = result.data1;
+              this.shopCateData = result.data2;
             } else {
               this.$message({
                 message: '获取数据出错，请重新尝试',
@@ -291,6 +294,7 @@
           })
           .catch(e => {
             NProgress.done();
+            console.log(e);
             this.$message({
               message: '获取数据出错，请重新尝试',
               type: 'error'
@@ -311,4 +315,6 @@
   .alert
     padding: 0
     margin-left: 10px
+  .marginleft
+    padding: 10px
 </style>
