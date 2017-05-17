@@ -182,6 +182,7 @@
         "itemIds": [
           {
             "name": "分类管理",
+            "path": "/product/catemanage",
             "id": "2a6b0f310ec2d9c879a6fb1c7391842d"
           },
           {
