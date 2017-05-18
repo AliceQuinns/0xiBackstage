@@ -461,4 +461,40 @@ export let consultations = (axios, data) => axios.post('http://192.168.1.146:808
  * @param data
  */
 export let deleteconsultations = (axios, data) => axios.post('http://192.168.1.146:8080/productconsult/del', qs.stringify(data));
+/**
+ * 查询品牌 查询单个品牌
+ * @param axios
+ * @param data
+ */
+export let queryBrand = (axios, data) => axios.post('http://192.168.1.146:8080/brand/query', qs.stringify(data));
+/**
+ * 添加品牌 修改品牌
+ * @param axios
+ * @param data
+ */
+export let addQueryBrand = (axios, data) => axios.post('http://192.168.1.146:8080/brand/add', qs.stringify(data));
+/**
+ * 修改品牌状态
+ * @param axios
+ * @param data
+ */
+export let modifyState = (axios, data) => axios.post('http://192.168.1.146:8080/brand/updatebrandstatus', qs.stringify(data));
+/**
+ * 修改品牌排序值
+ * @param axios
+ * @param data
+ */
+export let modifySort = (axios, data) => axios.post('http://192.168.1.146:8080/brand/updateiddo', qs.stringify(data));
+/**
+ * 删除品牌
+ * @param axios
+ * @param data
+ */
+export let deleteQueryBrand = (axios, data) => axios.post('http://192.168.1.146:8080/brand/del', qs.stringify(data));
+/**
+ * 获取下拉菜单选项
+ * @param axios
+ * @param data
+ */
+export let queryselect = axios => axios.get('http://192.168.1.146:8080/brandcat/query');
 // ============================================= product 接口结束 ==========================================
