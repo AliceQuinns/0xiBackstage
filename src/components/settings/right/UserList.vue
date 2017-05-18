@@ -32,12 +32,14 @@
                 <router-link :to="`/settings/userlist/${scope.row.id}`">
                   <el-button
                     icon="edit"
-                    size="small">编辑</el-button></router-link>
+                    size="small">编辑</el-button>
+                </router-link>
                 <el-button
                   icon="delete"
                   size="small"
                   type="danger"
-                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                  @click="handleDelete(scope.$index, scope.row)">删除
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -114,7 +116,7 @@
             let userList = response.data;
             if (userList.statusCode === STATUS_SUCCESS) {
               this.tableData = userList.data.data;
-              this.total = Number(userList.data.total);
+              this.total = userList.data.total;
               NProgress.done();
             } else {
               NProgress.done();

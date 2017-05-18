@@ -18,8 +18,11 @@
               <el-col :span="8"><el-input v-model="userInfo.name"></el-input></el-col>
             </el-form-item>
 
-            <el-form-item label="管理组" prop="group">
-              <el-select v-model="userInfo.group" placeholder="请选择管理组">
+            <el-form-item label="管理组" prop="group" >
+              <el-select
+                v-model="userInfo.group"
+                placeholder="请选择管理组"
+                class="marginleft">
                 <el-option
                   v-for="group in groupData"
                   :value="group.groupId"
@@ -29,8 +32,12 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="所属城市" prop="area">
-              <el-select v-model="userInfo.province" placeholder="请选择" @change="changeProvince">
+            <el-form-item label="所属城市" prop="area" >
+              <el-select
+                v-model="userInfo.province"
+                placeholder="请选择"
+                @change="changeProvince"
+                class="marginleft">
                 <el-option
                   v-for="item in provinceData"
                   :key="item.value"
@@ -57,7 +64,7 @@
             </el-form-item>
 
             <el-form-item label="店铺分类" prop="shopCate">
-              <el-select v-model="userInfo.shopCate" placeholder="请选择店铺分类">
+              <el-select v-model="userInfo.shopCate" placeholder="请选择店铺分类" class="marginleft">
                 <el-option
                   v-for="cate in shopCateData"
                   :value="cate.id"
@@ -68,7 +75,7 @@
             </el-form-item>
 
             <el-form-item label="语言" prop="language">
-              <el-select v-model="userInfo.language" placeholder="请选择语言">
+              <el-select v-model="userInfo.language" placeholder="请选择语言" class="marginleft">
                 <el-option
                   v-for="language in languageData"
                   :value="language"
@@ -131,13 +138,13 @@
             { min: 6, max: 20, message: '密码在6到20之间', trigger: 'blur' }
           ],
           name: [{ required: true, message: '请输入管理员名', trigger: 'blur' }],
-          group: [
+          /*group: [
             { required: true, message: '请选择管理组', trigger: 'change' }
-          ],
+          ],*/
           area: [{ required: true, message: '请选择地址', trigger: 'change' }],
-          shopCate: [
+          /*shopCate: [
             { required: true, message: '请选择店铺分类', trigger: 'change' }
-          ],
+          ],*/
           language: [
             { required: true, message: '请选择语言', trigger: 'change' }
           ],
@@ -245,8 +252,8 @@
           .then(response => {
             let result = response.data;
             if (result.statusCode === STATUS_SUCCESS) {
-              this.groupData = result.data.data;
-              this.shopCateData = result.data.data1;
+              this.groupData = result.data;
+              this.shopCateData = result.data1;
             } else {
               this.$message({
                 message: '获取数据出错，请从新尝试',
@@ -271,5 +278,6 @@
 </script>
 
 <style lang="sass" scoped>
-
+  .marginleft
+    padding-left: 10px
 </style>
