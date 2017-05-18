@@ -101,3 +101,14 @@ export function formatDate(date, fmt) {
 function padLeftZero(str) {
   return ('00' + str).substr(str.length)
 }
+
+export function getDefaultPath(navId, powers) {
+  let subInfoArr = getSubNavPath(navId, powers.split(','));
+  if (subInfoArr[0].itemIds) {
+    if (subInfoArr[0].itemIds[0]) {
+      return subInfoArr[0].itemIds[0].pathName;
+    }
+  } else {
+    return subInfoArr[0].pathName;
+  }
+}

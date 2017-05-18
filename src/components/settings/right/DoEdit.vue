@@ -144,6 +144,13 @@
       submitForm(form) {
         this.$refs[form].validate((valid) => {
           if (valid) {
+            if (this.total[0].checkedPowers.length <= 0) {
+              this.$message({
+                message: '管理中心首页为必选',
+                type: 'info',
+              });
+              return;
+            }
             NProgress.start();
             this.loading = true;
             let powerArr = [];

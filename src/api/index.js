@@ -10,7 +10,6 @@ export let getPowers2 = axios => axios.get('/api/power2');
  * @param axios
  */
 export let getIndexInfo = axios => axios.post('/api/userinfo');
-export let login = (axios, data) => axios.post('http://192.168.1.146:8080/login', qs.stringify(data));
 // ============================================== settings 接口开始 =====================================
 /**
  * 增加权限组
