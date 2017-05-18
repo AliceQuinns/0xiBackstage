@@ -1,3 +1,5 @@
+import { getDefaultPath } from '../../common/js/util'
+let defaultPath = getDefaultPath(4, window.localStorage.getItem('subPowers'));
 import Level from '../../components/shop/right/Level.vue'
 import Cate from '../../components/shop/right/Cate.vue'
 import Template from '../../components/shop/right/Template.vue'
@@ -14,7 +16,7 @@ import Verify from '../../components/shop/right/Verify.vue'
 import StoreNews from '../../components/shop/right/StoreNews.vue'
 
 export const shopChildRouter = [
-  {path: '', redirect: 'level'},
+  {path: '', redirect: defaultPath},
   {path: 'level', component: Level},
   {path: 'cate', component: Cate},
   {path: 'template', component: Template},

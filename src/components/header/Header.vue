@@ -13,7 +13,7 @@
           <router-link :to="path.pathName">{{ path.name }}</router-link>
         </el-menu-item>
         <div class="user">
-          <div class="info">您好：admin | 退出</div>
+          <div class="info">您好：{{ userName }} | <span class="logout" @click="logout">退出</span></div>
         </div>
       </el-menu>
     </div>
@@ -28,6 +28,9 @@
     props: {
       pathData: {  // 主导航的数据
         type: Array,
+      },
+      userName: {
+        type: String
       },
     },
     data() {
@@ -55,6 +58,12 @@
         // 点击主导航后改变 parentId 以渲染对应的侧边栏
         let parentId = NAVID.indexOf(id);
         this.$store.commit(CHANGE_NAVID, {parentId});
+      },
+      logout() {
+        this.$message({
+          message: '退出登录',
+          type: 'info'
+        });
       },
     },
   }
@@ -84,4 +93,6 @@
         .info
           height: 60px
           line-height: 60px
+          .logout
+            cursor: pointer
 </style>
