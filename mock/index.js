@@ -301,22 +301,5 @@ module.exports = function (apiRouter) {
       msg: '修改成功',
     });
   });
-  apiRouter.post('/api/login', (req, res) => {
-    res.json({
-      success: true,
-      statusCode: 1,
-      msg: '修改成功',
-      data: {
-        user: 'admin',
-        logoip: '192.168.1.255',
-        currentLogoIp: '192.168.1.255',
-        logotime: new Date().getTime()/1000,
-        lastlogotime: new Date().getTime()/1000 - 86400,
-        logonums: 1234,
-        groupParam: power.power2.join(','),
-        sessionId: '45EWJ8325JKD8S7RRNKDF9342R5WGGH',
-      },
-    });
-  });
 };
 

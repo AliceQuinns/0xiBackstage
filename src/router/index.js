@@ -6,13 +6,11 @@ import Settings from '@/components/settings/Settings'
 import Product from '@/components/product/Product'
 import Shop from '@/components/shop/Shop'
 import Member from '@/components/member/Member'
-import Login from '@/components/login/Login'
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', redirect: '/login'},
-  { path: '/login', component: Login},
+  { path: '/', redirect: '/index'},
   {
     path: '/index',
     component: Index,
@@ -43,21 +41,6 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   routes,
-});
-
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (0) {
-      next({
-        path: '/login',
-        query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-      })
-    } else {
-      next()
-    }
-  } else {
-    next() // 确保一定要调用 next()
-  }
 });
 
 export default router
