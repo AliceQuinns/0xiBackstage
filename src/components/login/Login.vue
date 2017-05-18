@@ -73,6 +73,11 @@
                     message: '登录成功',
                     type: 'success'
                   });
+                  if (window.localStorage) {
+                    window.localStorage.setItem('sessionId', result.data.sessionId);
+                    window.localStorage.setItem('powers', result.data.groupParam);
+                  }
+                  this.$store.commit('CHANGE_POWERS', {powers: result.data.groupParam});
                   this.$router.push('/index/welcome');
                 } else {
                   this.$message({

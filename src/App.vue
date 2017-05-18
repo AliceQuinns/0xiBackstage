@@ -31,7 +31,7 @@
     },
     created() {
       // 获取用户权限并分组
-      NProgress.start();
+      /*NProgress.start();
       getPowers2(this.axios).then(response => {
         let data = response.data;
         if (data.statusCode === STATUS_SUCCESS) {
@@ -40,7 +40,16 @@
           this.subNavData = result.restPower;
         }
         NProgress.done();
-      });
+      });*/
+      let timer = setInterval(() => {
+        console.log(12345);
+        if (this.$store.state.powers) {
+          let result = getNameAndPath(this.$store.state.powers.split(','));
+          this.path = result.path;
+          this.subNavData = result.restPower;
+          clearInterval(timer);
+        }
+      }, 0);
     },
   }
 </script>
