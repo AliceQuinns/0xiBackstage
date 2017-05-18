@@ -29,9 +29,9 @@
               <el-select v-model="userInfo.group" placeholder="请选择管理组" class="marginleft">
                 <el-option
                   v-for="group in groupData"
-                  :value="group.id"
-                  :label="group.name"
-                  :key="group.id">
+                  :value="group.groupId"
+                  :label="group.groupName"
+                  :key="group.groupId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -144,12 +144,12 @@
             { required: true, message: '请输入账号', trigger: 'blur' },
           ],
           name: [{ required: true, message: '请输入管理员名', trigger: 'blur' }],
-          group: [
+          /*group: [
             { required: true, message: '请选择管理组', trigger: 'change' }
-          ],
-          shopCate: [
-            { required: true, message: '请选择店铺分类', trigger: 'change' }
-          ],
+          ],*/
+          /*shopCate: [
+            { required: true, message: '请选择分类', trigger: 'change' }
+          ],*/
           language: [
             { required: true, message: '请选择语言', trigger: 'change' }
           ],
@@ -270,20 +270,17 @@
         NProgress.start();
         getUserInfo(this.axios, this.$route.params.id)
           .then(response => {
-            console.log(this.$route.params.id);
             let result = response.data;
-            console.log(result);
             if (result.statusCode === STATUS_SUCCESS) {
-              let user = result.data;
-              console.log(user.name);
+              let user = response.data;
               this.userInfo.name = user.name;
               this.userInfo.user = user.user;
               this.address = `${user.province + user.city + user.area}`;
               this.userInfo.language = 'cn';
               this.userInfo.desc = user.desc;
               this.originalUserInfo = user;
-              this.groupData = result.data1;
-              this.shopCateData = result.data2;
+              this.groupData = user.data;
+              this.shopCateData = user.data1;
             } else {
               this.$message({
                 message: '获取数据出错，请重新尝试',

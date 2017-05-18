@@ -10,7 +10,7 @@ export let getPowers2 = axios => axios.get('/api/power2');
  * @param axios
  */
 export let getIndexInfo = axios => axios.post('/api/userinfo');
-
+export let login = (axios, data) => axios.post('http://192.168.1.146:8080/login', qs.stringify(data));
 // ============================================== settings 接口开始 =====================================
 /**
  * 增加权限组
@@ -74,7 +74,7 @@ export let editUser = (axios, data) => axios.post('http://192.168.1.146:8080/shs
  * @param axios
  * @param id
  */
-export let getUserInfo = axios => axios.get(`http://192.168.1.146:8080/shscAdminInsert`);
+export let getUserInfo = (axios, userid) => axios.get(`http://192.168.1.146:8080/shscAdminInsert?userid=${userid}`);
 /**
  * 获取热门关键词
  * @param axios
