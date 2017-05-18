@@ -73,7 +73,7 @@ export let editUser = (axios, data) => axios.post('http://192.168.1.146:8080/shs
  * @param axios
  * @param id
  */
-export let getUserInfo = axios => axios.get(`http://192.168.1.146:8080/shscAdminInsert`);
+export let getUserInfo = (axios, userid) => axios.get(`http://192.168.1.146:8080/shscAdminInsert?userid=${userid}`);
 /**
  * 获取热门关键词
  * @param axios
