@@ -111,31 +111,31 @@ export let addIndexContent = (axios, data) => axios.post('http://192.168.1.146:8
  * 获取所有店铺的等级
  * @param axios
  */
-export let getAllShopsLevel = axios => axios.get('/api/shscShopGradeList');
+export let getAllShopsLevel = axios => axios.get('http://192.168.1.146:8080/shscShopGradeList');
 /**
  * 获取单个店铺的等级
  * @param axios
  * @param id
  */
-export let getOneShopLevel = (axios, id) => axios.get(`/api/shscShopGradeList?id=${id}`);
+export let getOneShopLevel = (axios, id) => axios.get(`http://192.168.1.146:8080/shscShopGradeListId?id=${id}`);
 /**
  * 删除店铺等级
  * @param axios
  * @param data
  */
-export let deleteShopLevel = (axios, data) => axios.post('/api/shscShopGradeDelectList', data);
+export let deleteShopLevel = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopGradeDelete', qs.stringify(data));
 /**
  * 增加店铺等级
  * @param axios
  * @param data
  */
-export let addShopLevel = (axios, data) => axios.post('/api/shscShopGradeAdd', data);
+export let addShopLevel = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopGradeAdd', qs.stringify(data));
 /**
  * 编辑店铺等级
  * @param axios
  * @param data
  */
-export let editShopLevel = (axios, data) => axios.post('/api/shscShopGradeUpdate', data);
+export let editShopLevel = (axios, data) => axios.post('http://192.168.1.146:8080/shscShopGradeUpdate', data);
 /**
  * 获取店铺管理的店铺信息
  * @param axios
