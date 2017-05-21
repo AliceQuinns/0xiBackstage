@@ -23,6 +23,9 @@
 <script>
   import {NAVID} from '../../common/consts/index'
   import {CHANGE_NAVID} from '../../common/consts/mutation-types'
+  import { logout } from '../../api/index'
+  import NProgress from 'nprogress'
+  import { STATUS_SUCCESS } from '../../common/consts/index'
   export default {
     name: 'header',
     props: {
@@ -60,10 +63,57 @@
         this.$store.commit(CHANGE_NAVID, {parentId});
       },
       logout() {
-        this.$message({
-          message: '退出登录',
-          type: 'info'
-        });
+        /*let sessionId = window.localStorage.getItem('sessionId');
+        if (sessionId) {
+          NProgress.start();
+          logout(this.axios, {sessionId})
+            .then(response => {
+              let result = response.data;
+              if (result.statusCode === STATUS_SUCCESS) {
+                this.$message({
+                  message: '退出成功',
+                  type: 'success'
+                });
+              } else {
+                this.$message({
+                  message: '失败，请重试',
+                  type: 'info'
+                });
+              }
+              NProgress.done();
+            })
+            .catch(e => {
+              NProgress.done();
+              this.$message({
+                message: '出现未知错误，请重试',
+                type: 'error'
+              });
+            });
+        }*/
+        NProgress.start();
+        logout(this.axios)
+          .then(response => {
+            let result = response.data;
+            if (result.statusCode === STATUS_SUCCESS) {
+              this.$message({
+                message: '退出成功',
+                type: 'success'
+              });
+            } else {
+              this.$message({
+                message: '获取数据出错，请重新尝试',
+                type: 'error'
+              });
+            }
+            NProgress.done();
+          })
+          .catch(e => {
+            NProgress.done();
+            this.$message({
+              message: '获取数据出错，请重新尝试',
+              type: 'error'
+            });
+          });
       },
     },
   }

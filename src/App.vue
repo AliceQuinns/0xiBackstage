@@ -6,10 +6,10 @@
 </template>
 
 <script>
-  import { UPDATE_SESSIONID } from './common/consts/mutation-types'
+  import { UPDATE_SESSIONID, UPDATE_MANAGER_INFO } from './common/consts/mutation-types'
   import { getNameAndPath } from './common/js/util'
   import { STATUS_SUCCESS } from './common/consts/index'
-  import { getPowers2 } from './api/index'
+  import { getManagerInfo } from './api/index'
   import Header from './components/header/Header'
 
   let NProgress = require('nprogress');
@@ -28,18 +28,24 @@
     created() {
       // 获取用户权限并分组
       NProgress.start();
-      getPowers2(this.axios).then(response => {
+      getManagerInfo(this.axios).then(response => {
         let data = response.data;
         if (data.statusCode === STATUS_SUCCESS) {
-          let powers =
-            '6a992d5529f459a44fee58c733255e86,b7da23e66d9ebb5737340005de050cf0,58982afbd60ca68e3aabd6d244b88a09,9c70933aff6b2a6d08c687a6cbb6b765,c14fa7060160a20fdab310c998202af0';
-          let result = getNameAndPath(powers.split(','));
-//          let result = getNameAndPath(data.power);
+          let ultraData = data.data;
+          let result = getNameAndPath(ultraData.groupParam.split(','));
           this.path = result.path;
           this.subNavData = result.restPower;
-          let sessionId = '32yjfhdsjgh32945346tghe';
-          this.username = 'alvin';
+          let sessionId = ultraData.sessionId;
+          this.username = ultraData.name;
           this.$store.commit(UPDATE_SESSIONID, {sessionId: sessionId});
+          this.$store.commit(UPDATE_MANAGER_INFO, {managerInfo: {
+            group: ultraData.groupName,
+            lastIp: ultraData.logoip,
+            ip: ultraData.currentLogoIp,
+            time: new Date().getTime(),
+            lastTime: ultraData.lastlogotime,
+            nums: ultraData.logonums,
+          }});
           window.localStorage.setItem('sessionId', sessionId);
           window.localStorage.setItem('subPowers', result.restPower);
         }
