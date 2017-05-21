@@ -1,15 +1,16 @@
 import qs from 'qs'
 /**
- * 获取用户权限
- * @param axios
- */
-export let getPowers1 = axios => axios.get('/api/power1');
-export let getPowers2 = axios => axios.get('/api/power2');
-/**
  * 获取首页个人信息
  * @param axios
  */
-export let getIndexInfo = axios => axios.post('/api/userinfo');
+export let getManagerInfo = axios => axios.get('http://192.168.1.146:8080/getSession');
+/**
+ * 退出登录
+ * @param axios
+ * @param data sessionId
+ */
+// export let logout = (axios, data) => axios.post('http://192.168.1.146:8080/logout', qs.stringify(data));
+export let logout = axios => axios.get('http://192.168.1.146:8080/logout');
 // ============================================== settings 接口开始 =====================================
 /**
  * 增加权限组
