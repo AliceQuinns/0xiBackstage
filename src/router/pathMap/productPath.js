@@ -14,4 +14,5 @@ export let productChildRouter = [
   {path: 'productevaluation', component: ProductEvaluation, meta: {requirePower: true}},
   {path: 'consultation', component: Consultation, meta: {requirePower: true}},
   {path: 'catemanage', component: CateManage, meta: {requirePower: true}},
+  {path: 'brand', component: Brand},
 ];

@@ -190,6 +190,7 @@
           },
           {
             "name": "品牌管理",
+            "path": "/product/brand",
             "id": "5a598c864ab8aafb529990b6d4ad17d3"
           },
           {

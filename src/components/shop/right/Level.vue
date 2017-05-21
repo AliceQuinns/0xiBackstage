@@ -35,7 +35,7 @@
                   type="selection"
                   width="55">
                 </el-table-column>
-                <!-- ID -->
+                <!-- 状态 -->
                 <el-table-column
                   label="状态"
                   width="120"
@@ -53,7 +53,7 @@
                 </el-table-column>
                 <!-- 创建时间 -->
                 <el-table-column
-                  prop="create_time"
+                  prop="createTime"
                   label="创建时间">
                 </el-table-column>
                 <!-- 修改 -->
@@ -75,14 +75,6 @@
                       type="danger"
                       @click="handleDelete()">
                       删除</el-button>
-                    <!--<el-pagination
-                      class="pagination"
-                      @current-change="handleCurrentChange"
-                      :current-page.sync="currentPage"
-                      :page-size="10"
-                      layout="prev, pager, next, jumper"
-                      :total="total">
-                    </el-pagination>-->
                   </div>
                 </el-tab-pane>
 
@@ -92,7 +84,7 @@
               <!-- 标题 -->
               <p class="topicTags">添加店铺</p>
               <div id="">
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="">
+                <el-form v-model="ruleForm"  ref="ruleForm" label-width="100px" class="">
 
                   <el-form-item label="名称" prop="name">
                     <el-col :span="8"><el-input v-model="ruleForm.name"></el-input></el-col>
@@ -122,17 +114,27 @@
               <span slot="label"><i class="el-icon-edit"></i>&nbsp;&nbsp;修改</span>
               <p class="topicTags">修改店铺</p>
               <div>
-                <el-form :model="modifyForm" :rules="rulesModifyForm" ref="modifyForm" label-width="100px"
-                         class="demo-modifyForm">
-                  <el-form-item label="名称" prop="name">
+                <el-form
+                  v-model="modifyForm"
+                  :rules="rulesModifyForm"
+                  ref="modifyForm"
+                  label-width="100px"
+                  class="demo-modifyForm">
+
+                  <el-form-item label="名称">
                     <el-col :span="8"><el-input v-model="modifyForm.name"></el-input></el-col>
                   </el-form-item>
-                  <el-form-item label="描述" prop="desc">
+
+                  <el-form-item label="描述">
                     <el-col :span="8">
-                      <el-input type="textarea" v-model="modifyForm.desc" :rows="5">
+                      <el-input
+                        type="textarea"
+                        v-model="modifyForm.desc"
+                        :rows="5">
                       </el-input>
                     </el-col>
                   </el-form-item>
+
                   <el-form-item label="状态" prop="status">
                     <el-switch v-model="stateButtonModifyForm" on-color="#13ce66" off-color="#ff4949">
                     </el-switch>
@@ -181,7 +183,7 @@
           delivery: false,
           type: [],
           desc: '',
-          state: true,
+          state: false,
         },
         /* 修改 -- 表单 */
         modifyForm: {
@@ -192,7 +194,7 @@
           status: true,
         },
         /* 添加 -- 表单验证 */
-        rules: {
+        rulesform: {
           name: [
             { required: true, message: '请输入店铺名称', trigger: 'blur' },
             { min: 3, max: 25, message: '长度在 3 到 25 个字符', trigger: 'blur' }
@@ -231,18 +233,11 @@
             idArr.push(this.multipleSelection[i].id);
           }
           let result = idArr.join(',');
+          console.log(result);
           deleteShopLevel(this.axios, { id: result })
             .then(response => {
               let data = response.data;
               if (data.statusCode === STATUS_SUCCESS) {
-                /*let idx;
-                for (let i = 0; i < this.tableData.length; i++) {
-                  if (this.tableData[i].id === this.multipleSelection[0].id) {
-                    idx = i;
-                    break
-                  }
-                }
-                this.tableData.splice(idx, 1);*/
                 this.multipleSelection.forEach(v => {
                   for (let i = 0; i < this.tableData.length; i++) {
                     if (v.id === this.tableData[i].id) {
@@ -277,44 +272,24 @@
           });
         });
       },
-      /* 分页 */
-      /*handleCurrentChange(val) {
-        NProgress.start();
-        getAllShopsLevel(this.axios, val)
-          .then(response => {
-            let userList = response.data;
-            if (userList.statusCode === STATUS_SUCCESS) {
 
-              this.tableData = userList.data.data;
-              this.total = Number(userList.data.total);
-
-              NProgress.done();
-            } else {
-              NProgress.done();
-            }
-          })
-          .catch(e => {
-            NProgress.done();
-          });
-      },*/
       /* 选项卡的切换 */
       toggleClickShow: function() {
         this.displayCondition = false;
       },
+
       /* 获取单条店铺信息 */
       clickShow: function(index, row){
         this.displayCondition = !this.displayCondition;
         this.editableTabsValue = '3';
-        /* 单条店铺信息 */
-        console.log("asydgjgas");
         NProgress.start();
-        getOneShopLevel(this.axios,row.id)
+        getOneShopLevel(this.axios, row.id)
             .then(response => {
               let groups = response.data;
               if (groups.statusCode === STATUS_SUCCESS) {
-                this.modifyForm = groups.data;
-                /*this.modifyForm.name = groups.data.name;
-                this.modifyForm.desc = groups.data.desc;*/
+                this.modifyForm = groups.data[0];
+                console.log(this.modifyForm);
+                console.log(this.modifyForm.desc);
                 if (groups.data.status == 1){
                   this.stateButtonModifyForm = true;
                 }else if(groups.data.status == 0){
@@ -332,10 +307,12 @@
               NProgress.done();
             });
       },
+
       /* 管理 -- 保存选中的数组 */
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
+
       /* 添加 -- 表单 -- 提交 */
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -344,7 +321,7 @@
             addShopLevel(this.axios,{
               name: this.ruleForm.name,
               desc: this.ruleForm.desc,
-              state: this.ruleForm.state ? 1 : 0
+              status: this.ruleForm.state ? 1 : 0
             })
               .then(response => {
                 let result = response.data;
@@ -374,15 +351,16 @@
           }
         });
       },
+
       /* 编辑 -- 表单 -- 提交 */
       submitFormEdit(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             NProgress.start();
-            addShopLevel(this.axios,{
+            editShopLevel(this.axios,{
               name: this.modifyForm.name,
               desc: this.modifyForm.desc,
-              state: this.modifyForm.state ? 1 : 0
+              status: this.stateButtonModifyForm ? 1 : 0
             })
               .then(response => {
                 let result = response.data;
@@ -412,10 +390,12 @@
           }
         });
       },
+
       /* 重置表单 */
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
+
       selectRow(index, row) {
         console.log(index, row);
       },
@@ -428,6 +408,16 @@
           let groups = response.data;
           if (groups.statusCode === STATUS_SUCCESS) {
             this.tableData = groups.data;
+            console.log(this.tableData);
+            console.log(this.tableData.createTime);
+            var status = this.tableData;
+            for(var i=0; i<status.length;i++) {
+              if(status[i].status == true) {
+                status[i].status = '开启';
+              }else if(status[i].status == false){
+                status[i].status = '关闭';
+              };
+            };
           }
           NProgress.done();
         })
