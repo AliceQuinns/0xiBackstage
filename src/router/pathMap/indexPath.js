@@ -9,5 +9,5 @@ import Welcome from '../../components/index/right/Welcome.vue'
 
 export const indexChildRouter = [
   { path: '', redirect: 'welcome' },
-  { path: 'welcome', component: Welcome}
+  { path: 'welcome', component: Welcome, meta: {requirePower: true}}
 ];

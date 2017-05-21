@@ -31,10 +31,10 @@
       getPowers2(this.axios).then(response => {
         let data = response.data;
         if (data.statusCode === STATUS_SUCCESS) {
-          /*let powers =
-            '6a992d5529f459a44fee58c733255e86,b7da23e66d9ebb5737340005de050cf0,58982afbd60ca68e3aabd6d244b88a09,9c70933aff6b2a6d08c687a6cbb6b765,c14fa7060160a20fdab310c998202af0';*/
-//          let result = getNameAndPath(powers.split(','));
-          let result = getNameAndPath(data.power);
+          let powers =
+            '6a992d5529f459a44fee58c733255e86,b7da23e66d9ebb5737340005de050cf0,58982afbd60ca68e3aabd6d244b88a09,9c70933aff6b2a6d08c687a6cbb6b765,c14fa7060160a20fdab310c998202af0';
+          let result = getNameAndPath(powers.split(','));
+//          let result = getNameAndPath(data.power);
           this.path = result.path;
           this.subNavData = result.restPower;
           let sessionId = '32yjfhdsjgh32945346tghe';

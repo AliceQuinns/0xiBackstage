@@ -16,13 +16,13 @@ import Content from '../../components/settings/right/Content.vue'
 
 export const settingsChildRouter = [
   {path: '', redirect: defaultPath},
-  {path: 'addusergroup', component: AddUserGroup},
-  {path: 'editusergroup', component: EditUserGroup},
-  {path: 'editusergroup/:id', component: DoEdit},
-  {path: 'adduser', component: AddUser},
-  {path: 'userlist', component: UserList},
-  {path: 'userlist/:id', component: EditUser},
-  {path: 'logs', component: Logs},
-  {path: 'hotkeywords', component: HotKeywords},
-  {path: 'content', component: Content, meta: { requirePower: true }},
+  {path: 'addusergroup', component: AddUserGroup, meta: {requirePower: true}},
+  {path: 'editusergroup', component: EditUserGroup, meta: {requirePower: true}},
+  {path: 'editusergroup/:id', component: DoEdit, meta: {requirePower: true}},
+  {path: 'adduser', component: AddUser, meta: {requirePower: true}},
+  {path: 'userlist', component: UserList, meta: {requirePower: true}},
+  {path: 'userlist/:id', component: EditUser, meta: {requirePower: true}},
+  {path: 'logs', component: Logs, meta: {requirePower: true}},
+  {path: 'hotkeywords', component: HotKeywords, meta: {requirePower: true}},
+  {path: 'content', component: Content, meta: {requirePower: true}},
 ];

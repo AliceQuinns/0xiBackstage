@@ -102,8 +102,17 @@ function padLeftZero(str) {
   return ('00' + str).substr(str.length)
 }
 
+/**
+ * 获取默认渲染的路由
+ * @param navId 主导航在 pathmap 文件下的下标
+ * @param powers  除主导航以外的权限
+ * @returns {*}  返回应该渲染的路由
+ */
 export function getDefaultPath(navId, powers) {
   let subInfoArr = getSubNavPath(navId, powers.split(','));
+  if (!subInfoArr[0]) {
+    return
+  }
   if (subInfoArr[0].itemIds) {
     if (subInfoArr[0].itemIds[0]) {
       return subInfoArr[0].itemIds[0].pathName;
@@ -111,4 +120,38 @@ export function getDefaultPath(navId, powers) {
   } else {
     return subInfoArr[0].pathName;
   }
+}
+
+export function detectPower(path, powers) {
+  let navPath = /\/\w+/.exec(path)[0];
+  for (let i = 0; i < POWERMAP.length; i++) {
+    // 找到所属的导航
+    if (POWERMAP[i].path === navPath) {
+      let subs = POWERMAP[i].subs;
+      for (let j = 0; j < subs.length; j++) {
+        // 和二级路由进行对比
+        if (subs[j].itemIds) {
+          for (let m = 0; m < subs[j].itemIds.length; m++) {
+            if (subs[j].itemIds[m].path === path) {
+              if (powers.indexOf(subs[j].itemIds[m].id) === -1) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+          }
+        } else {
+          if (subs[j].path === path) {
+            if (powers.indexOf(subs[j].id) === -1) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+      }
+      break;
+    }
+  }
+  return false;
 }
