@@ -27,7 +27,7 @@ export let getGroupList = axios => axios.get(`http://192.168.1.146:8080/shscAdmi
  * @param axios
  * @param data 权限组的 groupId
  */
-export let deleteGroup = (axios, data) => axios.post('/api/shscAdminGroupDelete', data);
+export let deleteGroup = (axios, data) => axios.post('http://192.168.1.146:8080/shscAdminGroupDelete', data);
 /**
  * 获取权限组的信息
  * @param axios
