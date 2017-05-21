@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { detectPower } from '../common/js/util'
 import * as childrenPath from './pathMap/index'
 import Index from '@/components/index/Index'
 import Settings from '@/components/settings/Settings'
@@ -37,6 +38,10 @@ const routes = [
     path: '/shop',
     component: Shop,
     children: childrenPath.shopChildRouter,
+  },
+  {
+    path: '*',
+    redirect: '404',
   }
 ];
 
@@ -47,16 +52,14 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requirePower)) {
-    // TODO 判断是否有权限
-    console.log(to);
-    next();
-    /*if (!auth.loggedIn()) {
+    let powers = window.localStorage.getItem('subPowers');
+    if (!detectPower(to.path, powers)) {
       next({
         path: '/404',
       })
     } else {
       next()
-    }*/
+    }
   } else {
     next() // 确保一定要调用 next()
   }

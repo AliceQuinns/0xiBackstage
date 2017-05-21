@@ -11,9 +11,9 @@ import Brand from '../../components/product/right/Brand.vue'
 
 export let productChildRouter = [
   {path: '', redirect: defaultPath},
-  {path: 'productlist', component: ProductList},
-  {path: 'productevaluation', component: ProductEvaluation},
-  {path: 'consultation', component: Consultation},
-  {path: 'catemanage', component: CateManage},
-  {path: 'brand', component: Brand},
+  {path: 'productlist', component: ProductList, meta: {requirePower: true}},
+  {path: 'productevaluation', component: ProductEvaluation, meta: {requirePower: true}},
+  {path: 'consultation', component: Consultation, meta: {requirePower: true}},
+  {path: 'catemanage', component: CateManage, meta: {requirePower: true}},
+  {path: 'brand', component: Brand, meta: {requirePower: true}},
 ];

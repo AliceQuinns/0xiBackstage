@@ -9,7 +9,7 @@ import MembershipLevel from '../../components/member/right/MembershipLevel.vue'
 
 export let memberChildRouter = [
   {path: '', redirect: defaultPath},
-  {path: 'address', component: Address},
-  {path: 'manage', component: Manage},
-  {path: 'membershiplevel', component: MembershipLevel},
+  {path: 'address', component: Address, meta: {requirePower: true}},
+  {path: 'manage', component: Manage, meta: {requirePower: true}},
+  {path: 'membershiplevel', component: MembershipLevel, meta: {requirePower: true}},
 ];
