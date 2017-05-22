@@ -2,7 +2,7 @@
  * Created by alvin on 17-5-13.
  */
 import { getDefaultPath } from '../../common/js/util'
-let defaultPath = getDefaultPath(2, window.localStorage.getItem('subPowers'));
+let defaultPath = getDefaultPath(2, window.localStorage.getItem('powers'));
 import ProductList from '../../components/product/right/ProductList.vue'
 import ProductEvaluation from '../../components/product/right/ProductEvaluation.vue'
 import Consultation from '../../components/product/right/Consultation.vue'

@@ -109,7 +109,8 @@ function padLeftZero(str) {
  * @returns {*}  返回应该渲染的路由
  */
 export function getDefaultPath(navId, powers) {
-  let subInfoArr = getSubNavPath(navId, powers.split(','));
+  let result = getNameAndPath(powers.split(','));
+  let subInfoArr = getSubNavPath(navId, result.restPower);
   if (!subInfoArr[0]) {
     return
   }

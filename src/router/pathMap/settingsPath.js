@@ -2,7 +2,7 @@
  * Created by alvin on 17-4-26.
  */
 import { getDefaultPath } from '../../common/js/util'
-let defaultPath = getDefaultPath(1, window.localStorage.getItem('subPowers'));
+let defaultPath = getDefaultPath(1, window.localStorage.getItem('powers'));
 
 import AddUserGroup from '../../components/settings/right/AddUserGroup.vue'
 import EditUserGroup from '../../components/settings/right/EditUserGroup.vue'

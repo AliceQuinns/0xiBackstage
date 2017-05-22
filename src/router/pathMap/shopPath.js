@@ -1,5 +1,5 @@
 import { getDefaultPath } from '../../common/js/util'
-let defaultPath = getDefaultPath(4, window.localStorage.getItem('subPowers'));
+let defaultPath = getDefaultPath(4, window.localStorage.getItem('powers'));
 import Level from '../../components/shop/right/Level.vue'
 import Cate from '../../components/shop/right/Cate.vue'
 import Template from '../../components/shop/right/Template.vue'
