@@ -35,7 +35,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('test'), resolve('node_modules/._element-ui@1.2.8@element-ui/src/mixins')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
