@@ -28,7 +28,8 @@
       }
     },
     created() {
-      this.userInfo = this.$store.state.managerInfo;
+//      this.userInfo = this.$store.state.managerInfo;
+      this.userInfo = JSON.parse(window.localStorage.getItem('managerInfo'));
     },
     filters: {
       fomatTime(ms) {
