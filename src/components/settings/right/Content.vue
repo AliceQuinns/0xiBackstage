@@ -16,9 +16,9 @@
                   <el-card :body-style="{ padding: '0px'}">
                     <img :src="item.pic" class="image" @error="handleErrorSrc($event)">
                     <div style="padding: 14px;">
-                      <span>{{ item.name }}</span>
+                      <span class="name">{{ item.name }}</span>
                       <div class="bottom clearfix">
-                        <p><span>{{ item.area }}</span></p>
+                        <p><span class="address">{{ item.area }}</span></p>
                         <span class="price">{{ item.price | addCurrency }}</span>
                         <el-button type="danger" class="button" size="small" @click="deleteItem(1, item.id)">删除
                         </el-button>
@@ -36,9 +36,9 @@
                   <el-card :body-style="{ padding: '0px'}">
                     <img :src="item.pic" class="image" @error="handleErrorSrc($event)">
                     <div style="padding: 14px;">
-                      <span>{{ item.name }}</span>
+                      <span class="name">{{ item.name }}</span>
                       <div class="bottom clearfix">
-                        <p><span>{{ item.area }}</span></p>
+                        <p><span class="address">{{ item.area }}</span></p>
                         <span class="price">{{ item.price | addCurrency }}</span>
                         <el-button type="danger" class="button" size="small" @click="deleteItem(2, item.id)">删除
                         </el-button>
