@@ -50,7 +50,7 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requirePower)) {
     let powers = window.localStorage.getItem('subPowers');
     if (!detectPower(to.path, powers)) {
@@ -63,6 +63,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next() // 确保一定要调用 next()
   }
-});
+});*/
 
 export default router
