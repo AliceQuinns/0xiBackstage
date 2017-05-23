@@ -141,7 +141,7 @@
   },
   {
     "name": "产品",
-    "path": "/product",
+    "path": "/products",
     "id": "f5bf48aa40cad7891eb709fcf1fde128",
     "subs": [
       {
@@ -150,27 +150,27 @@
         "itemIds": [
           {
             "name": "产品列表",
-            "path": "/product/productlist",
+            "path": "/products/productlist",
             "id": "525417bac7e611ba3391b5b0afd2a84d"
           },
           {
             "name": "编辑产品信息",
-            "path": "/product/edit",
+            "path": "/products/edit",
             "id": "822e21ddc725fd0f531a53267c7f56a3"
           },
           {
             "name": "删除产品信息",
-            "path": "/product/delete",
+            "path": "/products/delete",
             "id": "5b3326eb4b674ddbb5e7c3e2c16b5718"
           },
           {
             "name": "产品咨询",
-            "path": "/product/consultation",
+            "path": "/products/consultation",
             "id": "d66e885a6f5e2c0d9150fbb6d5ca8d3e"
           },
           {
             "name": "产品评价",
-            "path": "/product/productevaluation",
+            "path": "/products/productevaluation",
             "id": "e3e8c2dfce7753b9caf46eb357f0ea1a"
           }
         ]
@@ -181,7 +181,7 @@
         "itemIds": [
           {
             "name": "分类管理",
-            "path": "/product/catemanage",
+            "path": "/products/catemanage",
             "id": "2a6b0f310ec2d9c879a6fb1c7391842d"
           },
           {
@@ -190,7 +190,7 @@
           },
           {
             "name": "品牌管理",
-            "path": "/product/brand",
+            "path": "/products/brand",
             "id": "5a598c864ab8aafb529990b6d4ad17d3"
           },
           {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { detectPower } from '../common/js/util'
+// import { detectPower } from '../common/js/util'
 import * as childrenPath from './pathMap/index'
 import Index from '@/components/index/Index'
 import Settings from '@/components/settings/Settings'
@@ -25,7 +25,7 @@ const routes = [
     children: childrenPath.settingsChildRouter,
   },
   {
-    path: '/product',
+    path: '/products',
     component: Product,
     children: childrenPath.productChildRouter,
   },
