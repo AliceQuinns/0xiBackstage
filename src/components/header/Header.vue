@@ -44,7 +44,7 @@
         // 更改当前导航的ID
         let path = this.$route.path;
         let navName = path.split('/')[1];
-        let nav = ['index', 'settings', 'product', 'member', 'shop', 'transaction', 'manage', 'web', 'tool'];
+        let nav = ['index', 'settings', 'products', 'member', 'shop', 'transaction', 'manage', 'web', 'tool'];
         let idx = nav.indexOf(navName);
         this.$store.commit(CHANGE_NAVID, {parentId: idx});
 
