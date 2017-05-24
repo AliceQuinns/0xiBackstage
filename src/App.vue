@@ -25,6 +25,7 @@
     components: {
       'app-header': Header,
     },
+    // 直接从localstorage读数据
     created() {
       // 获取用户权限并分组
       NProgress.start();
@@ -85,8 +86,8 @@
           this.$message({
             message: '获取数据失败',
             type: 'error'
-          });
-          NProgress.done();*/
+          });*/
+          NProgress.done();
           this.$message({
             message: '获取数据失败',
             type: 'error'
