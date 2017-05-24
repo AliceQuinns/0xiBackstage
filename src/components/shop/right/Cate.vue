@@ -189,6 +189,7 @@
             }
           }
         }
+        NProgress.start();
         modifyNAddCate(this.axios, {
           oneCategoryParam: firstLevelArr.join(','),
           twoCategory: secondLevelArr.join(',')
