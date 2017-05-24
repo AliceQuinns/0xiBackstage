@@ -21,14 +21,6 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express();
-// mock 数据
-var apiRouter = express.Router();
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-var routes = require('../mock/index');
-routes(apiRouter);
-app.use(apiRouter);
 
 var compiler = webpack(webpackConfig)
 
