@@ -39,8 +39,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/api/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="16" column="15" lean-forward="true" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+            <state relative-caret-position="480">
+              <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -611,14 +611,7 @@
       <workItem from="1496211383603" duration="158000" />
       <workItem from="1496221438644" duration="3395000" />
       <workItem from="1496279950433" duration="1201000" />
-      <workItem from="1496281844730" duration="13595000" />
-    </task>
-    <task id="LOCAL-00082" summary="增加申请店铺和店铺认证的页面">
-      <created>1494591017657</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1494591017657</updated>
+      <workItem from="1496281844730" duration="13712000" />
     </task>
     <task id="LOCAL-00083" summary="增加会员分类">
       <created>1494646055553</created>
@@ -956,11 +949,18 @@
       <option name="project" value="LOCAL" />
       <updated>1496296486693</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="webstorm的项目配置">
+      <created>1496301773282</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1496301773282</updated>
+    </task>
+    <option name="localTasksCounter" value="132" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="735293000" />
+    <option name="totallyTimeSpent" value="735410000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -1039,7 +1039,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="回到之前的状态，使用后台的登录页面，前端不做登录" />
     <MESSAGE value="必选管理中心首页" />
     <MESSAGE value="每个模块自动加载有权限的第一个功能；用户名展示；" />
     <MESSAGE value="增加404页面；增加全局路由钩子；" />
@@ -1064,7 +1063,8 @@
     <MESSAGE value="开发接口配置" />
     <MESSAGE value="修复不能编辑页面没有原始信息的问题" />
     <MESSAGE value="开发时需要的改变" />
-    <option name="LAST_COMMIT_MESSAGE" value="开发时需要的改变" />
+    <MESSAGE value="webstorm的项目配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="webstorm的项目配置" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1425,8 +1425,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/api/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="512">
-          <caret line="16" column="15" lean-forward="true" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+        <state relative-caret-position="480">
+          <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
           <folding />
         </state>
       </provider>
