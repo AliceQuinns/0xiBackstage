@@ -84,10 +84,6 @@
           window.localStorage.setItem('managerInfo', JSON.stringify(managerInfo));
           window.localStorage.setItem('sessionId', sessionId);
           window.localStorage.setItem('subPowers', result.restPower);
-          this.$message({
-            message: '获取数据失败',
-            type: 'error'
-          });
           NProgress.done();
           this.$message({
             message: '获取数据失败',
