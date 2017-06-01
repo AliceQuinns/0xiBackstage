@@ -27,7 +27,6 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // TODO 配置打包和开发环境不同的api文件或者改下面的代理
     proxyTable: {
       '/api': {
         target: 'http://192.168.1.146:8080',
