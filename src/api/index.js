@@ -34,7 +34,7 @@ export let deleteGroup = (axios, data) => axios.post('/api/shscAdminGroupDelete'
  * @param axios
  * @param groupid
  */
-export let getGroupInfo = (axios, userid) => axios.get(`/api/shscAdminGroupId?userid=${userid}`);
+export let getGroupInfo = (axios, groupid) => axios.get(`/api/shscAdminGroupId?groupId=${groupid}`);
 /**
  * 编辑权限组
  * @param axios
@@ -74,7 +74,7 @@ export let editUser = (axios, data) => axios.post('/api/shscAdminModify', data);
  * @param axios
  * @param id
  */
-export let getUserInfo = (axios, userid) => axios.get(`/api/shscAdminInsert?userid=${userid}`);
+export let getUserInfo = (axios, id) => axios.get(`/api/shscAdminId?id=${id}`);
 /**
  * 获取热门关键词
  * @param axios
