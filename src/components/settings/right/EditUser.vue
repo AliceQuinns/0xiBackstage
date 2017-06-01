@@ -216,8 +216,8 @@
               cityLabel = this.originalUserInfo.city;
               areaLabel = this.originalUserInfo.area;
             }
-
             editUser(this.axios, {
+              id: this.$route.params.id,
               user: this.userInfo.user,
               name: this.userInfo.name,
               password: this.userInfo.password,
@@ -236,7 +236,7 @@
                 let result = response.data;
                 if (result.statusCode === STATUS_SUCCESS) {
                   this.$message({
-                    message: '增加管理员成功',
+                    message: '修改管理员成功',
                     type: 'success'
                   });
                   setTimeout(() => {
@@ -244,7 +244,7 @@
                   }, 500);
                 } else {
                   this.$message({
-                    message: '增加失败，请重试',
+                    message: '修改失败，请重试',
                     type: 'info'
                   });
                 }
@@ -273,14 +273,15 @@
             let result = response.data;
             if (result.statusCode === STATUS_SUCCESS) {
               let user = response.data;
-              this.userInfo.name = user.name;
-              this.userInfo.user = user.user;
-              this.address = `${user.province + user.city + user.area}`;
+              this.userInfo.name = user.data.name;
+              this.userInfo.user = user.data.user;
+              this.address = `${user.data.province + user.data.city + user.data.area}`;
               this.userInfo.language = 'cn';
-              this.userInfo.desc = user.desc;
-              this.originalUserInfo = user;
-              this.groupData = user.data;
-              this.shopCateData = user.data1;
+              this.userInfo.desc = user.data.desc;
+              this.userInfo.group = user.data.groupId;
+              this.originalUserInfo = user.data;
+              this.groupData = user.data1;
+              this.shopCateData = user.data2;
             } else {
               this.$message({
                 message: '获取数据出错，请重新尝试',
