@@ -141,22 +141,24 @@
       },
       renderContent(h, { node, data, store }) {
         if (data.shscTwoShopCatList) {
-          return h('span', [h('span', [h('el-input', {on: { change: (val) => {this.changeShowOrder(val, data, node)} }, attrs: {value: data.displayorder, size: 'small', placeholder: '显示顺序', type: 'number'},
+          return h('span',{style: {position: "relative", display: "inline-block", width: "95%", verticalAlign: "middle",
+          height: "36px"}}, [h('span',{style: { display: "inline-block",height: "100%" }}, [h('el-input', {on: { change: (val) => {this.changeShowOrder(val, data, node)} }, attrs: {value: data.displayorder, size: 'small', placeholder: '显示顺序', type: 'number'},
             style: {width: '80px'}}),
             h('el-input',
             {on: { change: (val) => {this.changeCateName(val, data, node)} },style: {width: '100px',
               marginLeft: '10px'}, attrs: {value:
           data.name, size: 'small', placeholder: '分类名称'}})]), h('span',
-            {style: {float: 'right', marginRight: '20px'}},
+            {style: { position: "absolute", right: "0", top: 0}},
             [h('el-button', {on: {click: () => this.append(data, store)},attrs: {size: 'mini'}}, '添加二级分类'), h('el-button', {on: {click: () => this.remove(data, store)},attrs: {size: 'mini'}}, '删除')])])
         } else {
-          return h('span', [h('span', [h('el-input', {on: { change: (val) => {this.changeShowOrder(val, data, node)} },attrs: {value: data.displayorder, size: 'small', placeholder: '显示顺序', type: 'number'},
+          return h('span',{style: {position: "relative", display: "inline-block", width: "95%", verticalAlign: "middle",
+            height: "36px"}}, [h('span',{style: { display: "inline-block",height: "100%" }}, [h('el-input', {on: { change: (val) => {this.changeShowOrder(val, data, node)} },attrs: {value: data.displayorder, size: 'small', placeholder: '显示顺序', type: 'number'},
             style: {width: '80px'}}),
             h('el-input',
               {on: { change: (val) => {this.changeCateName(val, data, node)} }, style: {width: '100px', marginLeft:
                 '10px'}, attrs: {value:
               data.name, size: 'small', placeholder: '分类名称'}})]), h('span',
-            {style: {float: 'right', marginRight: '20px'}},
+            {style: { position: "absolute", right: "0", top: 0}},
             [h('el-button', {on: {click: () => this.remove(data, store)},attrs: {size: 'mini'}}, '删除')])])
         }
       },
