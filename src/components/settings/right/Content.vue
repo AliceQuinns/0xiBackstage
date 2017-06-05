@@ -102,7 +102,7 @@
             <el-pagination
               class="pagination"
               @current-change="handleCurrentChange"
-              :current-page.sync="currentPage3"
+              :current-page="currentPage"
               :page-size="10"
               layout="prev, pager, next, jumper"
               :total="total">
@@ -133,7 +133,7 @@
           pname: '',
           shopname: ''
         },
-        currentPage3: 1,
+        currentPage: 1,
         total: 10,
         tableData: [],
         multipleSelection: [],
@@ -175,12 +175,25 @@
       goSearch() {
         let search = `?type=${this.type}&pname=${this.searchForm.pname}&shopname=${this.searchForm.shopname}`;
         this.search = search;
-        this.fetchData(0, search + '&page=1');
+        // 设置 currentPage 的值相当于触发一次 handleCurrentChange
+        // 所以此处如果两个都写会导致请求两次
+        // 只写 fetchData 这句页码数会保持在之前选择的页码数，但是数据是第一页的
+        // 只设置 currentPage 会导致在第一页的时候输入搜索的条件，点击搜索并不会搜索
+        // 这是因为此时的 currentPage 是 1，设置的值也是 1，页码没有变化，所以不会触发 handleCurrentChange
+        if (this.currentPage === 1) {
+          this.fetchData(0, search + '&page=1');
+        } else {
+          this.currentPage = 1;
+        }
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
       handleCurrentChange(val) {
+        // 如果这个地方不设置 currentPage ，无论怎么操作 currentPage 一直都是初始值1
+        // 也就导致后面再设置 currentPage = 1 的时候是没有效果的
+        // 使用2.3+的 vue应该会支持 pagination currentPage 的 .sync ，这个时候应该就不用设置了（未验证，仅猜想）
+        this.currentPage = val;
         if (this.search) {
           this.fetchData(0, `${this.search}&page=${val}`);
         } else {
@@ -193,7 +206,9 @@
       addItem(type) {
         this.isShowDialog = true;
         this.type = type;
+        this.search = '';
         this.fetchData(0, `?type=${type}&page=1`);
+        this.currentPage = 1;
       },
       closeDialog() {
         this.isShowDialog = false;
