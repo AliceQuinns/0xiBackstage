@@ -161,15 +161,8 @@
         }
       },
       goSearch() {
-        if (this.searchForm.keyword) {
-          this.search = `?keyword=${this.searchForm.keyword}`;
-          this.fetchData(this.search);
-        } else {
-          this.$message({
-            message: '请输入要搜索的关键词',
-            type: 'info'
-          });
-        }
+        this.search = `?keyword=${this.searchForm.keyword}`;
+        this.fetchData(this.search);
       },
       handleAdd() {
         if (this.addForm.keyword) {
