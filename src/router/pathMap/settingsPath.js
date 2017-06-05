@@ -22,7 +22,6 @@ export const settingsChildRouter = [
   {path: 'adduser', component: AddUser, meta: {requirePower: true}},
   {path: 'userlist', component: UserList, meta: {requirePower: true}},
   {path: 'userlist/:id', component: EditUser, meta: {requirePower: true}},
-  {path: 'logs', component: Logs, meta: {requirePower: true}},
   {path: 'hotkeywords', component: HotKeywords, meta: {requirePower: true}},
   {path: 'content', component: Content, meta: {requirePower: true}},
 ];
