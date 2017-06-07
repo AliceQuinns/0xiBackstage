@@ -14,6 +14,7 @@ import Logs from '../../components/settings/right/Logs.vue'
 import HotKeywords from '../../components/settings/right/HotKeywords.vue'
 import Content from '../../components/settings/right/Content.vue'
 import EditSubWeb from '../../components/settings/right/EditSubWeb.vue'
+import ChangePwd from '../../components/settings/right/ChangePwd.vue'
 
 export const settingsChildRouter = [
   {path: '', redirect: defaultPath},
@@ -27,4 +28,5 @@ export const settingsChildRouter = [
   {path: 'hotkeywords', component: HotKeywords, meta: {requirePower: true}},
   {path: 'content', component: Content, meta: {requirePower: true}},
   {path: 'editsubweb', component: EditSubWeb, meta: {requirePower: true}},
+  {path: 'changepwd', component: ChangePwd, meta: {requirePower: true}},
 ];

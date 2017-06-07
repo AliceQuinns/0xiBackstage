@@ -129,6 +129,7 @@
           },
           {
             "name": "修改登录密码",
+            "path": "/settings/changepwd",
             "id": "fe40a51cbf1f02665a4ee3e4c516b3b2"
           },
           {
