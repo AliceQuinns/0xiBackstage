@@ -7,6 +7,7 @@ import Settings from '@/components/settings/Settings'
 import Product from '@/components/product/Product'
 import Shop from '@/components/shop/Shop'
 import Member from '@/components/member/Member'
+import Manage from '@/components/manage/Manage'
 import NotFound from '@/components/404/404'
 
 Vue.use(VueRouter);
@@ -38,6 +39,11 @@ const routes = [
     path: '/shop',
     component: Shop,
     children: childrenPath.shopChildRouter,
+  },
+  {
+    path: '/manage',
+    component: Manage,
+    children: childrenPath.manageChildRouter,
   },
   {
     path: '*',

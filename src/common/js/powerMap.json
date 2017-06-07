@@ -422,6 +422,7 @@
         "itemIds": [
           {
             "name": "SNS管理",
+            "path": "/manage/sns",
             "id": "e6bcc51caf1e591829e52af2808e24f7"
           }
         ]
