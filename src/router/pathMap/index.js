@@ -7,6 +7,7 @@ import { shopChildRouter } from './shopPath'
 import { memberChildRouter } from './memberPath'
 import { productChildRouter } from './productPath'
 import { manageChildRouter } from './managePath'
+import { webChildRouter } from './webPath'
 
-export { indexChildRouter, settingsChildRouter, shopChildRouter, memberChildRouter, productChildRouter, manageChildRouter }
+export { indexChildRouter, settingsChildRouter, shopChildRouter, memberChildRouter, productChildRouter, manageChildRouter, webChildRouter }
 
