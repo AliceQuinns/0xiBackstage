@@ -111,15 +111,17 @@ function padLeftZero(str) {
 export function getDefaultPath(navId, powers) {
   let result = getNameAndPath(powers.split(','));
   let subInfoArr = getSubNavPath(navId, result.restPower);
-  if (!subInfoArr[0]) {
-    return
-  }
-  if (subInfoArr[0].itemIds) {
-    if (subInfoArr[0].itemIds[0]) {
-      return subInfoArr[0].itemIds[0].pathName;
+  if (subInfoArr.length > 0) {
+    for (let i = 0; i < subInfoArr.length; i++) {
+      if (subInfoArr[i].itemIds) {
+        if (subInfoArr[i].itemIds.length > 0) {
+          return subInfoArr[i].itemIds[0].pathName;
+        }
+      }
+      else {
+        return subInfoArr[i].pathName;
+      }
     }
-  } else {
-    return subInfoArr[0].pathName;
   }
 }
 
