@@ -62,6 +62,7 @@
       },
       {
         "name": "管理城市分站",
+        "path": "/settings/editsubweb",
         "id": "64b111d06314317e0d65524cb41476ce"
       },
       {
