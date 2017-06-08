@@ -74,6 +74,7 @@
           this.username = ultraData.name;
           this.$store.commit(UPDATE_SESSIONID, {sessionId: sessionId});
           let managerInfo = {
+            user: ultraData.user,
             group: ultraData.groupName,
             lastIp: ultraData.logoip,
             ip: ultraData.currentLogoIp,

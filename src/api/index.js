@@ -105,6 +105,13 @@ export let getIndexContent = (axios, search) => axios.get(`/api/product/ph${sear
  * @param data type类型传0就可以删除
  */
 export let addIndexContent = (axios, data) => axios.post('/api/product/shp', data);
+/**
+ * 修改登录密码
+ * @param axios
+ * @param data
+ */
+export let changePwd = (axios, data) => axios.post('/api/passwordSelect', data);
+
 // ============================================== settings 接口结束 =====================================
 
 // ============================================= shop 接口开始 ==========================================
@@ -536,3 +543,11 @@ export let getAllSNS = (axios, page) => axios.get(`/api/shscSnsList?page=${page}
  * @param data
  */
 export let deleteSNS = (axios, data) => axios.post('/api/shscSnsDelete', data);
+
+// ============================================= manage 接口结束 ==========================================
+
+// ============================================= web 接口开始 ==========================================
+
+export let getBulletinList = (axios, page) => axios.get(`/api/shscAnnouncementselectAll?page=${page}`);
+
+// ============================================= web 接口结束 ==========================================

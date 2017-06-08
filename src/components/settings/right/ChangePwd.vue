@@ -28,6 +28,9 @@
 </template>
 
 <script>
+  import { changePwd, logout } from '../../../api/index'
+  import NProgress from 'nprogress'
+  import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
     data() {
       // 可以在 data 函数中处理完数据再返回
@@ -81,9 +84,54 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            NProgress.start();
+            changePwd(this.axios, {
+              user: this.name,
+              password: this.validateForm.pass,
+              newPassword: this.validateForm.newPass,
+            })
+              .then(response => {
+                let result = response.data;
+                if (result.statusCode === STATUS_SUCCESS) {
+                  this.$message({
+                    message: '修改成功',
+                    type: 'success'
+                  });
+                  logout(this.axios)
+                    .then(response => {
+                      let result = response.data;
+                      if (result.statusCode === STATUS_SUCCESS) {
+                        window.location.href = '/';
+                      }
+                      NProgress.done();
+                    })
+                    .catch(e => {
+                      NProgress.done();
+                      this.$message({
+                        message: '跳转登录页出错，请重新刷新尝试',
+                        type: 'error'
+                      });
+                    });
+                } else {
+                  this.$message({
+                    message: '修改失败，请重试',
+                    type: 'info'
+                  });
+                }
+                NProgress.done();
+              })
+              .catch(e => {
+                NProgress.done();
+                this.$message({
+                  message: '出现未知错误，请重试',
+                  type: 'error'
+                });
+              });
           } else {
-            console.log('error submit!!');
+            this.$message({
+              message: '请完善信息',
+              type: 'info'
+            });
             return false;
           }
         });
