@@ -28,9 +28,11 @@
               width="150">
             </el-table-column>
             <el-table-column
-              prop="title"
               label="详情"
               show-overflow-tooltip>
+              <template scope="scope">
+                <div v-html="scope.row.title"></div>
+              </template>
             </el-table-column>
             <el-table-column
               label="时间"
