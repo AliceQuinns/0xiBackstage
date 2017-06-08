@@ -522,3 +522,17 @@ export let modifiedCategories = (axios, data) => axios.post('/api/productcat/add
  */
 export let deleteCategories = (axios, data) => axios.post('/api/productcat/del', data);
 // ============================================= product 接口结束 ==========================================
+
+// ============================================= manage 接口开始 ==========================================
+/**
+ * 查询SNS列表
+ * @param axios
+ * @param page
+ */
+export let getAllSNS = (axios, page) => axios.get(`/api/shscSnsList?page=${page}`);
+/**
+ * 删除SNS
+ * @param axios
+ * @param data
+ */
+export let deleteSNS = (axios, data) => axios.post('/api/shscSnsDelete', data);
