@@ -1,14 +1,14 @@
 <template>
   <el-col :span="15">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="标题" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+    <el-form :model="bulletinForm" :rules="rules" ref="bulletinForm" label-width="100px" class="demo-bulletinForm">
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="bulletinForm.title"></el-input>
       </el-form-item>
-      <el-form-item label="外部链接" prop="desc">
-        <el-input v-model="ruleForm.desc"></el-input>
+      <el-form-item label="外部链接" prop="url">
+        <el-input v-model="bulletinForm.url"></el-input>
       </el-form-item>
       <el-form-item label="公告内容" class="ql-container">
-        <quill-editor v-model="ruleForm.content"
+        <quill-editor v-model="bulletinForm.content"
                       ref="myQuillEditor"
                       :options="editorOption"
                       @blur="onEditorBlur($event)"
@@ -16,20 +16,20 @@
                       @ready="onEditorReady($event)">
         </quill-editor>
       </el-form-item>
-      <el-form-item label="发布时间" prop="desc">
+      <el-form-item label="发布时间">
         <el-date-picker
-          v-model="ruleForm.value2"
+          v-model="bulletinForm.createTime"
           type="datetime"
           placeholder="选择日期时间"
           align="left"
-          :picker-options="pickerOptions1">
+          :picker-options="pickerOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="状态" prop="delivery">
-        <el-switch on-text="开启" off-text="关闭" v-model="ruleForm.delivery"></el-switch>
+      <el-form-item label="状态">
+        <el-switch on-text="开启" off-text="关闭" v-model="bulletinForm.status"></el-switch>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+        <el-button type="primary" @click="submitForm('bulletinForm')">提交</el-button>
       </el-form-item>
     </el-form>
   </el-col>
@@ -37,44 +37,26 @@
 
 <script>
   import { quillEditor } from 'vue-quill-editor'
+  import { addBulletin, modifyBulletin } from '../../../api/index'
+  import NProgress from 'nprogress'
+  import { STATUS_SUCCESS } from '../../../common/consts/index'
   export default {
+    props: {
+      bulletinForm: {
+        type: Object
+      }
+    },
     data() {
       return {
-        ruleForm: {
-          name: '',
-          region: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: '',
-          content: '',
-          value2: '',
-        },
         rules: {
-          name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          title: [
+            {required: true, message: '请输入标题', trigger: 'blur'},
           ],
-          region: [
-            {required: true, message: '请选择活动区域', trigger: 'change'}
+          url: [
+            {required: true, message: '请输入外部链接', trigger: 'blur'}
           ],
-          date1: [
-            {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
-          ],
-          date2: [
-            {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
-          ],
-          type: [
-            {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
-          ],
-          resource: [
-            {required: true, message: '请选择活动资源', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: '请填写活动形式', trigger: 'blur'}
-          ]
         },
-        pickerOptions1: {
+        pickerOptions: {
           shortcuts: [{
             text: '今天',
             onClick(picker) {
@@ -101,38 +83,81 @@
         }
       };
     },
-    /*computed: {
-      editor() {
-        return this.$refs.myQuillEditor.quill
-      }
-    },*/
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.value2);
+            let data = {};
+            Object.assign(data, this.bulletinForm);
+            data.createTime = Math.floor(data.createTime.getTime()/1000);
+            NProgress.start();
+            if (data.id) {
+              modifyBulletin(this.axios, data)
+                .then(response => {
+                  let result = response.data;
+                  if (result.statusCode === STATUS_SUCCESS) {
+                    this.$message({
+                      message: '修改成功',
+                      type: 'success'
+                    });
+                    this.$emit('change');
+                  } else {
+                    this.$message({
+                      message: '修改失败，请重试',
+                      type: 'info'
+                    });
+                  }
+                  NProgress.done();
+                })
+                .catch(e => {
+                  NProgress.done();
+                  this.$message({
+                    message: '出现未知错误，请重试',
+                    type: 'error'
+                  });
+                });
+            } else {
+              addBulletin(this.axios, data)
+                .then(response => {
+                  let result = response.data;
+                  if (result.statusCode === STATUS_SUCCESS) {
+                    this.$message({
+                      message: '增加成功',
+                      type: 'success'
+                    });
+                    this.$emit('change');
+                  } else {
+                    this.$message({
+                      message: '增加失败，请重试',
+                      type: 'info'
+                    });
+                  }
+                  NProgress.done();
+                })
+                .catch(e => {
+                  NProgress.done();
+                  this.$message({
+                    message: '出现未知错误，请重试',
+                    type: 'error'
+                  });
+                });
+            }
           } else {
-            console.log('error submit!!');
+            this.$message({
+              message: '请输入相关信息',
+              type: 'info'
+            });
             return false;
           }
         });
       },
-      onEditorBlur(editor) {
-        console.log('editor blur!', editor)
-      },
-      onEditorFocus(editor) {
-        console.log('editor focus!', editor)
-      },
-      onEditorReady(editor) {
-        console.log('editor ready!', editor)
-      },
+      onEditorBlur(editor) {},
+      onEditorFocus(editor) {},
+      onEditorReady(editor) {},
     },
     components: {
       quillEditor
     },
-    /*mounted() {
-      console.log('this is current quill instance object', this.editor);
-    },*/
   };
 </script>
 

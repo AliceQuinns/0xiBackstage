@@ -548,6 +548,34 @@ export let deleteSNS = (axios, data) => axios.post('/api/shscSnsDelete', data);
 
 // ============================================= web 接口开始 ==========================================
 
-export let getBulletinList = (axios, page) => axios.get(`/api/shscAnnouncementselectAll?page=${page}`);
+/**
+ * 查询所有公告
+ * @param axios
+ */
+export let getBulletinList = axios => axios.get(`/api/shscAnnouncementselectAll`);
+/**
+ * 删除公告
+ * @param axios
+ * @param data
+ */
+export let deleteBulletin = (axios, data) => axios.post('/api/shscAnnouncementDelete', data);
+/**
+ * 增加公告
+ * @param axios
+ * @param data
+ */
+export let addBulletin = (axios, data) => axios.post('/api/shscAnnouncementAdd', data);
+/**
+ * 修改公告
+ * @param axios
+ * @param data
+ */
+export let modifyBulletin = (axios, data) => axios.post('/api/shscAnnouncementUpdate', data);
+/**
+ * 修改公告的显示顺序
+ * @param axios
+ * @param data
+ */
+export let modifyBulletinOrder = (axios, data) => axios.post('/api/shscAnnouncementSort', data);
 
 // ============================================= web 接口结束 ==========================================
