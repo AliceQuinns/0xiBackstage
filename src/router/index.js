@@ -9,6 +9,7 @@ import Shop from '@/components/shop/Shop'
 import Member from '@/components/member/Member'
 import Manage from '@/components/manage/Manage'
 import Web from '@/components/web/Web'
+import Transaction from '@/components/transaction/Transaction'
 import NotFound from '@/components/404/404'
 
 Vue.use(VueRouter);
@@ -40,6 +41,11 @@ const routes = [
     path: '/shop',
     component: Shop,
     children: childrenPath.shopChildRouter,
+  },
+  {
+    path: '/transaction',
+    component: Transaction,
+    children: childrenPath.transactionChildRouter,
   },
   {
     path: '/manage',

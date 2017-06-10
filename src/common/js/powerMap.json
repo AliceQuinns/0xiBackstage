@@ -377,6 +377,7 @@
     "subs": [
       {
         "name": "订单管理",
+        "path": "/transaction/order",
         "id": "aa7c5817f29b31daa7ddf0fa0ae5a32b"
       },
       {
