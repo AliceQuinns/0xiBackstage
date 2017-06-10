@@ -111,6 +111,42 @@ export let addIndexContent = (axios, data) => axios.post('/api/product/shp', dat
  * @param data
  */
 export let changePwd = (axios, data) => axios.post('/api/passwordSelect', data);
+/**
+ * 获取所有的城市分站
+ * @param axios
+ * @param page
+ */
+export let getAllSubs = (axios, page) => axios.get(`/api/shscSubDomainList?page=${page}`);
+/**
+ * 是否开启城市分站
+ * @param axios
+ * @param data
+ */
+export let changeSubStatus = (axios, data) => axios.post('/api/shscSubDomainIsOpen', data);
+/**
+ * 删除城市分站
+ * @param axios
+ * @param data
+ */
+export let deleteSub = (axios, data) => axios.post('/api/shscSubDomainDelete', data);
+/**
+ * 增加城市分站
+ * @param axios
+ * @param data
+ */
+export let addSub = (axios, data) => axios.post('/api/shscSubDomainInsert', data);
+/**
+ * 获取分站信息
+ * @param axios
+ * @param id
+ */
+export let getSubInfo = (axios, id) => axios.get(`/api/shscSubDomainGetId?id=${id}`);
+/**
+ * 修改城市分站
+ * @param axios
+ * @param data
+ */
+export let modifySub = (axios, data) => axios.post('/api/shscSubDomainModify', data);
 
 // ============================================== settings 接口结束 =====================================
 
