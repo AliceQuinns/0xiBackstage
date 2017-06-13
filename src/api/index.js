@@ -615,3 +615,36 @@ export let modifyBulletin = (axios, data) => axios.post('/api/shscAnnouncementUp
 export let modifyBulletinOrder = (axios, data) => axios.post('/api/shscAnnouncementSort', data);
 
 // ============================================= web 接口结束 ==========================================
+
+// ============================================= transaction 接口开始 ==========================================
+/**
+ * 获取所有分站的地区
+ * @param axios
+ */
+export let getSubStations = axios => axios.get('/api/productorder/querysubcity');
+/**
+ * 获取订单信息
+ * @param axios
+ * @param data
+ */
+export let getOrders = (axios, data) => axios.post('/api/productorder/query', data);
+/**
+ * 删除订单
+ * @param axios
+ * @param data
+ */
+export let deleteOrder = (axios, data) => axios.post('/api/productorder/del', data);
+/**
+ * 标注结算
+ * @param axios
+ * @param data
+ */
+export let confirmOrder = (axios, data) => axios.post('/api/productorder/balance', data);
+/**
+ * 获取单个订单的详情（包含商品详情）
+ * @param axios
+ * @param data
+ */
+export let getOrderDetail = (axios, data) => axios.post('/api/productorder/querybyid', data);
+
+// ============================================= transaction 接口结束 ==========================================
