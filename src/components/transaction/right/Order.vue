@@ -200,7 +200,7 @@
                         <img :src="item.pic" alt="" @error="handleErrorAdd($event)">
                       </div>
                       <div class="info">
-                        <p>产品名称：{{ item.name }}</p>
+                        <p>产品名称：<a target="_blank" :href="`http://mall.0xi.cn/selectProduct?productId=${item.id}`">{{ item.name }}</a></p>
                         <p>产品单价：{{ item.price }}</p>
                         <p>产品数量：{{ item.num }}</p>
                       </div>
