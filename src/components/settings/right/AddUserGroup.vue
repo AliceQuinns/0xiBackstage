@@ -34,13 +34,14 @@
               <el-checkbox :indeterminate="item.isIndeterminate"
                            v-model="item.checkAll"
                            :disabled="item.disabledPower.length === item.powers.length"
+                           v-if="!(item.disabledPower.length === item.powers.length)"
                            @change="handleCheckAllChange($event, item)">{{
                 item.name }}
               </el-checkbox>
               <el-checkbox-group v-model="item.checkedPowers" @change="handleCheckedCitiesChange($event, item)">
                 <div class="powerCate-list">
                   <el-checkbox v-for="(power, idx) in item.powers" :key="idx" :label="power"
-                               :disabled="power.isDisabled">{{
+                               :disabled="power.isDisabled" v-if="!power.isDisabled">{{
                     power.name}}
                   </el-checkbox>
                 </div>
