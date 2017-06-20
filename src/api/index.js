@@ -105,6 +105,48 @@ export let getIndexContent = (axios, search) => axios.get(`/product/ph${search}`
  * @param data type类型传0就可以删除
  */
 export let addIndexContent = (axios, data) => axios.post('/product/shp', data);
+/**
+ * 修改登录密码
+ * @param axios
+ * @param data
+ */
+export let changePwd = (axios, data) => axios.post('/passwordSelect', data);
+/**
+ * 获取所有的城市分站
+ * @param axios
+ * @param page
+ */
+export let getAllSubs = (axios, page) => axios.get(`/shscSubDomainList?page=${page}`);
+/**
+ * 是否开启城市分站
+ * @param axios
+ * @param data
+ */
+export let changeSubStatus = (axios, data) => axios.post('/shscSubDomainIsOpen', data);
+/**
+ * 删除城市分站
+ * @param axios
+ * @param data
+ */
+export let deleteSub = (axios, data) => axios.post('/shscSubDomainDelete', data);
+/**
+ * 增加城市分站
+ * @param axios
+ * @param data
+ */
+export let addSub = (axios, data) => axios.post('/shscSubDomainInsert', data);
+/**
+ * 获取分站信息
+ * @param axios
+ * @param id
+ */
+export let getSubInfo = (axios, id) => axios.get(`/shscSubDomainGetId?id=${id}`);
+/**
+ * 修改城市分站
+ * @param axios
+ * @param data
+ */
+export let modifySub = (axios, data) => axios.post('/shscSubDomainModify', data);
 // ============================================== settings 接口结束 =====================================
 
 // ============================================= shop 接口开始 ==========================================
@@ -522,3 +564,86 @@ export let modifiedCategories = (axios, data) => axios.post('/productcat/add', d
  */
 export let deleteCategories = (axios, data) => axios.post('/productcat/del', data);
 // ============================================= product 接口结束 ==========================================
+
+// ============================================= manage 接口开始 ==========================================
+/**
+ * 查询SNS列表
+ * @param axios
+ * @param page
+ */
+export let getAllSNS = (axios, page) => axios.get(`/shscSnsList?page=${page}`);
+/**
+ * 删除SNS
+ * @param axios
+ * @param data
+ */
+export let deleteSNS = (axios, data) => axios.post('/shscSnsDelete', data);
+
+// ============================================= manage 接口结束 ==========================================
+
+// ============================================= web 接口开始 ==========================================
+
+/**
+ * 查询所有公告
+ * @param axios
+ */
+export let getBulletinList = axios => axios.get(`/shscAnnouncementselectAll`);
+/**
+ * 删除公告
+ * @param axios
+ * @param data
+ */
+export let deleteBulletin = (axios, data) => axios.post('/shscAnnouncementDelete', data);
+/**
+ * 增加公告
+ * @param axios
+ * @param data
+ */
+export let addBulletin = (axios, data) => axios.post('/shscAnnouncementAdd', data);
+/**
+ * 修改公告
+ * @param axios
+ * @param data
+ */
+export let modifyBulletin = (axios, data) => axios.post('/shscAnnouncementUpdate', data);
+/**
+ * 修改公告的显示顺序
+ * @param axios
+ * @param data
+ */
+export let modifyBulletinOrder = (axios, data) => axios.post('/shscAnnouncementSort', data);
+
+// ============================================= web 接口结束 ==========================================
+
+// ============================================= transaction 接口开始 ==========================================
+/**
+ * 获取所有分站的地区
+ * @param axios
+ */
+export let getSubStations = axios => axios.get('/productorder/querysubcity');
+/**
+ * 获取订单信息
+ * @param axios
+ * @param data
+ */
+export let getOrders = (axios, data) => axios.post('/productorder/query', data);
+/**
+ * 删除订单
+ * @param axios
+ * @param data
+ */
+export let deleteOrder = (axios, data) => axios.post('/productorder/del', data);
+/**
+ * 标注结算
+ * @param axios
+ * @param data
+ */
+export let confirmOrder = (axios, data) => axios.post('/productorder/balance', data);
+/**
+ * 获取单个订单的详情（包含商品详情）
+ * @param axios
+ * @param data
+ */
+export let getOrderDetail = (axios, data) => axios.post('/productorder/querybyid', data);
+
+// ============================================= transaction 接口结束 ==========================================

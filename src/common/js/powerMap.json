@@ -62,6 +62,7 @@
       },
       {
         "name": "管理城市分站",
+        "path": "/settings/editsubweb",
         "id": "64b111d06314317e0d65524cb41476ce"
       },
       {
@@ -128,6 +129,7 @@
           },
           {
             "name": "修改登录密码",
+            "path": "/settings/changepwd",
             "id": "fe40a51cbf1f02665a4ee3e4c516b3b2"
           },
           {
@@ -374,6 +376,7 @@
     "subs": [
       {
         "name": "订单管理",
+        "path": "/transaction/order",
         "id": "aa7c5817f29b31daa7ddf0fa0ae5a32b"
       },
       {
@@ -419,6 +422,7 @@
         "itemIds": [
           {
             "name": "SNS管理",
+            "path": "/manage/sns",
             "id": "e6bcc51caf1e591829e52af2808e24f7"
           }
         ]
@@ -540,6 +544,7 @@
       },
       {
         "name": "公告管理",
+        "path": "/web/bulletin",
         "id": "1b06b31d58c898a54f2378a13276787d"
       }
     ]
