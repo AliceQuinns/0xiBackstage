@@ -2,7 +2,7 @@
   "name": "m0xi",
   "version": "1.0.0",
   "description": "后台管理系统",
-  "author": "Alvin1992 <fanrx_1992@163.com>",
+  "author": "AliceQuinns ",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
